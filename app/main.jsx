@@ -9,6 +9,8 @@ import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
+import Form from "./components/Form"
+
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
@@ -27,7 +29,7 @@ render(
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>
         <IndexRedirect to="/jokes" />
-        <Route path="/jokes" component={Jokes} />
+        <Route path="/jokes" component={Form} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>
