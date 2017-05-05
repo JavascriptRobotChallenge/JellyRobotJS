@@ -41,7 +41,7 @@ mesh.position.set( -1, -1, 0 );
 mesh.scale.set(0.3,0.3,0.3);
 scene.add( mesh );
 
-camera.position.z = 5;
+// camera.position.z = 5;
 
 function render() {
   mesh.rotation.x += 0.1
