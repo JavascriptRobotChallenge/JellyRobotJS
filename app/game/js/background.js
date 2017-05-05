@@ -1,16 +1,18 @@
+// import Detector and OrbitControls
+import * as THREE from 'three';
+var OrbitControls = require('three-orbit-controls')(THREE)
+let renderer
 
-var SCREEN_WIDTH = window.innerWidth;
-var SCREEN_HEIGHT = window.innerHeight;
+export const init = ()=>{
+	console.log('inside init')
 
-var container, stats;
-var camera, scene, renderer;
+	var SCREEN_WIDTH = window.innerWidth;
+	var SCREEN_HEIGHT = window.innerHeight;
 
-var clock = new THREE.Clock();
+	var container, stats;
+	var camera, scene, renderer;
 
-init();
-animate();
-
-function init() {
+	var clock = new THREE.Clock();
 
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
@@ -26,7 +28,7 @@ function init() {
 
 	// CONTROLS
 
-	controls = new THREE.OrbitControls( camera );
+	var controls = new OrbitControls( camera );
 	controls.maxPolarAngle = 0.9 * Math.PI / 2;
 	controls.enableZoom = false;
 
@@ -43,8 +45,8 @@ function init() {
 
 	// SKYDOME
 
-	var vertexShader = document.getElementById( 'vertexShader' ).textContent;
-	var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
+	// var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+	// var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
 	var uniforms = {
 		topColor: 	 { type: "c", value: new THREE.Color( 0x0077ff ) },
 		bottomColor: { type: "c", value: new THREE.Color( 0xffffff ) },
@@ -56,8 +58,6 @@ function init() {
 	var skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
 	var skyMat = new THREE.ShaderMaterial( {
 		uniforms: uniforms,
-		vertexShader: vertexShader,
-		fragmentShader: fragmentShader,
 		side: THREE.BackSide
 	} );
 
@@ -108,7 +108,7 @@ function init() {
   scene.add(ambientLight);
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
-
+	animate()
 }
 
 function onWindowResize() {
@@ -122,7 +122,8 @@ function onWindowResize() {
 
 
 
-function animate() {
+export const animate = ()=> {
+	console.log('inside animate')
 
 	requestAnimationFrame( animate );
   // window.robotMesh.rotation.x += 0.1
@@ -136,11 +137,3 @@ function animate() {
   renderer.render( scene, camera );
 	stats.update();
 }
-// }
-//
-// function render() {
-//
-//
-// render();
-
-renderer.render( scene, camera );

@@ -2,12 +2,15 @@ import React from 'react'
 import axios from "axios"
 import store from "../store"
 import {importRobot} from "../reducers/robot"
+import {RobotWorld} from './RobotWorld'
+
+
  export default class NameForm extends React.Component {
    constructor(props) {
      super(props);
      this.state = {value:`
-         
-    (function(){     
+
+    (function(){
     function SubRobot(){
         this.color = "red"
      };
@@ -18,15 +21,15 @@ import {importRobot} from "../reducers/robot"
      }
      return new SubRobot()
      })`};
- 
+
      this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
    }
- 
+
    handleChange(event) {
      this.setState({value: event.target.value});
    }
- 
+
    handleSubmit(event) {
        axios.post("api/code",{code:this.state.value})
        .then((result)=>{
@@ -36,18 +39,22 @@ import {importRobot} from "../reducers/robot"
        })
      event.preventDefault();
    }
- 
+
    render() {
+     console.log('inside form')
      return (
+       <div>
        <form onSubmit={this.handleSubmit}>
          <label>
-           Code for robot:
+           Code forasdfasdfa robot:
            <br />
            <textarea  value={this.state.value} rows="40" onChange={this.handleChange} />
          </label>
          <br />
          <input type="submit" value="Submit" />
        </form>
+       <RobotWorld />
+     </div>
      );
    }
  }
