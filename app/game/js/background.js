@@ -1,4 +1,6 @@
 // import Detector and OrbitControls
+
+import store from "../../store"
 import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE)
 
@@ -31,7 +33,7 @@ export const init = ()=>{
 
 	robot.position.set( 150, 150, 800 );
 	robot.scale.set(40,40,40);
-
+	console.log("goodrobot",robot)
 
 	renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 
@@ -124,7 +126,8 @@ export const init = ()=>{
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
 	// animate(renderer, scene, camera)
-
+console.log("secondrobot",robot)
+return robot
 }
 
 function onWindowResize() {
@@ -138,14 +141,18 @@ function onWindowResize() {
 
 
 
-export const animate = ()=> {
+export const animate = (robotTwo)=> {
 	// console.log('inside animate', Window.robot)
-
+console.log("firstrobottwo",robotTwo)
 	if(Window.robot){
-		Window.robot.sayHi();
+		Window.robot.moveUp();
+		console.log("store.getstate",store.getState())
+		console.log("secondRobotTwo",robotTwo)
+		robotTwo.position.x = store.getState().position.x
 	}
 
-	requestAnimationFrame( animate );
+
+	requestAnimationFrame( animate.bind(this,robotTwo) );
   // window.robot.rotation.x += 0.1
   // requestAnimationFrame( render )
   // if (window.direction){
