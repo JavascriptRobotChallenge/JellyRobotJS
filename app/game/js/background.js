@@ -3,9 +3,6 @@
 import store from "../../store"
 import * as THREE from 'three';
 var OrbitControls = require('three-orbit-controls')(THREE)
-
-
-
 var SCREEN_WIDTH = window.innerWidth;
 var SCREEN_HEIGHT = window.innerHeight;
 //attach everything to the DOM
@@ -15,7 +12,7 @@ export var scene = new THREE.Scene();
 export var renderer = new THREE.WebGLRenderer( { antialias: true } );
 
 export const init = ()=>{
-
+Window.direction = true
 	camera.position.set( 700, 200, - 500 );
 
 	var loader = new THREE.JSONLoader()
@@ -137,17 +134,30 @@ function onWindowResize() {
 
 	renderer.setSize( window.innerWidth, window.innerHeight );
 
-}
+} 
 
 
 
 export const animate = (robotTwo)=> {
-	// console.log('inside animate', Window.robot)
-console.log("firstrobottwo",robotTwo)
+	console.log("pane",Window.direction)
 	if(Window.robot){
-		Window.robot.moveUp();
-		console.log("store.getstate",store.getState())
-		console.log("secondRobotTwo",robotTwo)
+	if (store.getState().position.x<200&&Window.direction===true){
+		Window.robot.moveX();
+		if (store.getState().position.x>180){
+			robotTwo.rotation.y+=1
+			Window.direction=false
+		}
+	}
+	else{
+		if (store.getState().position.x<20){
+			robotTwo.rotation.y+=1
+			Window.direction=true
+		}
+		Window.robot.moveMinusX()
+	}
+		// console.log("store.getstate",store.getState())
+		// console.log("secondRobotTwo",robotTwo)
+		console.log("pos",store.getState().position.x)
 		robotTwo.position.x = store.getState().position.x
 	}
 

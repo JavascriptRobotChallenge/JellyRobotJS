@@ -3,8 +3,8 @@ import axios from "axios"
 import store from "../store"
 import {importRobot} from "../reducers/robot"
 import {RobotWorld} from './RobotWorld'
-import {MoveUp} from "../reducers/robot"
-
+import {MoveX} from "../reducers/robot"
+import{MoveMinusX} from "../reducers/robot"
 
 
 function RobotClass(){
@@ -15,9 +15,14 @@ RobotClass.prototype.hitWall = function(){
   this.health--
 }
 
-RobotClass.prototype.moveUp = function(){
-  store.dispatch(MoveUp())
+RobotClass.prototype.moveX = function(){
+  store.dispatch(MoveX())
 }
+
+RobotClass.prototype.moveMinusX = function(){
+  store.dispatch(MoveMinusX())
+}
+
 
 
  export default class NameForm extends React.Component {

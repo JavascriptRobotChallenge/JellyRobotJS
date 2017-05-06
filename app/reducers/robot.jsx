@@ -2,14 +2,21 @@ import axios from 'axios'
 
 const reducer = (position={x:0,y:0,z:0}, action) => {
   switch (action.type) {
-  case "Move_Up":
-    return {x:0,y:position.y+1,z:0}
-  }
+  case "Move_X":
+    return {x:position.x+1,y:position.y,z:position.z}
+  case "Move_Minus_X":
+    return {x:position.x-1,y:position.y,z:position.z}
+  default:
   return position
 }
+}
 
-export const MoveUp = robotFunction => ({
-  type: "Move_Up",
+export const MoveX = robotFunction => ({
+  type: "Move_X",
+})
+
+export const MoveMinusX = ()=>({
+  type:"Move_Minus_X"
 })
 
 // export const login = (username, password) =>
