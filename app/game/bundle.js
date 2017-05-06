@@ -52928,7 +52928,7 @@ module.exports = function bind(fn, thisArg) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Rotation = exports.DecrementZ = exports.IncrementZ = exports.DecrementX = exports.IncrementX = undefined;
+exports.Rotation = exports.WalkForward = undefined;
 
 var _axios = __webpack_require__(51);
 
@@ -52938,7 +52938,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // theta
 var initialPosition = {
-    x: 0,
+    x: -250,
     y: 0,
     z: 0,
     theta: 0
@@ -52949,60 +52949,29 @@ var reducer = function reducer() {
     var action = arguments[1];
 
     switch (action.type) {
-        case "IncrementX":
-            return {
-                x: position.x + 1,
-                y: position.y,
-                z: position.z,
-                theta: position.theta
-            };
-        case "DecrementX":
-            return {
-                x: position.x - 1,
-                y: position.y,
-                z: position.z,
-                theta: position.theta
-            };
-        case "IncrementZ":
-            return {
-                x: position.x,
-                y: position.y,
-                z: position.z + 1,
-                theta: position.theta
-            };
-        case "DecrementZ":
-            return {
-                x: position.x,
-                y: position.y,
-                z: position.z - 1,
-                theta: position.theta
-            };
+
         case "Rotation":
             return {
                 x: position.x,
                 y: position.y,
                 z: position.z,
-                theta: action.theta
+                theta: position.theta + action.theta
+            };
+        case "WalkForward":
+            return {
+                x: position.x + Math.sin(position.theta),
+                y: position.y,
+                z: position.z + Math.cos(position.theta),
+                theta: position.theta
             };
         default:
             return position;
     }
 };
 
-var IncrementX = exports.IncrementX = function IncrementX() {
-    return { type: "IncrementX" };
+var WalkForward = exports.WalkForward = function WalkForward() {
+    return { type: "WalkForward" };
 };
-var DecrementX = exports.DecrementX = function DecrementX() {
-    return { type: "DecrementX" };
-};
-
-var IncrementZ = exports.IncrementZ = function IncrementZ() {
-    return { type: "IncrementZ" };
-};
-var DecrementZ = exports.DecrementZ = function DecrementZ() {
-    return { type: "DecrementZ" };
-};
-
 var Rotation = exports.Rotation = function Rotation(theta) {
     return { type: "Rotation", theta: theta };
 };
@@ -57894,24 +57863,12 @@ RobotClass.prototype.hitWall = function () {
     this.health--;
 };
 
-RobotClass.prototype.incrementX = function () {
-    _store2.default.dispatch((0, _robot.IncrementX)());
-};
-
-RobotClass.prototype.decrementX = function () {
-    _store2.default.dispatch((0, _robot.DecrementX)());
-};
-
-RobotClass.prototype.incrementZ = function () {
-    _store2.default.dispatch((0, _robot.IncrementZ)());
-};
-
-RobotClass.prototype.decrementZ = function () {
-    _store2.default.dispatch((0, _robot.DecrementZ)());
-};
-
 RobotClass.prototype.rotation = function (theta) {
     _store2.default.dispatch((0, _robot.Rotation)(theta));
+};
+
+RobotClass.prototype.walkForward = function (theta) {
+    _store2.default.dispatch((0, _robot.WalkForward)(theta));
 };
 
 var NameForm = function (_React$Component) {
@@ -59040,7 +58997,6 @@ var renderer = exports.renderer = new THREE.WebGLRenderer({
 });
 
 var init = exports.init = function init() {
-    Window.direction = true;
     camera.position.set(700, 200, -500);
 
     var loader = new THREE.JSONLoader();
@@ -59165,25 +59121,19 @@ function onWindowResize() {
 // Window.robot is the robot instance
 var animate = exports.animate = function animate(ThreeRobot) {
     if (Window.robot) {
-        if (_store2.default.getState().position.x < 200 && Window.direction === true) {
-
-            Window.robot.incrementX();
-            if (_store2.default.getState().position.x > 180) {
-                Window.robot.rotation(Math.PI);
-                // ThreeRobot.rotation.y += 1
-                Window.direction = false;
-            }
+        var currPosition = _store2.default.getState().position;
+        if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
+            Window.robot.walkForward();
         } else {
-            if (_store2.default.getState().position.x < 20) {
-                Window.robot.rotation(Math.PI / 4);
-
-                // ThreeRobot.rotation.y += 1
-                Window.direction = true;
-            }
-            Window.robot.decrementX();
+            Window.robot.rotation(Math.PI * (2 / 3));
+            Window.robot.walkForward();
         }
 
-        console.log("pos", _store2.default.getState().position.x);
+        console.log("x", _store2.default.getState().position.x);
+        console.log("y", _store2.default.getState().position.y);
+
+        console.log("z", _store2.default.getState().position.z);
+
         ThreeRobot.position.x = _store2.default.getState().position.x;
         ThreeRobot.position.z = _store2.default.getState().position.z;
 
@@ -59191,14 +59141,6 @@ var animate = exports.animate = function animate(ThreeRobot) {
     }
 
     requestAnimationFrame(animate.bind(undefined, ThreeRobot));
-    // window.robot.rotation.x += 0.1
-    // requestAnimationFrame( render )
-    // if (window.direction){
-    //   window.robot.position.x += window.direction[0]/10
-    //   window.robot.position.y += window.direction[1]/10
-    //   window.robot.position.z += window.direction[2]/10
-    // //
-    // }
     renderer.render(scene, camera);
 };
 
