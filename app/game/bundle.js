@@ -57841,6 +57841,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function RobotClass() {
+  this.health = 100;
+  this.direction;
+}
+RobotClass.prototype.hitWall = function () {
+  this.health--;
+};
+
 var NameForm = function (_React$Component) {
   _inherits(NameForm, _React$Component);
 
@@ -57864,12 +57872,12 @@ var NameForm = function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(event) {
-      _axios2.default.post("api/code", { code: this.state.value }).then(function (result) {
-        console.log("isthisfunc");
-        _store2.default.dispatch((0, _robot.importRobot)(result.data));
-        window.robot = result.data;
-      });
       event.preventDefault();
+
+      var robotConstructor = eval(this.state.value);
+      var robot = robotConstructor();
+      console.log(robot);
+      Window.robot = robot;
     }
   }, {
     key: "render",
@@ -57883,7 +57891,7 @@ var NameForm = function (_React$Component) {
           _react2.default.createElement(
             "label",
             null,
-            "Code forasdfasdfa robot:",
+            "Code robot:",
             _react2.default.createElement("br", null),
             _react2.default.createElement("textarea", { value: this.state.value, rows: "40", onChange: this.handleChange })
           ),
@@ -58919,7 +58927,9 @@ var _background = __webpack_require__(162);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RobotWorld = exports.RobotWorld = function RobotWorld() {
+  console.log(_background.robot);
   (0, _background.init)();
+  (0, _background.animate)();
   return _react2.default.createElement('div', null);
 };
 
@@ -58933,7 +58943,7 @@ var RobotWorld = exports.RobotWorld = function RobotWorld() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.animate = exports.init = undefined;
+exports.animate = exports.init = exports.renderer = exports.scene = exports.camera = undefined;
 
 var _three = __webpack_require__(80);
 
@@ -58943,30 +58953,45 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var OrbitControls = __webpack_require__(323)(THREE); // import Detector and OrbitControls
 
-var renderer = void 0;
+
+var SCREEN_WIDTH = window.innerWidth;
+var SCREEN_HEIGHT = window.innerHeight;
+//attach everything to the DOM
+var camera = exports.camera = new THREE.PerspectiveCamera(40, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000);
+
+var scene = exports.scene = new THREE.Scene();
+var renderer = exports.renderer = new THREE.WebGLRenderer({ antialias: true });
 
 var init = exports.init = function init() {
-	console.log('inside init');
 
-	var SCREEN_WIDTH = window.innerWidth;
-	var SCREEN_HEIGHT = window.innerHeight;
+	camera.position.set(700, 200, -500);
 
-	var container, stats;
-	var camera, scene, renderer;
+	var loader = new THREE.JSONLoader();
+	var robotModel = loader.parse(Window.robotjelly);
 
-	var clock = new THREE.Clock();
+	renderer.setPixelRatio(window.devicePixelRatio);
 
-	container = document.createElement('div');
+	var container = document.createElement('div');
 	document.body.appendChild(container);
+	container.appendChild(renderer.domElement);
+
+	renderer.gammaInput = true;
+	renderer.gammaOutput = true;
+	var robot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
+
+	robot.position.set(150, 150, 800);
+	robot.scale.set(40, 40, 40);
+
+	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	var stats;
+	var clock = new THREE.Clock();
 
 	// CAMERA
 
-	camera = new THREE.PerspectiveCamera(40, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000);
-	camera.position.set(700, 200, -500);
 
 	// SCENE
 
-	scene = new THREE.Scene();
 
 	// CONTROLS
 
@@ -59010,13 +59035,6 @@ var init = exports.init = function init() {
 
 	// RENDERER
 
-	renderer = new THREE.WebGLRenderer({ antialias: true });
-	renderer.setPixelRatio(window.devicePixelRatio);
-	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	container.appendChild(renderer.domElement);
-
-	renderer.gammaInput = true;
-	renderer.gammaOutput = true;
 
 	// STATS
 
@@ -59025,7 +59043,6 @@ var init = exports.init = function init() {
 
 	// MODEL
 
-	var loader = new THREE.JSONLoader();
 	loader.load("obj/lightmap/lightmap.js", function (geometry, materials) {
 
 		for (var i = 0; i < materials.length; i++) {
@@ -59039,18 +59056,12 @@ var init = exports.init = function init() {
 		scene.add(mesh);
 	});
 
-	loader = new THREE.JSONLoader();
-	var robotModel = loader.parse(robotjelly);
-
-	var robotMesh = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
-	robotMesh.position.set(150, 150, 0);
-	robotMesh.scale.set(40, 40, 40);
-	scene.add(robotMesh);
+	scene.add(robot);
 	var ambientLight = new THREE.AmbientLight(0x111111);
 	scene.add(ambientLight);
 	//
 	window.addEventListener('resize', onWindowResize, false);
-	animate(renderer, scene, camera);
+	// animate(renderer, scene, camera)
 };
 
 function onWindowResize() {
@@ -59061,16 +59072,20 @@ function onWindowResize() {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-var animate = exports.animate = function animate(renderer, scene, camera) {
-	var boundAnimate = animate.bind(undefined, renderer, scene, camera);
+var animate = exports.animate = function animate() {
+	// console.log('inside animate', Window.robot)
 
-	requestAnimationFrame(boundAnimate);
-	// window.robotMesh.rotation.x += 0.1
+	if (Window.robot) {
+		Window.robot.sayHi();
+	}
+
+	requestAnimationFrame(animate);
+	// window.robot.rotation.x += 0.1
 	// requestAnimationFrame( render )
 	// if (window.direction){
-	//   window.robotMesh.position.x += window.direction[0]/10
-	//   window.robotMesh.position.y += window.direction[1]/10
-	//   window.robotMesh.position.z += window.direction[2]/10
+	//   window.robot.position.x += window.direction[0]/10
+	//   window.robot.position.y += window.direction[1]/10
+	//   window.robot.position.z += window.direction[2]/10
 	// //
 	// }
 	renderer.render(scene, camera);

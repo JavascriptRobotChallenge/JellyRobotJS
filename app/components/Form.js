@@ -4,6 +4,14 @@ import store from "../store"
 import {importRobot} from "../reducers/robot"
 import {RobotWorld} from './RobotWorld'
 
+function RobotClass(){
+  this.health = 100;
+  this.direction;
+}
+RobotClass.prototype.hitWall = function(){
+  this.health--
+}
+
 
  export default class NameForm extends React.Component {
    constructor(props) {
@@ -31,13 +39,13 @@ import {RobotWorld} from './RobotWorld'
    }
 
    handleSubmit(event) {
-       axios.post("api/code",{code:this.state.value})
-       .then((result)=>{
-           console.log("isthisfunc")
-        store.dispatch(importRobot(result.data))
-        window.robot = result.data
-       })
      event.preventDefault();
+
+     var robotConstructor = eval(this.state.value)
+     var robot = robotConstructor()
+     console.log(robot)
+     Window.robot = robot
+
    }
 
    render() {
@@ -45,7 +53,7 @@ import {RobotWorld} from './RobotWorld'
        <div>
        <form onSubmit={this.handleSubmit}>
          <label>
-           Code forasdfasdfa robot:
+           Code robot:
            <br />
            <textarea  value={this.state.value} rows="40" onChange={this.handleChange} />
          </label>
