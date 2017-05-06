@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "axios"
 import store from "../store"
 import { RobotWorld } from './RobotWorld'
-import { importRobot, IncrementX, DecrementX, IncrementZ, DecrementZ, Rotation } from "../reducers/robot"
+import { Rotation, WalkForward } from "../reducers/robot"
 
 function RobotClass() {
     this.health = 100;
@@ -12,24 +12,12 @@ RobotClass.prototype.hitWall = function() {
     this.health--
 }
 
-RobotClass.prototype.incrementX = function() {
-    store.dispatch(IncrementX())
-}
-
-RobotClass.prototype.decrementX = function() {
-    store.dispatch(DecrementX())
-}
-
-RobotClass.prototype.incrementZ = function() {
-    store.dispatch(IncrementZ())
-}
-
-RobotClass.prototype.decrementZ = function() {
-    store.dispatch(DecrementZ())
-}
-
 RobotClass.prototype.rotation = function(theta) {
     store.dispatch(Rotation(theta))
+}
+
+RobotClass.prototype.walkForward = function(theta) {
+    store.dispatch(WalkForward(theta))
 }
 
 

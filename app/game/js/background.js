@@ -14,7 +14,6 @@ export var renderer = new THREE.WebGLRenderer({
 });
 
 export const init = () => {
-    Window.direction = true
     camera.position.set(700, 200, -500);
 
     var loader = new THREE.JSONLoader()
@@ -145,25 +144,19 @@ function onWindowResize() {
 // Window.robot is the robot instance
 export const animate = (ThreeRobot) => {
     if (Window.robot) {
-        if (store.getState().position.x < 200 && Window.direction === true) {
-
-            Window.robot.incrementX();
-            if (store.getState().position.x > 180) {
-								Window.robot.rotation(Math.PI)
-                // ThreeRobot.rotation.y += 1
-                Window.direction = false
-            }
+				let currPosition = store.getState().position
+        if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
+            Window.robot.walkForward();
         } else {
-            if (store.getState().position.x < 20) {
-								Window.robot.rotation(Math.PI / 4)
+					Window.robot.rotation(Math.PI * (2/3))
+					Window.robot.walkForward()
+				}
 
-                // ThreeRobot.rotation.y += 1
-                Window.direction = true
-            }
-            Window.robot.decrementX()
-        }
+        console.log("x", store.getState().position.x)
+				console.log("y", store.getState().position.y)
 
-        console.log("pos", store.getState().position.x)
+				console.log("z", store.getState().position.z)
+
         ThreeRobot.position.x = store.getState().position.x
 				ThreeRobot.position.z = store.getState().position.z
 
@@ -173,13 +166,5 @@ export const animate = (ThreeRobot) => {
 
 
     requestAnimationFrame(animate.bind(this, ThreeRobot));
-    // window.robot.rotation.x += 0.1
-    // requestAnimationFrame( render )
-    // if (window.direction){
-    //   window.robot.position.x += window.direction[0]/10
-    //   window.robot.position.y += window.direction[1]/10
-    //   window.robot.position.z += window.direction[2]/10
-    // //
-    // }
     renderer.render(scene, camera);
 }
