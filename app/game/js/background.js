@@ -154,12 +154,10 @@ export const animate = (ThreeRobot) => {
 
         console.log("x", store.getState().position.x)
 				console.log("y", store.getState().position.y)
-
 				console.log("z", store.getState().position.z)
 
         ThreeRobot.position.x = store.getState().position.x
 				ThreeRobot.position.z = store.getState().position.z
-
 				ThreeRobot.rotation.y = store.getState().position.theta
 
     }

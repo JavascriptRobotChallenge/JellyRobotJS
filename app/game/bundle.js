@@ -57880,7 +57880,7 @@ var NameForm = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
 
         _this.state = {
-            value: "\n\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n     SubRobot.prototype.sayHi = function(){\n         console.log(\"hi\")\n     }\n     return new SubRobot()\n     })"
+            value: "\n\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n     SubRobot.prototype.start = function(){{\n \t\t\t\tlet currPosition = store.getState().position\n         if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {\n             this.walkForward();\n         } else {\n \t\t\t\t\tthis.rotation(Math.PI * (2/3))\n \t\t\t\t\tthis.walkForward()\n \t\t\t\t}\n        ThreeRobot.position.x = store.getState().position.x\n \t\t\t\tThreeRobot.position.z = store.getState().position.z\n \t\t\t\tThreeRobot.rotation.y = store.getState().position.theta\n\n     }\n     return new SubRobot()\n     })"
         };
 
         _this.handleChange = _this.handleChange.bind(_this);
@@ -59131,12 +59131,10 @@ var animate = exports.animate = function animate(ThreeRobot) {
 
         console.log("x", _store2.default.getState().position.x);
         console.log("y", _store2.default.getState().position.y);
-
         console.log("z", _store2.default.getState().position.z);
 
         ThreeRobot.position.x = _store2.default.getState().position.x;
         ThreeRobot.position.z = _store2.default.getState().position.z;
-
         ThreeRobot.rotation.y = _store2.default.getState().position.theta;
     }
 

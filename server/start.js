@@ -18,6 +18,10 @@ const pkg = require('APP')
 
 const app = express()
 
+
+
+var {broadcastGameState} = require ('./updateClientLoop')
+
 if (!pkg.isProduction && !pkg.isTesting) {
   // Logging middleware (dev only)
   app.use(require('volleyball'))
@@ -90,6 +94,19 @@ if (module === require.main) {
       console.log(`Listening on http://${urlSafeHost}:${port}`)
     }
   )
+
+  var io = require('socket.io')(server)
+  io.on('connection', function(socket) {
+    connectCounter++
+
+    socket.on('clientUpdate', (data) => {
+      store.dispatch(updatePlayer(data.player));
+      store.dispatch(updateKeyHolder(data.keyHolderId));
+    })
+  })
+
+  broadcastGameState(io)
+
 }
 
 // This check on line 64 is only starting the server if this file is being run directly by Node, and not required by another file.

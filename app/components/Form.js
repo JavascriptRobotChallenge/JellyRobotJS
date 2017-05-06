@@ -34,8 +34,18 @@ export default class NameForm extends React.Component {
      };
 
      SubRobot.prototype = Object.create(RobotClass.prototype)
-     SubRobot.prototype.sayHi = function(){
-         console.log("hi")
+     SubRobot.prototype.start = function(){{
+ 				let currPosition = store.getState().position
+         if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
+             this.walkForward();
+         } else {
+ 					this.rotation(Math.PI * (2/3))
+ 					this.walkForward()
+ 				}
+        ThreeRobot.position.x = store.getState().position.x
+ 				ThreeRobot.position.z = store.getState().position.z
+ 				ThreeRobot.rotation.y = store.getState().position.theta
+
      }
      return new SubRobot()
      })`
