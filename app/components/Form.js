@@ -3,6 +3,9 @@ import axios from "axios"
 import store from "../store"
 import {importRobot} from "../reducers/robot"
 import {RobotWorld} from './RobotWorld'
+import {MoveUp} from "../reducers/robot"
+
+
 
 function RobotClass(){
   this.health = 100;
@@ -10,6 +13,10 @@ function RobotClass(){
 }
 RobotClass.prototype.hitWall = function(){
   this.health--
+}
+
+RobotClass.prototype.moveUp = function(){
+  store.dispatch(MoveUp())
 }
 
 

@@ -1,9 +1,9 @@
 import React from 'react'
-import { init, robot, animate, camera, renderer, scene } from '../game/js/background.js'
+import { init, animate, camera, renderer, scene } from '../game/js/background.js'
 
 export const RobotWorld = () => {
-  console.log(robot)
-  init()
-  animate()
+  var robotThree = init()
+  console.log("yoooo",robotThree)
+  animate(robotThree)
   return <div></div>
 }

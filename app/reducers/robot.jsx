@@ -1,16 +1,15 @@
 import axios from 'axios'
 
-const reducer = (robotOne=null, action) => {
+const reducer = (position={x:0,y:0,z:0}, action) => {
   switch (action.type) {
-  case "Import_Robot_Function":
-    return action.robotFunction
+  case "Move_Up":
+    return {x:0,y:position.y+1,z:0}
   }
-  return robotOne
+  return position
 }
 
-export const importRobot = robotFunction => ({
-  type: "IMPORT_ROBOT_FUNCTION",
-  robotFunction:robotFunction
+export const MoveUp = robotFunction => ({
+  type: "Move_Up",
 })
 
 // export const login = (username, password) =>
