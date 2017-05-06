@@ -52928,7 +52928,7 @@ module.exports = function bind(fn, thisArg) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.MoveMinusX = exports.MoveX = undefined;
+exports.Rotation = exports.DecrementZ = exports.IncrementZ = exports.DecrementX = exports.IncrementX = undefined;
 
 var _axios = __webpack_require__(51);
 
@@ -52936,10 +52936,12 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// theta
 var initialPosition = {
     x: 0,
     y: 0,
-    z: 0
+    z: 0,
+    theta: 0
 };
 
 var reducer = function reducer() {
@@ -52947,37 +52949,63 @@ var reducer = function reducer() {
     var action = arguments[1];
 
     switch (action.type) {
-        case "Move_X":
+        case "IncrementX":
             return {
                 x: position.x + 1,
                 y: position.y,
-                z: position.z
+                z: position.z,
+                theta: position.theta
             };
-        case "Move_Minus_X":
+        case "DecrementX":
             return {
                 x: position.x - 1,
                 y: position.y,
-                z: position.z
+                z: position.z,
+                theta: position.theta
+            };
+        case "IncrementZ":
+            return {
+                x: position.x,
+                y: position.y,
+                z: position.z + 1,
+                theta: position.theta
+            };
+        case "DecrementZ":
+            return {
+                x: position.x,
+                y: position.y,
+                z: position.z - 1,
+                theta: position.theta
+            };
+        case "Rotation":
+            return {
+                x: position.x,
+                y: position.y,
+                z: position.z,
+                theta: action.theta
             };
         default:
             return position;
     }
 };
 
-var MoveX = exports.MoveX = function MoveX(robotFunction) {
-    return { type: "Move_X" };
+var IncrementX = exports.IncrementX = function IncrementX() {
+    return { type: "IncrementX" };
+};
+var DecrementX = exports.DecrementX = function DecrementX() {
+    return { type: "DecrementX" };
 };
 
-var MoveMinusX = exports.MoveMinusX = function MoveMinusX() {
-    return { type: "Move_Minus_X" };
+var IncrementZ = exports.IncrementZ = function IncrementZ() {
+    return { type: "IncrementZ" };
+};
+var DecrementZ = exports.DecrementZ = function DecrementZ() {
+    return { type: "DecrementZ" };
 };
 
-// export const login = (username, password) =>
-//   dispatch =>
-//     axios.post('/api/auth/login/local',
-//       {username, password})
-//       .then(() => dispatch(whoami()))
-//       .catch(() => dispatch(whoami()))
+var Rotation = exports.Rotation = function Rotation(theta) {
+    return { type: "Rotation", theta: theta };
+};
 
 exports.default = reducer;
 
@@ -57829,7 +57857,7 @@ function warning(message) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -57846,9 +57874,9 @@ var _store = __webpack_require__(49);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _robot = __webpack_require__(86);
-
 var _RobotWorld = __webpack_require__(161);
+
+var _robot = __webpack_require__(86);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57859,77 +57887,93 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function RobotClass() {
-  this.health = 100;
-  this.direction;
+    this.health = 100;
+    this.direction;
 }
 RobotClass.prototype.hitWall = function () {
-  this.health--;
+    this.health--;
 };
 
-RobotClass.prototype.moveX = function () {
-  _store2.default.dispatch((0, _robot.MoveX)());
+RobotClass.prototype.incrementX = function () {
+    _store2.default.dispatch((0, _robot.IncrementX)());
 };
 
-RobotClass.prototype.moveMinusX = function () {
-  _store2.default.dispatch((0, _robot.MoveMinusX)());
+RobotClass.prototype.decrementX = function () {
+    _store2.default.dispatch((0, _robot.DecrementX)());
+};
+
+RobotClass.prototype.incrementZ = function () {
+    _store2.default.dispatch((0, _robot.IncrementZ)());
+};
+
+RobotClass.prototype.decrementZ = function () {
+    _store2.default.dispatch((0, _robot.DecrementZ)());
+};
+
+RobotClass.prototype.rotation = function (theta) {
+    _store2.default.dispatch((0, _robot.Rotation)(theta));
 };
 
 var NameForm = function (_React$Component) {
-  _inherits(NameForm, _React$Component);
+    _inherits(NameForm, _React$Component);
 
-  function NameForm(props) {
-    _classCallCheck(this, NameForm);
+    function NameForm(props) {
+        _classCallCheck(this, NameForm);
 
-    var _this = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
 
-    _this.state = { value: "\n\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n     SubRobot.prototype.sayHi = function(){\n         console.log(\"hi\")\n     }\n     return new SubRobot()\n     })" };
+        _this.state = {
+            value: "\n\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n     SubRobot.prototype.sayHi = function(){\n         console.log(\"hi\")\n     }\n     return new SubRobot()\n     })"
+        };
 
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    return _this;
-  }
-
-  _createClass(NameForm, [{
-    key: "handleChange",
-    value: function handleChange(event) {
-      this.setState({ value: event.target.value });
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
     }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(event) {
-      event.preventDefault();
 
-      var robotConstructor = eval(this.state.value);
-      var robot = robotConstructor();
-      console.log(robot);
+    _createClass(NameForm, [{
+        key: "handleChange",
+        value: function handleChange(event) {
+            this.setState({
+                value: event.target.value
+            });
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(event) {
+            event.preventDefault();
 
-      Window.robot = robot;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        null,
-        _react2.default.createElement(
-          "form",
-          { onSubmit: this.handleSubmit },
-          _react2.default.createElement(
-            "label",
-            null,
-            "Code robot:",
-            _react2.default.createElement("br", null),
-            _react2.default.createElement("textarea", { value: this.state.value, rows: "40", onChange: this.handleChange })
-          ),
-          _react2.default.createElement("br", null),
-          _react2.default.createElement("input", { type: "submit", value: "Submit" })
-        ),
-        _react2.default.createElement(_RobotWorld.RobotWorld, null)
-      );
-    }
-  }]);
+            var robotConstructor = eval(this.state.value);
+            var robot = robotConstructor();
 
-  return NameForm;
+            // robot instance
+            Window.robot = robot;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "form",
+                    { onSubmit: this.handleSubmit },
+                    _react2.default.createElement(
+                        "label",
+                        null,
+                        "Code robot:",
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement("textarea", { value: this.state.value, rows: "40", onChange: this.handleChange })
+                    ),
+                    _react2.default.createElement("br", null),
+                    _react2.default.createElement("input", { type: "submit", value: "Submit" })
+                ),
+                _react2.default.createElement(_RobotWorld.RobotWorld, null)
+            );
+        }
+    }]);
+
+    return NameForm;
 }(_react2.default.Component);
 
 exports.default = NameForm;
@@ -58954,7 +58998,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var RobotWorld = exports.RobotWorld = function RobotWorld() {
   var robotThree = (0, _background.init)();
-  console.log("yoooo", robotThree);
   (0, _background.animate)(robotThree);
   return _react2.default.createElement('div', null);
 };
@@ -59011,11 +59054,10 @@ var init = exports.init = function init() {
 
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
-    var robot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
+    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
 
-    robot.position.set(150, 150, 800);
-    robot.scale.set(40, 40, 40);
-    console.log("goodrobot", robot);
+    ThreeRobot.position.set(-250, 0, 0);
+    ThreeRobot.scale.set(40, 40, 40);
 
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -59101,14 +59143,14 @@ var init = exports.init = function init() {
         scene.add(mesh);
     });
 
-    scene.add(robot);
+    scene.add(ThreeRobot);
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
     //
     window.addEventListener('resize', onWindowResize, false);
-    // animate(renderer, scene, camera)
-    console.log("secondrobot", robot);
-    return robot;
+
+    // ThreeRobot refers to the actual 3D image of the ThreeRobot
+    return ThreeRobot;
 };
 
 function onWindowResize() {
@@ -59119,29 +59161,36 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-var animate = exports.animate = function animate(robotTwo) {
-    console.log("pane", Window.direction);
+// ThreeRobot is the 3D robot
+// Window.robot is the robot instance
+var animate = exports.animate = function animate(ThreeRobot) {
     if (Window.robot) {
         if (_store2.default.getState().position.x < 200 && Window.direction === true) {
-            Window.robot.moveX();
+
+            Window.robot.incrementX();
             if (_store2.default.getState().position.x > 180) {
-                robotTwo.rotation.y += Math.PI;
+                Window.robot.rotation(Math.PI);
+                // ThreeRobot.rotation.y += 1
                 Window.direction = false;
             }
         } else {
             if (_store2.default.getState().position.x < 20) {
-                robotTwo.rotation.y += Math.PI / 2;
+                Window.robot.rotation(Math.PI / 4);
+
+                // ThreeRobot.rotation.y += 1
                 Window.direction = true;
             }
-            Window.robot.moveMinusX();
+            Window.robot.decrementX();
         }
-        // console.log("store.getstate",store.getState())
-        // console.log("secondRobotTwo",robotTwo)
+
         console.log("pos", _store2.default.getState().position.x);
-        robotTwo.position.x = _store2.default.getState().position.x;
+        ThreeRobot.position.x = _store2.default.getState().position.x;
+        ThreeRobot.position.z = _store2.default.getState().position.z;
+
+        ThreeRobot.rotation.y = _store2.default.getState().position.theta;
     }
 
-    requestAnimationFrame(animate.bind(undefined, robotTwo));
+    requestAnimationFrame(animate.bind(undefined, ThreeRobot));
     // window.robot.rotation.x += 0.1
     // requestAnimationFrame( render )
     // if (window.direction){

@@ -28,22 +28,15 @@ export const init = () => {
 
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
-    var robot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
+    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
 
-    robot.position.set(150, 150, 800);
-    robot.scale.set(40, 40, 40);
-    console.log("goodrobot", robot)
+    ThreeRobot.position.set(-250, 0, 0);
+    ThreeRobot.scale.set(40, 40, 40);
 
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
-
-
-
     var stats;
     var clock = new THREE.Clock();
-
-
 
     // CAMERA
 
@@ -128,14 +121,14 @@ export const init = () => {
 
     });
 
-    scene.add(robot);
+    scene.add(ThreeRobot);
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
     //
     window.addEventListener('resize', onWindowResize, false);
-    // animate(renderer, scene, camera)
-    console.log("secondrobot", robot)
-    return robot
+
+		// ThreeRobot refers to the actual 3D image of the ThreeRobot
+    return ThreeRobot
 }
 
 function onWindowResize() {
@@ -148,31 +141,38 @@ function onWindowResize() {
 }
 
 
-
-export const animate = (robotTwo) => {
-    console.log("pane", Window.direction)
+// ThreeRobot is the 3D robot
+// Window.robot is the robot instance
+export const animate = (ThreeRobot) => {
     if (Window.robot) {
         if (store.getState().position.x < 200 && Window.direction === true) {
-            Window.robot.moveX();
+
+            Window.robot.incrementX();
             if (store.getState().position.x > 180) {
-                robotTwo.rotation.y += Math.PI
+								Window.robot.rotation(Math.PI)
+                // ThreeRobot.rotation.y += 1
                 Window.direction = false
             }
         } else {
             if (store.getState().position.x < 20) {
-                robotTwo.rotation.y += (Math.PI/2)
+								Window.robot.rotation(Math.PI / 4)
+
+                // ThreeRobot.rotation.y += 1
                 Window.direction = true
             }
-            Window.robot.moveMinusX()
+            Window.robot.decrementX()
         }
-        // console.log("store.getstate",store.getState())
-        // console.log("secondRobotTwo",robotTwo)
+
         console.log("pos", store.getState().position.x)
-        robotTwo.position.x = store.getState().position.x
+        ThreeRobot.position.x = store.getState().position.x
+				ThreeRobot.position.z = store.getState().position.z
+
+				ThreeRobot.rotation.y = store.getState().position.theta
+
     }
 
 
-    requestAnimationFrame(animate.bind(this, robotTwo));
+    requestAnimationFrame(animate.bind(this, ThreeRobot));
     // window.robot.rotation.x += 0.1
     // requestAnimationFrame( render )
     // if (window.direction){
