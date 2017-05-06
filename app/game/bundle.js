@@ -57874,7 +57874,6 @@ var NameForm = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('inside form');
       return _react2.default.createElement(
         "div",
         null,
@@ -58920,7 +58919,6 @@ var _background = __webpack_require__(162);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RobotWorld = exports.RobotWorld = function RobotWorld() {
-  console.log('inside robot world');
   (0, _background.init)();
   return _react2.default.createElement('div', null);
 };
@@ -58989,8 +58987,8 @@ var init = exports.init = function init() {
 
 	// SKYDOME
 
-	// var vertexShader = document.getElementById( 'vertexShader' ).textContent;
-	// var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
+	var vertexShader = document.getElementById('vertexShader').textContent;
+	var fragmentShader = document.getElementById('fragmentShader').textContent;
 	var uniforms = {
 		topColor: { type: "c", value: new THREE.Color(0x0077ff) },
 		bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
@@ -59002,6 +59000,8 @@ var init = exports.init = function init() {
 	var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
 	var skyMat = new THREE.ShaderMaterial({
 		uniforms: uniforms,
+		vertexShader: vertexShader,
+		fragmentShader: fragmentShader,
 		side: THREE.BackSide
 	});
 
@@ -59050,7 +59050,7 @@ var init = exports.init = function init() {
 	scene.add(ambientLight);
 	//
 	window.addEventListener('resize', onWindowResize, false);
-	animate();
+	animate(renderer, scene, camera);
 };
 
 function onWindowResize() {
@@ -59061,10 +59061,10 @@ function onWindowResize() {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-var animate = exports.animate = function animate() {
-	console.log('inside animate');
+var animate = exports.animate = function animate(renderer, scene, camera) {
+	var boundAnimate = animate.bind(undefined, renderer, scene, camera);
 
-	requestAnimationFrame(animate);
+	requestAnimationFrame(boundAnimate);
 	// window.robotMesh.rotation.x += 0.1
 	// requestAnimationFrame( render )
 	// if (window.direction){
@@ -59074,7 +59074,6 @@ var animate = exports.animate = function animate() {
 	// //
 	// }
 	renderer.render(scene, camera);
-	stats.update();
 };
 
 /***/ }),

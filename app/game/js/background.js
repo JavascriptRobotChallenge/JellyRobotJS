@@ -45,8 +45,8 @@ export const init = ()=>{
 
 	// SKYDOME
 
-	// var vertexShader = document.getElementById( 'vertexShader' ).textContent;
-	// var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
+	var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+	var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
 	var uniforms = {
 		topColor: 	 { type: "c", value: new THREE.Color( 0x0077ff ) },
 		bottomColor: { type: "c", value: new THREE.Color( 0xffffff ) },
@@ -58,6 +58,8 @@ export const init = ()=>{
 	var skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
 	var skyMat = new THREE.ShaderMaterial( {
 		uniforms: uniforms,
+		vertexShader: vertexShader,
+		fragmentShader: fragmentShader,
 		side: THREE.BackSide
 	} );
 
@@ -108,7 +110,7 @@ export const init = ()=>{
   scene.add(ambientLight);
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
-	animate()
+	animate(renderer, scene, camera)
 }
 
 function onWindowResize() {
@@ -122,10 +124,10 @@ function onWindowResize() {
 
 
 
-export const animate = ()=> {
-	console.log('inside animate')
+export const animate = (renderer, scene, camera)=> {
+	var boundAnimate = animate.bind(this, renderer, scene, camera)
 
-	requestAnimationFrame( animate );
+	requestAnimationFrame( boundAnimate );
   // window.robotMesh.rotation.x += 0.1
   // requestAnimationFrame( render )
   // if (window.direction){
@@ -135,5 +137,4 @@ export const animate = ()=> {
   // //
   // }
   renderer.render( scene, camera );
-	stats.update();
 }

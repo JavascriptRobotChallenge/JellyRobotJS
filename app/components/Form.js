@@ -41,7 +41,6 @@ import {RobotWorld} from './RobotWorld'
    }
 
    render() {
-     console.log('inside form')
      return (
        <div>
        <form onSubmit={this.handleSubmit}>
