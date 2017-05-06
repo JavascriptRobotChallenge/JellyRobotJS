@@ -57899,12 +57899,10 @@ var NameForm = function (_React$Component) {
         key: "handleSubmit",
         value: function handleSubmit(event) {
             event.preventDefault();
-
-            var robotConstructor = eval(this.state.value);
-            var robot = robotConstructor();
-
-            // robot instance
-            Window.robot = robot;
+            socket.io = socket.on('connection', function () {
+                console.log('we have a connection');
+                socket.emit('sendCode', "not real code this is just a test");
+            });
         }
     }, {
         key: "render",
@@ -59186,6 +59184,11 @@ var THREE = _interopRequireWildcard(_three);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+socket.on('connect', function () {
+  console.log('we have a connection');
+  console.log(socket.port);
+});
 
 var ExampleApp = (0, _reactRedux.connect)(function (_ref) {
   var auth = _ref.auth;

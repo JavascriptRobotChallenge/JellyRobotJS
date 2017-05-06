@@ -1,6 +1,3 @@
-
- var Sandbox = require('sandbox')
-
  var code = []
 
  function RobotClass() {
@@ -21,9 +18,11 @@
 
 module.exports = require('express').Router()
   .post('/', (req, res, next) => {
-
+    code.push(req.body.code)
    var RoboOne = eval(req.body.code)
    var testRobot = RoboOne()
 
-  //  res.send(testRobot)
+
   })
+
+module.exports = code

@@ -95,14 +95,21 @@ if (module === require.main) {
     }
   )
 
+  var connectCounter
+
   var io = require('socket.io')(server)
   io.on('connection', function(socket) {
+    console.log('socketid:', socket.id)
     connectCounter++
 
-    socket.on('clientUpdate', (data) => {
-      store.dispatch(updatePlayer(data.player));
-      store.dispatch(updateKeyHolder(data.keyHolderId));
+    socket.on('sendCode',()=>
+      {console.log('hi')
     })
+
+    // socket.on('clientUpdate', (data) => {
+    //   store.dispatch(updatePlayer(data.player));
+    //   store.dispatch(updateKeyHolder(data.keyHolderId));
+    // })
   })
 
   broadcastGameState(io)

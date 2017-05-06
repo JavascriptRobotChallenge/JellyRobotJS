@@ -4,6 +4,7 @@ import store from "../store"
 import { RobotWorld } from './RobotWorld'
 import { Rotation, WalkForward } from "../reducers/robot"
 
+
 function RobotClass() {
     this.health = 100;
     this.direction;
@@ -63,12 +64,11 @@ export default class NameForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        socket.io = socket.on('connection', function(){
+          console.log('we have a connection')
+          socket.emit('sendCode', "not real code this is just a test")
 
-        var robotConstructor = eval(this.state.value)
-        var robot = robotConstructor()
-
-        // robot instance
-        Window.robot = robot
+        })
     }
 
     render() {

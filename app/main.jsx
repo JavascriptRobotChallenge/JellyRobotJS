@@ -12,6 +12,12 @@ import Form from "./components/Form"
 
 import * as THREE from 'three';
 
+socket.on('connect', function(){
+  console.log('we have a connection')
+  console.log(socket.port)
+})
+
+
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
 )(
