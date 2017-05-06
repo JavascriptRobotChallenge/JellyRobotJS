@@ -56,6 +56,7 @@ RobotClass.prototype.moveMinusX = function(){
      var robotConstructor = eval(this.state.value)
      var robot = robotConstructor()
      console.log(robot)
+
      Window.robot = robot
 
    }
