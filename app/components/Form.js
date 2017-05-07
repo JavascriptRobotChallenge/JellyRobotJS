@@ -28,29 +28,32 @@ export default class NameForm extends React.Component {
         super(props);
         this.state = {
             value: `
+            (function(){
+            function SubRobot(){
+                this.color = "red"
+             };
 
-    (function(){
-    function SubRobot(){
-        this.color = "red"
-     };
+             SubRobot.prototype = Object.create(RobotClass.prototype)
 
-     SubRobot.prototype = Object.create(RobotClass.prototype)
-     SubRobot.prototype.start = function(){{
- 				let currPosition = store.getState().position
-         if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
-             this.walkForward();
-         } else {
- 					this.rotation(Math.PI * (2/3))
- 					this.walkForward()
- 				}
-        ThreeRobot.position.x = store.getState().position.x
- 				ThreeRobot.position.z = store.getState().position.z
- 				ThreeRobot.rotation.y = store.getState().position.theta
+             SubRobot.prototype.start = function(id){
 
-     }
-     return new SubRobot()
-     })`
+             }
+
+             return new SubRobot()
+            })`
         };
+
+        // var position = backendStore.getState()[id]
+        // var currPosition = {}
+        //  currPosition.x = position.x
+        //  currPosition.y = position.y
+        //  currPosition.z= position.z
+        //   if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
+        //       this.walkForward(id);
+        //   } else {
+        //    this.rotation(Math.PI * (2/3))
+        //    this.walkForward(id)
+        //  }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,11 +67,8 @@ export default class NameForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        socket.io = socket.on('connection', function(){
-          console.log('we have a connection')
-          socket.emit('sendCode', "not real code this is just a test")
-
-        })
+        console.log('inside emit')
+        socket.emit('sendCode', this.state.value)
     }
 
     render() {

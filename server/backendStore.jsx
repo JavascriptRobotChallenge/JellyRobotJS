@@ -2,8 +2,9 @@ const redux = require('redux')
 
 const {reducer} = require('./robotReducer.js')
 
-const store = redux.createStore(
-  reducer
+const backendStore = redux.createStore(
+  reducer,
+  null
 );
 
-module.exports = store
+module.exports = backendStore

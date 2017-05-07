@@ -13,11 +13,14 @@ export var renderer = new THREE.WebGLRenderer({
     antialias: true
 });
 
+var robotModel
+
+
 export const init = () => {
     camera.position.set(700, 200, -500);
 
     var loader = new THREE.JSONLoader()
-    var robotModel = loader.parse(Window.robotjelly);
+    robotModel = loader.parse(Window.robotjelly);
 
     renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -27,25 +30,15 @@ export const init = () => {
 
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
-    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
 
-    ThreeRobot.position.set(-250, 0, 0);
-    ThreeRobot.scale.set(40, 40, 40);
+
 
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     var stats;
     var clock = new THREE.Clock();
 
-    // CAMERA
 
-
-
-    // SCENE
-
-
-
-    // CONTROLS
 
     var controls = new OrbitControls(camera);
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
@@ -99,8 +92,6 @@ export const init = () => {
 
     // RENDERER
 
-
-
     // STATS
 
     stats = new Stats();
@@ -120,14 +111,12 @@ export const init = () => {
 
     });
 
-    scene.add(ThreeRobot);
+
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
     //
     window.addEventListener('resize', onWindowResize, false);
 
-		// ThreeRobot refers to the actual 3D image of the ThreeRobot
-    return ThreeRobot
 }
 
 function onWindowResize() {
@@ -139,30 +128,63 @@ function onWindowResize() {
 
 }
 
+function buildRobot(robot){
+  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
+  ThreeRobot.position.set(robot.x, robot.y, robot.z);
+  ThreeRobot.scale.set(40, 40, 40);
+  scene.add(ThreeRobot);
+  return ThreeRobot;
+}
 
-// ThreeRobot is the 3D robot
-// Window.robot is the robot instance
-export const animate = (ThreeRobot) => {
-    if (Window.robot) {
-				let currPosition = store.getState().position
-        if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
-            Window.robot.walkForward();
-        } else {
-					Window.robot.rotation(Math.PI * (2/3))
-					Window.robot.walkForward()
-				}
+function initializePlayers(){
+  //when server emits a connect event, make our own ThreeRobot
+  // when server emits a PlayerAdded event, make their ThreeRobot
+  // socket.on()
+}
 
-        console.log("x", store.getState().position.x)
-				console.log("y", store.getState().position.y)
-				console.log("z", store.getState().position.z)
+// local
+var robots = []
+export const animate = () => {
+  // if the store has robots, and the local array doesn't -- we need to make new robots
+    if (robots.length < Object.keys(store.getState().robotData).length > 0 ){
+      var storeState = store.getState()
+      var keys = Object.keys(storeState.robotData)
 
-        ThreeRobot.position.x = store.getState().position.x
-				ThreeRobot.position.z = store.getState().position.z
-				ThreeRobot.rotation.y = store.getState().position.theta
+      for ( var i=0; i < keys.length; i++ ){
 
+        robots[i] = buildRobot(storeState.robotData[keys[i]])
+        // there's no reason for the storeState to have a "position" property, just X, Y, Z
+      }
+    // if the store has robots, AND our array has them, then we need to update their position
+    } else if (Object.keys(store.getState().robotData).length > 0 && robots.length > 1){
+      var storeState = store.getState()
+      console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
+      var keys = Object.keys(storeState)
+
+      for ( var i=0; i < keys.length;i++ ){
+        robots[i].position.x = (storeState[keys[i]].position.x)
+        robots[i].position.y = (storeState[keys[i]].position.y)
+        robots[i].position.z = (storeState[keys[i]].position.z)
+
+      }
     }
-
-
-    requestAnimationFrame(animate.bind(this, ThreeRobot));
+    requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
+    // if (Window.robot) {
+		// 		let currPosition = store.getState().position
+    //     if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
+    //         Window.robot.walkForward();
+    //     } else {
+		// 			Window.robot.rotation(Math.PI * (2/3))
+		// 			Window.robot.walkForward()
+		// 		}
+    //
+    //     console.log("x", store.getState().position.x)
+		// 		console.log("y", store.getState().position.y)
+		// 		console.log("z", store.getState().position.z)
+    //
+    //     ThreeRobot.position.x = store.getState().position.x
+		// 		ThreeRobot.position.z = store.getState().position.z
+		// 		ThreeRobot.rotation.y = store.getState().position.theta
+    // }
