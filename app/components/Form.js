@@ -21,8 +21,6 @@ RobotClass.prototype.walkForward = function(theta) {
     store.dispatch(WalkForward(theta))
 }
 
-
-
 export default class NameForm extends React.Component {
     constructor(props) {
         super(props);
@@ -36,7 +34,14 @@ export default class NameForm extends React.Component {
              SubRobot.prototype = Object.create(RobotClass.prototype)
 
              SubRobot.prototype.start = function(id){
+               var robotInstance = backendStore.getState()[id]
 
+                 if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {
+                     this.walkForward(id);
+                 } else {
+                  this.rotation(id, Math.PI * (2/3))
+                  this.walkForward(id)
+                }
              }
 
              return new SubRobot()

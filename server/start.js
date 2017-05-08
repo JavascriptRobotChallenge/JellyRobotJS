@@ -119,7 +119,6 @@ if (module === require.main) {
   var io = require('socket.io')(server)
 
   io.on('connection', function(socket) {
-    console.log('socketid:', socket.id)
     connectCounter++
 
     socket.on('sendCode', (code)=>{

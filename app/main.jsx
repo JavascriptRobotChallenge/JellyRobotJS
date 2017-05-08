@@ -20,14 +20,9 @@ socket.on('connect', function(){
 })
 
 socket.on('serverUpdate', function(data){
-  console.log(data)
+  // console.log(data)
   store.dispatch(ServerUpdate(data))
 })
-
-// socket.on('serverUpdate', function(data){
-//   store.dispatch(ServerUpdate(data))
-// })
-
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })

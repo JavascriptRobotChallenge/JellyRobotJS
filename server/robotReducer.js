@@ -17,6 +17,7 @@ const reducer = ( state = {}, action) => {
     switch (action.type) {
         case "AddPlayer":
           newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), robotInstance: action.robotInstance}
+          console.log('newstate in backend robotreducer', newState)
           return newState
         case "Rotation":
           newState[action.playerId][theta] = newState[action.playerId][theta] + action.theta
@@ -31,7 +32,7 @@ const reducer = ( state = {}, action) => {
 }
 
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
-const WalkForward = () => ({type: "WalkForward"})
+const WalkForward = (playerId) => ({type: "WalkForward", playerId})
 const Rotation = (playerId, theta) => ({type: "Rotation", playerId, theta})
 
 

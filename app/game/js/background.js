@@ -146,26 +146,25 @@ function initializePlayers(){
 var robots = []
 export const animate = () => {
   // if the store has robots, and the local array doesn't -- we need to make new robots
-    if (robots.length < Object.keys(store.getState().robotData).length > 0 ){
+    if (robots.length < Object.keys(store.getState().robotData).length ){
       var storeState = store.getState()
       var keys = Object.keys(storeState.robotData)
+      console.log('keys', keys)
 
-      for ( var i=0; i < keys.length; i++ ){
-
+      for ( var i = 0; i < keys.length; i++ ){
         robots[i] = buildRobot(storeState.robotData[keys[i]])
         // there's no reason for the storeState to have a "position" property, just X, Y, Z
       }
     // if the store has robots, AND our array has them, then we need to update their position
-    } else if (Object.keys(store.getState().robotData).length > 0 && robots.length > 1){
+    } else if (Object.keys(store.getState().robotData).length ){
       var storeState = store.getState()
-      console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
+      // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
       var keys = Object.keys(storeState)
 
       for ( var i=0; i < keys.length;i++ ){
         robots[i].position.x = (storeState[keys[i]].position.x)
         robots[i].position.y = (storeState[keys[i]].position.y)
         robots[i].position.z = (storeState[keys[i]].position.z)
-
       }
     }
     requestAnimationFrame(animate);

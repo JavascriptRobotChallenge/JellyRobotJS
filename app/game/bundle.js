@@ -59129,9 +59129,10 @@ function initializePlayers() {}
 var robots = [];
 var animate = exports.animate = function animate() {
     // if the store has robots, and the local array doesn't -- we need to make new robots
-    if (robots.length < Object.keys(_store2.default.getState().robotData).length > 0) {
+    if (robots.length < Object.keys(_store2.default.getState().robotData).length) {
         var storeState = _store2.default.getState();
         var keys = Object.keys(storeState.robotData);
+        console.log('keys', keys);
 
         for (var i = 0; i < keys.length; i++) {
 
@@ -59141,7 +59142,7 @@ var animate = exports.animate = function animate() {
         // if the store has robots, AND our array has them, then we need to update their position
     } else if (Object.keys(_store2.default.getState().robotData).length > 0 && robots.length > 1) {
         var storeState = _store2.default.getState();
-        console.log("store:", Object.keys(_store2.default.getState().robotData).length, "robots: ", robots.length);
+        // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
         var keys = Object.keys(storeState);
 
         for (var i = 0; i < keys.length; i++) {
@@ -59224,7 +59225,7 @@ socket.on('connect', function () {
 });
 
 socket.on('serverUpdate', function (data) {
-  console.log(data);
+  // console.log(data)
   _store2.default.dispatch((0, _robot.ServerUpdate)(data));
 });
 
