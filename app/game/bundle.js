@@ -15354,7 +15354,7 @@ scene.add(grid);
 ///////////////////////     CANNON JS - Variables     //////////////////////////
 /******************************************************************************/
 var world = new CANNON.World();
-world.gravity.set(0, -1, 0);
+world.gravity.set(0, 0, 0);
 
 world.broadphase = new CANNON.NaiveBroadphase(); // Detect coilliding objects
 world.solver.iterations = 5; // collision detection sampling rate
@@ -15376,32 +15376,24 @@ var robotModel = loader.parse(Window.robotjelly);
 
 // var objMaterial = robotModel.materials
 // console.log(objMaterial)
-var objMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+var objMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff88 });
 // var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
 // scene.add( mesh );
 
 
-var mesh = new THREE.Mesh(robotModel.geometry, objMaterial);
-mesh.position.set(0, 0, 0);
-mesh.scale.set(0.3, 0.3, 0.3);
+var mesh = new THREE.Mesh(new THREE.BoxGeometry(1.9, 1.9, 1.9), objMaterial);
+// mesh.position.set(0, 0, 0);
+// mesh.scale.set(2, 2, 2);
 scene.add(mesh);
 // mesh.add( camera );
 camera.position.set(0, 2, 5);
 
-// find
 /*  THIS IS THE ROBOT PHYSICS   */
-console.log(robotModel.geometry);
-var sizeRobot = robotModel.geometry.boundingSphere;
 
-console.log(sizeRobot, 'sizeModel');
-// var heightRobot = (sizeRobot.max.y - sizeRobot.min.y) * 0.5
-// var widthRobot = (sizeRobot.max.x - sizeRobot.min.x) * 0.5
-// var depthRobot = (sizeRobot.max.z - sizeRobot.min.z) * 0.5
-
-var shape = new CANNON.Box(new CANNON.Vec3(.5, .5, .5));
+var shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1));
 var body = new CANNON.Body({ mass: 1 });
 body.addShape(shape);
-body.position.set(0, 0, 0);
+body.position.set(0, 1, 0);
 world.addBody(body);
 
 // var shape = new CANNON.Box(new CANNON.Vec3(0.5,0.5,0.5));
