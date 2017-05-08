@@ -12,7 +12,6 @@ import Form from "./components/Form"
 
 import { ServerUpdate } from "./reducers/robot.jsx"
 
-import * as THREE from 'three';
 
 socket.on('connect', function(){
   console.log('we have a connection')
@@ -51,5 +50,5 @@ render(
       <Route path='*' component={NotFound} />
     </Router>
   </Provider>,
-  document.getElementById('main')
+  document.getElementById('container')
 )

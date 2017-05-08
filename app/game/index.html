@@ -2,10 +2,17 @@
 <html>
   <head>
   </head>
+  
    <!-- <script src="./js/scene.js" defer></script> -->
   <body>
-    <div id=main></div>
-    <div id="threedee"></div>
+
+    <div id="container"></div>
+    <div id="threedee" style="height: 500px"></div>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js' ></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.min.js'  ></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js'  ></script>
+    <script src='https://cdn.rawgit.com/schteppe/cannon.js/master/tools/threejs/CannonDebugRenderer.js' ></script>
 
 		<script src="js/stats.min.js"></script>
     <script type="text/javascript" src="js/robotjelly5.js"></script>
@@ -44,6 +51,8 @@
     const socket = io()
     </script>
     <script async defer src=/bundle.js></script>
+
+
 
 
   </body>

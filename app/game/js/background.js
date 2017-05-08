@@ -171,20 +171,3 @@ export const animate = () => {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
-    // if (Window.robot) {
-		// 		let currPosition = store.getState().position
-    //     if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
-    //         Window.robot.walkForward();
-    //     } else {
-		// 			Window.robot.rotation(Math.PI * (2/3))
-		// 			Window.robot.walkForward()
-		// 		}
-    //
-    //     console.log("x", store.getState().position.x)
-		// 		console.log("y", store.getState().position.y)
-		// 		console.log("z", store.getState().position.z)
-    //
-    //     ThreeRobot.position.x = store.getState().position.x
-		// 		ThreeRobot.position.z = store.getState().position.z
-		// 		ThreeRobot.rotation.y = store.getState().position.theta
-    // }
