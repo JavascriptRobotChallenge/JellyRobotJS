@@ -13,8 +13,7 @@ export var renderer = new THREE.WebGLRenderer({
     antialias: true
 });
 
-var robotModel
-
+var robotModel;
 
 export const init = () => {
     camera.position.set(700, 200, -500);
@@ -31,15 +30,10 @@ export const init = () => {
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
 
-
-
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     var stats;
     var clock = new THREE.Clock();
-
-
-
     var controls = new OrbitControls(camera);
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
@@ -90,51 +84,37 @@ export const init = () => {
     var sky = new THREE.Mesh(skyGeo, skyMat);
     scene.add(sky);
 
-    // RENDERER
-
     // STATS
-
     stats = new Stats();
     container.appendChild(stats.dom);
 
     // MODEL
-
     loader.load("obj/lightmap/lightmap.js", function(geometry, materials) {
         for (var i = 0; i < materials.length; i++) {
             materials[i].lightMapIntensity = 0.1;
         }
 
         var mesh = new THREE.Mesh(geometry, materials);
-
         mesh.scale.multiplyScalar(100);
         scene.add(mesh);
-
     });
-
 
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
     //
     window.addEventListener('resize', onWindowResize, false);
-
 }
 
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize(window.innerWidth, window.innerHeight);
-
 }
 
 function buildRobot(robot){
-  // console.log('ROBOT IN BUILD ROBOT', robot)
-  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
+  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
-  // console.log('THREE ROBOT', ThreeRobot)
-  console.log('ADD STUFFFFFF')
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
@@ -155,18 +135,15 @@ export const animate = () => {
       var keys = Object.keys(storeState.robotData)
 
       for ( var i = 0; i < keys.length; i++ ){
-        console.log('BUILDING ROBOT')
         robots[i] = buildRobot(storeState.robotData[keys[i]])
-        // there's no reason for the storeState to have a "position" property, just X, Y, Z
       }
+      // there's no reason for the storeState to have a "position" property, just X, Y, Z
     // if the store has robots, AND our array has them, then we need to update their position
     }
     else if (Object.keys(store.getState().robotData).length ){
-      // console.log('making it inside else if statement')
-      var storeState = store.getState()
-      // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
+      var storeState = store.getState().robotData
       var keys = Object.keys(storeState)
-      for ( var i=0; i < keys.length;i++ ){
+      for ( var i=0; i < keys.length; i++ ){
         robots[i].position.x = (storeState[keys[i]].x)
         robots[i].position.y = (storeState[keys[i]].y)
         robots[i].position.z = (storeState[keys[i]].z)

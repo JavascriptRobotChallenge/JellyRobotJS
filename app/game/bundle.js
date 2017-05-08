@@ -59114,11 +59114,18 @@ function onWindowResize() {
 
 function buildRobot(robot) {
     console.log('ROBOT IN BUILD ROBOT', robot);
-    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
+    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials);
+    // ThreeRobot.position.x = robot.x
+    // console.log('ROBOT X', robot.x)
+    // console.log('THREEROBOT X', ThreeRobot.position.x)
+    // ThreeRobot.position.y = robot.y
+    // ThreeRobot.position.z = robot.z
     ThreeRobot.position.set(robot.x, robot.y, robot.z);
     ThreeRobot.scale.set(40, 40, 40);
-    console.log('THREE ROBOT', ThreeRobot);
     scene.add(ThreeRobot);
+    // console.log('THREE ROBOT POSITION', ThreeRobot.position)
+    // console.log('THREE ROBOT POSITION X', ThreeRobot.position.x)
+    // console.log('THREE ROBOT', ThreeRobot)
     return ThreeRobot;
 }
 
@@ -59144,11 +59151,16 @@ var animate = exports.animate = function animate() {
         }
         // if the store has robots, AND our array has them, then we need to update their position
     } else if (Object.keys(_store2.default.getState().robotData).length) {
-        // console.log('making it inside else if statement')
-        var storeState = _store2.default.getState();
+        console.log('ROBOTS ARRAY', robots);
+        console.log('ROBOTS ARRAY length', robots.length);
+        console.log('STORE', Object.keys(_store2.default.getState().robotData));
+        console.log('STORE LENGTH', Object.keys(_store2.default.getState().robotData).length);
+        var storeState = _store2.default.getState().robotData;
         // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
         var keys = Object.keys(storeState);
         for (var i = 0; i < keys.length; i++) {
+            console.log('robot i', i);
+            console.log('ROBOT I POSITION', robots[i]);
             robots[i].position.x = storeState[keys[i]].x;
             robots[i].position.y = storeState[keys[i]].y;
             robots[i].position.z = storeState[keys[i]].z;
