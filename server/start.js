@@ -23,9 +23,6 @@ const pkg = require('APP')
 
 const app = express()
 
-
-
-
 if (!pkg.isProduction && !pkg.isTesting) {
   // Logging middleware (dev only)
   app.use(require('volleyball'))
@@ -107,8 +104,8 @@ if (module === require.main) {
       this.health--
   }
 
-  RobotClass.prototype.rotation = function(theta) {
-      backendStore.dispatch(Rotation(theta))
+  RobotClass.prototype.rotation = function(playerId, theta) {
+      backendStore.dispatch(Rotation(playerId, theta))
   }
 
   RobotClass.prototype.walkForward = function(theta) {
@@ -119,7 +116,6 @@ if (module === require.main) {
   var io = require('socket.io')(server)
 
   io.on('connection', function(socket) {
-    console.log('socketid:', socket.id)
     connectCounter++
 
     socket.on('sendCode', (code)=>{

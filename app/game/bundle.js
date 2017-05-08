@@ -57856,22 +57856,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function RobotClass() {
-    this.health = 100;
-    this.direction;
-}
-RobotClass.prototype.hitWall = function () {
-    this.health--;
-};
-
-RobotClass.prototype.rotation = function (theta) {
-    _store2.default.dispatch((0, _robot.Rotation)(theta));
-};
-
-RobotClass.prototype.walkForward = function (theta) {
-    _store2.default.dispatch((0, _robot.WalkForward)(theta));
-};
-
 var NameForm = function (_React$Component) {
     _inherits(NameForm, _React$Component);
 
@@ -57881,20 +57865,8 @@ var NameForm = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
 
         _this.state = {
-            value: "\n            (function(){\n            function SubRobot(){\n                this.color = \"red\"\n             };\n\n             SubRobot.prototype = Object.create(RobotClass.prototype)\n\n             SubRobot.prototype.start = function(id){\n\n             }\n\n             return new SubRobot()\n            })"
+            value: "\n            (function(){\n            function SubRobot(){\n                this.color = \"red\"\n             };\n\n             SubRobot.prototype = Object.create(RobotClass.prototype)\n\n             SubRobot.prototype.start = function(id){\n               var robotInstance = backendStore.getState()[id]\n\n                 if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {\n                     this.walkForward(id);\n                 } else {\n                  this.rotation(id, 1)\n                  this.walkForward(id)\n                }\n             }\n\n             return new SubRobot()\n            })"
         };
-
-        // var position = backendStore.getState()[id]
-        // var currPosition = {}
-        //  currPosition.x = position.x
-        //  currPosition.y = position.y
-        //  currPosition.z= position.z
-        //   if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
-        //       this.walkForward(id);
-        //   } else {
-        //    this.rotation(Math.PI * (2/3))
-        //    this.walkForward(id)
-        //  }
 
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -57912,7 +57884,6 @@ var NameForm = function (_React$Component) {
         key: "handleSubmit",
         value: function handleSubmit(event) {
             event.preventDefault();
-            console.log('inside emit');
             socket.emit('sendCode', this.state.value);
         }
     }, {
@@ -59026,7 +58997,6 @@ var init = exports.init = function init() {
 
     var stats;
     var clock = new THREE.Clock();
-
     var controls = new OrbitControls(camera);
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
@@ -59077,22 +59047,17 @@ var init = exports.init = function init() {
     var sky = new THREE.Mesh(skyGeo, skyMat);
     scene.add(sky);
 
-    // RENDERER
-
     // STATS
-
     stats = new Stats();
     container.appendChild(stats.dom);
 
     // MODEL
-
     loader.load("obj/lightmap/lightmap.js", function (geometry, materials) {
         for (var i = 0; i < materials.length; i++) {
             materials[i].lightMapIntensity = 0.1;
         }
 
         var mesh = new THREE.Mesh(geometry, materials);
-
         mesh.scale.multiplyScalar(100);
         scene.add(mesh);
     });
@@ -59104,15 +59069,13 @@ var init = exports.init = function init() {
 };
 
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function buildRobot(robot) {
-    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
+    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials);
     ThreeRobot.position.set(robot.x, robot.y, robot.z);
     ThreeRobot.scale.set(40, 40, 40);
     scene.add(ThreeRobot);
@@ -59125,51 +59088,34 @@ function initializePlayers() {}
 // socket.on()
 
 
-// local
-var robots = [];
+//SW: keep game loop in mind - can affect future performance
+//SW: but don't pre optimize
+var robots = {};
 var animate = exports.animate = function animate() {
     // if the store has robots, and the local array doesn't -- we need to make new robots
-    if (robots.length < Object.keys(_store2.default.getState().robotData).length > 0) {
+    // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
+    if (Object.keys(robots).length < Object.keys(_store2.default.getState().robotData).length) {
         var storeState = _store2.default.getState();
         var keys = Object.keys(storeState.robotData);
 
         for (var i = 0; i < keys.length; i++) {
-
-            robots[i] = buildRobot(storeState.robotData[keys[i]]);
-            // there's no reason for the storeState to have a "position" property, just X, Y, Z
+            if (!robots[keys[i]]) {
+                robots[keys[i]] = buildRobot(storeState.robotData[keys[i]]);
+            }
         }
+        // there's no reason for the storeState to have a "position" property, just X, Y, Z
         // if the store has robots, AND our array has them, then we need to update their position
-    } else if (Object.keys(_store2.default.getState().robotData).length > 0 && robots.length > 1) {
-        var storeState = _store2.default.getState();
-        console.log("store:", Object.keys(_store2.default.getState().robotData).length, "robots: ", robots.length);
-        var keys = Object.keys(storeState);
-
-        for (var i = 0; i < keys.length; i++) {
-            robots[i].position.x = storeState[keys[i]].position.x;
-            robots[i].position.y = storeState[keys[i]].position.y;
-            robots[i].position.z = storeState[keys[i]].position.z;
+    } else if (Object.keys(_store2.default.getState().robotData).length) {
+        var storeState = _store2.default.getState().robotData;
+        for (var key in storeState) {
+            robots[key].position.x = storeState[key].x;
+            robots[key].position.y = storeState[key].y;
+            robots[key].position.z = storeState[key].z;
         }
     }
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 };
-// if (Window.robot) {
-// 		let currPosition = store.getState().position
-//     if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
-//         Window.robot.walkForward();
-//     } else {
-// 			Window.robot.rotation(Math.PI * (2/3))
-// 			Window.robot.walkForward()
-// 		}
-//
-//     console.log("x", store.getState().position.x)
-// 		console.log("y", store.getState().position.y)
-// 		console.log("z", store.getState().position.z)
-//
-//     ThreeRobot.position.x = store.getState().position.x
-// 		ThreeRobot.position.z = store.getState().position.z
-// 		ThreeRobot.rotation.y = store.getState().position.theta
-// }
 
 /***/ }),
 /* 164 */
@@ -59224,14 +59170,8 @@ socket.on('connect', function () {
 });
 
 socket.on('serverUpdate', function (data) {
-  console.log(data);
   _store2.default.dispatch((0, _robot.ServerUpdate)(data));
 });
-
-// socket.on('serverUpdate', function(data){
-//   store.dispatch(ServerUpdate(data))
-// })
-
 
 var ExampleApp = (0, _reactRedux.connect)(function (_ref) {
   var auth = _ref.auth;

@@ -1,7 +1,5 @@
 const _ = require('lodash')
 
-// theta
-
 var initialState = {}
 
 function getRandomInt(min, max) {
@@ -15,11 +13,12 @@ const reducer = ( state = {}, action) => {
   Object.freeze(state)
 
     switch (action.type) {
+      //SW: these should be coming from a constant file
         case "AddPlayer":
-          newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), robotInstance: action.robotInstance}
+          newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance}
           return newState
         case "Rotation":
-          newState[action.playerId][theta] = newState[action.playerId][theta] + action.theta
+          newState[action.playerrotation.playerId].theta = newState[action.playerrotation.playerId].theta + action.playerrotation.theta
           return newState
         case "WalkForward":
           newState[action.playerId].x = newState[action.playerId].x + Math.sin(newState[action.playerId].theta)
@@ -31,8 +30,10 @@ const reducer = ( state = {}, action) => {
 }
 
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
-const WalkForward = () => ({type: "WalkForward"})
-const Rotation = (playerId, theta) => ({type: "Rotation", playerId, theta})
+const WalkForward = (playerId) => ({type: "WalkForward", playerId})
+const Rotation = (playerId, theta) =>{
+  return {type: "Rotation",playerrotation:{playerId:playerId,theta:theta}
+}}
 
 
 module.exports = {reducer, AddPlayer, WalkForward, Rotation}
