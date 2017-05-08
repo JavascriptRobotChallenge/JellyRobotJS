@@ -66,20 +66,14 @@ var stoneBody = new CANNON.Body({ mass: 0 });
 	stoneBody.position.set(4,1,-4);
 	world.addBody(stoneBody);
 
-  var loader = new THREE.JSONLoader()
-  var robotModel = loader.parse(Window.robotjelly);
 
-	// var objMaterial = robotModel.materials
-	// console.log(objMaterial)
 	var objMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff88 })
-	// var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
-	// scene.add( mesh );
 
 
 
-  var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1.9, 1.9, 1.9 ), objMaterial );
-  // mesh.position.set(0, 0, 0);
-  // mesh.scale.set(2, 2, 2);
+
+
+  var mesh = new THREE.Mesh( new THREE.BoxGeometry( 2, 3, 2 ), objMaterial );
   scene.add(mesh);
 	// mesh.add( camera );
 	camera.position.set(0,2,5);
@@ -87,18 +81,13 @@ var stoneBody = new CANNON.Body({ mass: 0 });
 
   /*  THIS IS THE ROBOT PHYSICS   */
 
-  var shape = new CANNON.Box(new CANNON.Vec3( 1, 1, 1 ));
+  var shape = new CANNON.Box(new CANNON.Vec3( 1, 1.5, 1 ));
   var body = new CANNON.Body({ mass: 1 });
   body.addShape(shape)
-  body.position.set(0, 1, 0);
+  body.position.set(0, 1.5, 0);
   world.addBody(body);
 
 
-// var shape = new CANNON.Box(new CANNON.Vec3(0.5,0.5,0.5));
-// var body = new CANNON.Body({ mass: 1 });
-// 	body.addShape(shape);
-// 	body.position.set(0,2,0);
-// 	world.addBody(body);
 
 var groundShape = new CANNON.Plane();
 var groundBody = new CANNON.Body({ mass: 0, shape: groundShape });
@@ -160,8 +149,8 @@ document.addEventListener('keyup', function (e) {
 
 function fire() {
 
-	var distance = 1;
-	var projectileSpeed = 40;
+	var distance = 2;
+	var projectileSpeed = 5;
 
 	var projectileShape = new CANNON.Sphere(0.2);
 	var projectileBody = new CANNON.Body({ mass: 1 });
@@ -177,9 +166,9 @@ function fire() {
 		var firingDirection = new CANNON.Vec3(0,0,-1);
 		var firingDirection = body.quaternion.vmult( firingDirection );
 
-		posX = body.position.x + distance * firingDirection.x;
-		posY = body.position.y + distance * firingDirection.y;
-		posZ = body.position.z + distance * firingDirection.z;
+		var posX = body.position.x + distance * firingDirection.x;
+		var posY = body.position.y + distance * firingDirection.y;
+		var posZ = body.position.z + distance * firingDirection.z;
 		projectileBody.position.set( posX, posY, posZ);
 		projectileMesh.position.set( posX, posY, posZ);
 
