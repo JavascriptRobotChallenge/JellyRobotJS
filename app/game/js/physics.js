@@ -78,8 +78,8 @@ var stoneBody = new CANNON.Body({ mass: 0 });
 
 
   var mesh = new THREE.Mesh(robotModel.geometry, objMaterial)
-  mesh.position.set(0, 2, 0);
-  mesh.scale.set(0.5, 0.5, 0.5);
+  mesh.position.set(0, 0, 0);
+  mesh.scale.set(0.3, 0.3, 0.3);
   scene.add(mesh);
 	// mesh.add( camera );
 	camera.position.set(0,2,5);
@@ -94,10 +94,10 @@ var stoneBody = new CANNON.Body({ mass: 0 });
   // var widthRobot = (sizeRobot.max.x - sizeRobot.min.x) * 0.5
   // var depthRobot = (sizeRobot.max.z - sizeRobot.min.z) * 0.5
 
-  var shape = new CANNON.Sphere(sizeRobot.radius /10);
+  var shape = new CANNON.Box(new CANNON.Vec3( .5, .5, .5 ));
   var body = new CANNON.Body({ mass: 1 });
   body.addShape(shape)
-  body.position.set(0, 2, 0);
+  body.position.set(0, 0, 0);
   world.addBody(body);
 
 
