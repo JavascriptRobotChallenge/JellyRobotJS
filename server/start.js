@@ -7,6 +7,11 @@ const {resolve} = require('path')
 const passport = require('passport')
 const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
+const backendStore = require('./backendStore.jsx')
+const { AddPlayer } = require('./robotReducer')
+const { Rotation, WalkForward } = require("./robotReducer")
+var broadcastGameState = require('./updateClientLoop.js')
+
 // PrettyError docs: https://www.npmjs.com/package/pretty-error
 
 // Bones has a symlink from node_modules/APP to the root of the app.
@@ -17,6 +22,9 @@ const finalHandler = require('finalhandler')
 const pkg = require('APP')
 
 const app = express()
+
+
+
 
 if (!pkg.isProduction && !pkg.isTesting) {
   // Logging middleware (dev only)
@@ -90,6 +98,37 @@ if (module === require.main) {
       console.log(`Listening on http://${urlSafeHost}:${port}`)
     }
   )
+
+  function RobotClass() {
+      this.health = 100;
+      this.direction;
+  }
+  RobotClass.prototype.hitWall = function() {
+      this.health--
+  }
+
+  RobotClass.prototype.rotation = function(theta) {
+      backendStore.dispatch(Rotation(theta))
+  }
+
+  RobotClass.prototype.walkForward = function(theta) {
+      backendStore.dispatch(WalkForward(theta))
+  }
+
+  var connectCounter = 0
+  var io = require('socket.io')(server)
+
+  io.on('connection', function(socket) {
+    console.log('socketid:', socket.id)
+    connectCounter++
+
+    socket.on('sendCode', (code)=>{
+      var roboFunc = eval(code)
+      var roboInstance = roboFunc()
+      backendStore.dispatch(AddPlayer(socket.id, roboInstance))
+    })
+  })
+  broadcastGameState(io)
 }
 
 // This check on line 64 is only starting the server if this file is being run directly by Node, and not required by another file.

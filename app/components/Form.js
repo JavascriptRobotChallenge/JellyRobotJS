@@ -4,6 +4,7 @@ import store from "../store"
 import { RobotWorld } from './RobotWorld'
 import { Rotation, WalkForward } from "../reducers/robot"
 
+
 function RobotClass() {
     this.health = 100;
     this.direction;
@@ -27,19 +28,32 @@ export default class NameForm extends React.Component {
         super(props);
         this.state = {
             value: `
+            (function(){
+            function SubRobot(){
+                this.color = "red"
+             };
 
-    (function(){
-    function SubRobot(){
-        this.color = "red"
-     };
+             SubRobot.prototype = Object.create(RobotClass.prototype)
 
-     SubRobot.prototype = Object.create(RobotClass.prototype)
-     SubRobot.prototype.sayHi = function(){
-         console.log("hi")
-     }
-     return new SubRobot()
-     })`
+             SubRobot.prototype.start = function(id){
+
+             }
+
+             return new SubRobot()
+            })`
         };
+
+        // var position = backendStore.getState()[id]
+        // var currPosition = {}
+        //  currPosition.x = position.x
+        //  currPosition.y = position.y
+        //  currPosition.z= position.z
+        //   if (Math.abs(currPosition.x) < 700 && Math.abs(currPosition.z) < 700) {
+        //       this.walkForward(id);
+        //   } else {
+        //    this.rotation(Math.PI * (2/3))
+        //    this.walkForward(id)
+        //  }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,12 +67,8 @@ export default class NameForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
-        var robotConstructor = eval(this.state.value)
-        var robot = robotConstructor()
-
-        // robot instance
-        Window.robot = robot
+        console.log('inside emit')
+        socket.emit('sendCode', this.state.value)
     }
 
     render() {

@@ -1,38 +1,18 @@
-import axios from 'axios'
+const _ = require('lodash')
 
+const reducer = ( state = {}, action) => {
+  var newState = _.merge({}, state)
+  Object.freeze(state)
 
-// theta
-var initialPosition = {
-    x: -250,
-    y: 0,
-    z: 0,
-    theta: 0
-}
-
-const reducer = ( position = initialPosition, action) => {
     switch (action.type) {
-
-        case "Rotation":
-          return {
-            x: position.x,
-            y: position.y,
-            z: position.z,
-            theta: position.theta + action.theta
-          }
-          case "WalkForward":
-            return {
-              x: position.x + Math.sin(position.theta),
-              y: position.y,
-              z: position.z + Math.cos(position.theta),
-              theta: position.theta
-            }
+        case "ServerUpdate":
+          newState = action.payload
         default:
-            return position
+          return newState
     }
 }
 
-export const WalkForward = () => ({type: "WalkForward"})
-export const Rotation = (theta) => ({type: "Rotation", theta: theta})
+export const ServerUpdate = (payload) => ({type: "ServerUpdate", payload})
 
 
 export default reducer
