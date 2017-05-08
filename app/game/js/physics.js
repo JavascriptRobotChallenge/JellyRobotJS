@@ -31,12 +31,11 @@ var stoneMesh = new THREE.Mesh( new THREE.BoxGeometry( 2, 2, 2 ), stoneMaterial 
 //stoneMesh.position.set(0, 1, -2);
 scene.add( stoneMesh );
 
-var objMaterial = new THREE.MeshNormalMaterial();
-var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
-scene.add( mesh );
+// var objMaterial = new THREE.MeshNormalMaterial();
+// var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
+// scene.add( mesh );
 // chase camera
-mesh.add( camera );
-camera.position.set(0,2,5);
+
 
 var groundMaterial =  new THREE.MeshLambertMaterial( { color: 0x555599 } );
 var groundMesh = new THREE.Mesh( new THREE.PlaneGeometry( 10, 10 ), groundMaterial );
@@ -50,7 +49,7 @@ scene.add(grid);
 ///////////////////////     CANNON JS - Variables     //////////////////////////
 /******************************************************************************/
 var world = new CANNON.World();
-world.gravity.set(0,0,0);
+world.gravity.set(0,-1,0);
 
 world.broadphase = new CANNON.NaiveBroadphase(); // Detect coilliding objects
 world.solver.iterations = 5; // collision detection sampling rate
@@ -64,30 +63,41 @@ var cannonDebugRenderer = new THREE.CannonDebugRenderer( scene, world );  //only
 var stoneShape = new CANNON.Box(new CANNON.Vec3(1,1,1));
 var stoneBody = new CANNON.Body({ mass: 0 });
 	stoneBody.addShape(stoneShape);
-	stoneBody.position.set(0,1,-4);
+	stoneBody.position.set(4,1,-4);
 	world.addBody(stoneBody);
 
   var loader = new THREE.JSONLoader()
   var robotModel = loader.parse(Window.robotjelly);
 
-  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
-  ThreeRobot.position.set(0, 2, 0);
-  ThreeRobot.scale.set(0.5,0.5, 0.5);
-  scene.add(ThreeRobot);
+	// var objMaterial = robotModel.materials
+	// console.log(objMaterial)
+	var objMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 })
+	// var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
+	// scene.add( mesh );
+
+
+
+  var mesh = new THREE.Mesh(robotModel.geometry, objMaterial)
+  mesh.position.set(0, 2, 0);
+  mesh.scale.set(0.5, 0.5, 0.5);
+  scene.add(mesh);
+	// mesh.add( camera );
+	camera.position.set(0,2,5);
+
 	// find
-console.log(robotModel, 'robotModel');
   /*  THIS IS THE ROBOT PHYSICS   */
+	console.log(robotModel.geometry)
   var sizeRobot = robotModel.geometry.boundingSphere;
 
 	console.log(sizeRobot, 'sizeModel');
   // var heightRobot = (sizeRobot.max.y - sizeRobot.min.y) * 0.5
   // var widthRobot = (sizeRobot.max.x - sizeRobot.min.x) * 0.5
   // var depthRobot = (sizeRobot.max.z - sizeRobot.min.z) * 0.5
-	
-  var shape = new CANNON.Sphere(sizeRobot.radius / 3.5);
-  var body = new CANNON.Body({ mass: 0 });
+
+  var shape = new CANNON.Sphere(sizeRobot.radius /10);
+  var body = new CANNON.Body({ mass: 1 });
   body.addShape(shape)
-  body.position.set(0, 3.5, 0);
+  body.position.set(0, 2, 0);
   world.addBody(body);
 
 
