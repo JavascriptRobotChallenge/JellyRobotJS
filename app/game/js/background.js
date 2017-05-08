@@ -129,9 +129,12 @@ function onWindowResize() {
 }
 
 function buildRobot(robot){
+  // console.log('ROBOT IN BUILD ROBOT', robot)
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0])
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
+  // console.log('THREE ROBOT', ThreeRobot)
+  console.log('ADD STUFFFFFF')
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
@@ -146,25 +149,27 @@ function initializePlayers(){
 var robots = []
 export const animate = () => {
   // if the store has robots, and the local array doesn't -- we need to make new robots
+  // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
     if (robots.length < Object.keys(store.getState().robotData).length ){
       var storeState = store.getState()
       var keys = Object.keys(storeState.robotData)
-      console.log('keys', keys)
 
       for ( var i = 0; i < keys.length; i++ ){
+        console.log('BUILDING ROBOT')
         robots[i] = buildRobot(storeState.robotData[keys[i]])
         // there's no reason for the storeState to have a "position" property, just X, Y, Z
       }
     // if the store has robots, AND our array has them, then we need to update their position
-    } else if (Object.keys(store.getState().robotData).length ){
+    }
+    else if (Object.keys(store.getState().robotData).length ){
+      // console.log('making it inside else if statement')
       var storeState = store.getState()
       // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
       var keys = Object.keys(storeState)
-
       for ( var i=0; i < keys.length;i++ ){
-        robots[i].position.x = (storeState[keys[i]].position.x)
-        robots[i].position.y = (storeState[keys[i]].position.y)
-        robots[i].position.z = (storeState[keys[i]].position.z)
+        robots[i].position.x = (storeState[keys[i]].x)
+        robots[i].position.y = (storeState[keys[i]].y)
+        robots[i].position.z = (storeState[keys[i]].z)
       }
     }
     requestAnimationFrame(animate);

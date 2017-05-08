@@ -5,26 +5,28 @@ const {Rotation,WalkForward} = require("./robotReducer")
 let io;
 let gameLoop;
 
-function RobotClass() {
-    this.health = 100;
-    this.direction;
-}
-RobotClass.prototype.hitWall = function() {
-    this.health--
-}
-
-RobotClass.prototype.rotation = function(theta) {
-    store.dispatch(Rotation(theta))
-}
-
-RobotClass.prototype.walkForward = function(playerId) {
-    store.dispatch(WalkForward(playerId))
-}
+// function RobotClass() {
+//     this.health = 100;
+//     this.direction;
+// }
+// RobotClass.prototype.hitWall = function() {
+//     this.health--
+// }
+//
+// RobotClass.prototype.rotation = function(playerId, theta) {
+//   console.log('robotclass rotation', playerId, theta)
+//     store.dispatch(Rotation(playerId, theta))
+// }
+//
+// RobotClass.prototype.walkForward = function(playerId) {
+//     store.dispatch(WalkForward(playerId))
+// }
 
 function broadcastGameState(io){
   // change when we add Rooms
   const gameLoop = setInterval(() => {
     let state = backendStore.getState();
+    console.log('state in game loop', state)
     var playerArr = Object.keys(state)
     if (playerArr.length) {
       for(var i = 0; i < playerArr.length; i++){

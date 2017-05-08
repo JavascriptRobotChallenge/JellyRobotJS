@@ -107,8 +107,8 @@ if (module === require.main) {
       this.health--
   }
 
-  RobotClass.prototype.rotation = function(theta) {
-      backendStore.dispatch(Rotation(theta))
+  RobotClass.prototype.rotation = function(playerId, theta) {
+      backendStore.dispatch(Rotation(playerId, theta))
   }
 
   RobotClass.prototype.walkForward = function(theta) {

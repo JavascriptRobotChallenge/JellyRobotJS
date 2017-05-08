@@ -57856,21 +57856,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function RobotClass() {
-    this.health = 100;
-    this.direction;
-}
-RobotClass.prototype.hitWall = function () {
-    this.health--;
-};
-
-RobotClass.prototype.rotation = function (theta) {
-    _store2.default.dispatch((0, _robot.Rotation)(theta));
-};
-
-RobotClass.prototype.walkForward = function (theta) {
-    _store2.default.dispatch((0, _robot.WalkForward)(theta));
-};
+// function RobotClass() {
+//     this.health = 100;
+//     this.direction;
+// }
+// RobotClass.prototype.hitWall = function() {
+//     this.health--
+// }
+//
+// RobotClass.prototype.rotation = function(playerId, theta) {
+//   console.log('robotclass rotation', playerId, theta)
+//     // store.dispatch(Rotation(playerId, theta))
+// }
+//
+// RobotClass.prototype.walkForward = function(theta) {
+//     store.dispatch(WalkForward(theta))
+// }
 
 var NameForm = function (_React$Component) {
     _inherits(NameForm, _React$Component);
@@ -57881,7 +57882,7 @@ var NameForm = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
 
         _this.state = {
-            value: "\n            (function(){\n            function SubRobot(){\n                this.color = \"red\"\n             };\n\n             SubRobot.prototype = Object.create(RobotClass.prototype)\n\n             SubRobot.prototype.start = function(id){\n\n             }\n\n             return new SubRobot()\n            })"
+            value: "\n            (function(){\n            function SubRobot(){\n                this.color = \"red\"\n             };\n\n             SubRobot.prototype = Object.create(RobotClass.prototype)\n\n             SubRobot.prototype.start = function(id){\n               var robotInstance = backendStore.getState()[id]\n\n                 if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {\n                     this.walkForward(id);\n                 } else {\n                  this.rotation(id, 1)\n                  this.walkForward(id)\n                }\n             }\n\n             return new SubRobot()\n            })"
         };
 
         // var position = backendStore.getState()[id]
@@ -59112,9 +59113,11 @@ function onWindowResize() {
 }
 
 function buildRobot(robot) {
+    console.log('ROBOT IN BUILD ROBOT', robot);
     var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials[0]);
     ThreeRobot.position.set(robot.x, robot.y, robot.z);
     ThreeRobot.scale.set(40, 40, 40);
+    console.log('THREE ROBOT', ThreeRobot);
     scene.add(ThreeRobot);
     return ThreeRobot;
 }
@@ -59129,26 +59132,26 @@ function initializePlayers() {}
 var robots = [];
 var animate = exports.animate = function animate() {
     // if the store has robots, and the local array doesn't -- we need to make new robots
+    // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
     if (robots.length < Object.keys(_store2.default.getState().robotData).length) {
         var storeState = _store2.default.getState();
         var keys = Object.keys(storeState.robotData);
-        console.log('keys', keys);
 
         for (var i = 0; i < keys.length; i++) {
-
+            console.log('BUILDING ROBOT');
             robots[i] = buildRobot(storeState.robotData[keys[i]]);
             // there's no reason for the storeState to have a "position" property, just X, Y, Z
         }
         // if the store has robots, AND our array has them, then we need to update their position
-    } else if (Object.keys(_store2.default.getState().robotData).length > 0 && robots.length > 1) {
+    } else if (Object.keys(_store2.default.getState().robotData).length) {
+        // console.log('making it inside else if statement')
         var storeState = _store2.default.getState();
         // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
         var keys = Object.keys(storeState);
-
         for (var i = 0; i < keys.length; i++) {
-            robots[i].position.x = storeState[keys[i]].position.x;
-            robots[i].position.y = storeState[keys[i]].position.y;
-            robots[i].position.z = storeState[keys[i]].position.z;
+            robots[i].position.x = storeState[keys[i]].x;
+            robots[i].position.y = storeState[keys[i]].y;
+            robots[i].position.z = storeState[keys[i]].z;
         }
     }
     requestAnimationFrame(animate);
@@ -59228,11 +59231,6 @@ socket.on('serverUpdate', function (data) {
   // console.log(data)
   _store2.default.dispatch((0, _robot.ServerUpdate)(data));
 });
-
-// socket.on('serverUpdate', function(data){
-//   store.dispatch(ServerUpdate(data))
-// })
-
 
 var ExampleApp = (0, _reactRedux.connect)(function (_ref) {
   var auth = _ref.auth;

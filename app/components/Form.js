@@ -5,21 +5,22 @@ import { RobotWorld } from './RobotWorld'
 import { Rotation, WalkForward } from "../reducers/robot"
 
 
-function RobotClass() {
-    this.health = 100;
-    this.direction;
-}
-RobotClass.prototype.hitWall = function() {
-    this.health--
-}
-
-RobotClass.prototype.rotation = function(theta) {
-    store.dispatch(Rotation(theta))
-}
-
-RobotClass.prototype.walkForward = function(theta) {
-    store.dispatch(WalkForward(theta))
-}
+// function RobotClass() {
+//     this.health = 100;
+//     this.direction;
+// }
+// RobotClass.prototype.hitWall = function() {
+//     this.health--
+// }
+//
+// RobotClass.prototype.rotation = function(playerId, theta) {
+//   console.log('robotclass rotation', playerId, theta)
+//     // store.dispatch(Rotation(playerId, theta))
+// }
+//
+// RobotClass.prototype.walkForward = function(theta) {
+//     store.dispatch(WalkForward(theta))
+// }
 
 export default class NameForm extends React.Component {
     constructor(props) {
@@ -39,7 +40,7 @@ export default class NameForm extends React.Component {
                  if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {
                      this.walkForward(id);
                  } else {
-                  this.rotation(id, Math.PI * (2/3))
+                  this.rotation(id, 1)
                   this.walkForward(id)
                 }
              }
