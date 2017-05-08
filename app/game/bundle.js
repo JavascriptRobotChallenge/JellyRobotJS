@@ -59027,7 +59027,6 @@ var init = exports.init = function init() {
 
     var stats;
     var clock = new THREE.Clock();
-
     var controls = new OrbitControls(camera);
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
@@ -59078,22 +59077,17 @@ var init = exports.init = function init() {
     var sky = new THREE.Mesh(skyGeo, skyMat);
     scene.add(sky);
 
-    // RENDERER
-
     // STATS
-
     stats = new Stats();
     container.appendChild(stats.dom);
 
     // MODEL
-
     loader.load("obj/lightmap/lightmap.js", function (geometry, materials) {
         for (var i = 0; i < materials.length; i++) {
             materials[i].lightMapIntensity = 0.1;
         }
 
         var mesh = new THREE.Mesh(geometry, materials);
-
         mesh.scale.multiplyScalar(100);
         scene.add(mesh);
     });
@@ -59105,27 +59099,16 @@ var init = exports.init = function init() {
 };
 
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function buildRobot(robot) {
-    console.log('ROBOT IN BUILD ROBOT', robot);
     var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials);
-    // ThreeRobot.position.x = robot.x
-    // console.log('ROBOT X', robot.x)
-    // console.log('THREEROBOT X', ThreeRobot.position.x)
-    // ThreeRobot.position.y = robot.y
-    // ThreeRobot.position.z = robot.z
     ThreeRobot.position.set(robot.x, robot.y, robot.z);
     ThreeRobot.scale.set(40, 40, 40);
     scene.add(ThreeRobot);
-    // console.log('THREE ROBOT POSITION', ThreeRobot.position)
-    // console.log('THREE ROBOT POSITION X', ThreeRobot.position.x)
-    // console.log('THREE ROBOT', ThreeRobot)
     return ThreeRobot;
 }
 
@@ -59145,22 +59128,14 @@ var animate = exports.animate = function animate() {
         var keys = Object.keys(storeState.robotData);
 
         for (var i = 0; i < keys.length; i++) {
-            console.log('BUILDING ROBOT');
             robots[i] = buildRobot(storeState.robotData[keys[i]]);
-            // there's no reason for the storeState to have a "position" property, just X, Y, Z
         }
+        // there's no reason for the storeState to have a "position" property, just X, Y, Z
         // if the store has robots, AND our array has them, then we need to update their position
     } else if (Object.keys(_store2.default.getState().robotData).length) {
-        console.log('ROBOTS ARRAY', robots);
-        console.log('ROBOTS ARRAY length', robots.length);
-        console.log('STORE', Object.keys(_store2.default.getState().robotData));
-        console.log('STORE LENGTH', Object.keys(_store2.default.getState().robotData).length);
         var storeState = _store2.default.getState().robotData;
-        // console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
         var keys = Object.keys(storeState);
         for (var i = 0; i < keys.length; i++) {
-            console.log('robot i', i);
-            console.log('ROBOT I POSITION', robots[i]);
             robots[i].position.x = storeState[keys[i]].x;
             robots[i].position.y = storeState[keys[i]].y;
             robots[i].position.z = storeState[keys[i]].z;

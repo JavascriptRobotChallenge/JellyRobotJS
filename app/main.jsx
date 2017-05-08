@@ -20,7 +20,6 @@ socket.on('connect', function(){
 })
 
 socket.on('serverUpdate', function(data){
-  // console.log(data)
   store.dispatch(ServerUpdate(data))
 })
 

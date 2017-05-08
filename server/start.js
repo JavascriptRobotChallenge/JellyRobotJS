@@ -23,9 +23,6 @@ const pkg = require('APP')
 
 const app = express()
 
-
-
-
 if (!pkg.isProduction && !pkg.isTesting) {
   // Logging middleware (dev only)
   app.use(require('volleyball'))

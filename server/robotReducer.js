@@ -13,13 +13,11 @@ const reducer = ( state = {}, action) => {
   Object.freeze(state)
 
     switch (action.type) {
+      //SW: these should be coming from a constant file
         case "AddPlayer":
           newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance}
           return newState
         case "Rotation":
-        // console.log('action.playerid', newState[action.playerId])
-        // console.log('action.playerid old theta', newState[action.playerId].theta)
-        console.log('action.playerid new theta', action.playerrotation.theta)
           newState[action.playerrotation.playerId].theta = newState[action.playerrotation.playerId].theta + action.playerrotation.theta
           return newState
         case "WalkForward":
@@ -34,7 +32,6 @@ const reducer = ( state = {}, action) => {
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
 const WalkForward = (playerId) => ({type: "WalkForward", playerId})
 const Rotation = (playerId, theta) =>{
-  console.log("rotationtheta",theta)
   return {type: "Rotation",playerrotation:{playerId:playerId,theta:theta}
 }}
 
