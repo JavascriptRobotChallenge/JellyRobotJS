@@ -126,28 +126,30 @@ function initializePlayers(){
 }
 
 //SW: keep game loop in mind - can affect future performance
-//SW: but don't pre optimize 
-var robots = []
+//SW: but don't pre optimize
+var robots = {}
 export const animate = () => {
   // if the store has robots, and the local array doesn't -- we need to make new robots
   // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-    if (robots.length < Object.keys(store.getState().robotData).length ){
+    if (Object.keys(robots).length < Object.keys(store.getState().robotData).length ){
       var storeState = store.getState()
       var keys = Object.keys(storeState.robotData)
 
       for ( var i = 0; i < keys.length; i++ ){
-        robots[i] = buildRobot(storeState.robotData[keys[i]])
+        if (!robots[keys[i]]){
+          robots[keys[i]] = buildRobot(storeState.robotData[keys[i]])
+        }
+
       }
       // there's no reason for the storeState to have a "position" property, just X, Y, Z
     // if the store has robots, AND our array has them, then we need to update their position
     }
     else if (Object.keys(store.getState().robotData).length ){
       var storeState = store.getState().robotData
-      var keys = Object.keys(storeState)
-      for ( var i=0; i < keys.length; i++ ){
-        robots[i].position.x = (storeState[keys[i]].x)
-        robots[i].position.y = (storeState[keys[i]].y)
-        robots[i].position.z = (storeState[keys[i]].z)
+      for (var key in storeState){
+        robots[key].position.x = storeState[key].x
+        robots[key].position.y = storeState[key].y
+        robots[key].position.z = storeState[key].z
       }
     }
     requestAnimationFrame(animate);
