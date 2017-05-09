@@ -1,3 +1,5 @@
+import store from "../../store"
+
 /******************************************************************************/
 //////////////////////     THREE.JS - Variables     ////////////////////////////
 /******************************************************************************/
@@ -15,118 +17,159 @@ var container = $('#threedee');
 		 var renderer = new THREE.WebGLRenderer();
 		 		var scene = new THREE.Scene();
 
-//append renderer to the container element
-renderer.setSize( width, height );
-container.append(renderer.domElement);
-
-/*/////////////////////     THREE JS - Objects     ///////////////////////////*/
-
-// create a point light
-var pointLight = new THREE.PointLight(0xFFFFFF);
-pointLight.position.set(2, 5, 10);
-scene.add(pointLight);
-
-var stoneMaterial = new THREE.MeshLambertMaterial( { color: 0x555555 } );
-var stoneMesh = new THREE.Mesh( new THREE.BoxGeometry( 2, 2, 2 ), stoneMaterial );
-//stoneMesh.position.set(0, 1, -2);
-scene.add( stoneMesh );
-
-// var objMaterial = new THREE.MeshNormalMaterial();
-// var mesh = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
-// scene.add( mesh );
-// chase camera
+				const timeStep = 1.0 / 60.0; // seconds
 
 
-var groundMaterial =  new THREE.MeshLambertMaterial( { color: 0x555599 } );
-var groundMesh = new THREE.Mesh( new THREE.PlaneGeometry( 10, 10 ), groundMaterial );
-groundMesh.rotation.x = -Math.PI / 2;
-scene.add( groundMesh );
+var world, mesh, stoneMesh, body, stoneBody, cannonDebugRenderer
+export const initThree = () => {
+	//append renderer to the container element
+	renderer.setSize( width, height );
+	container.append(renderer.domElement);
 
-var grid = new THREE.GridHelper(100, 10);
-scene.add(grid);
+	/*/////////////////////     THREE JS - Objects     ///////////////////////////*/
 
-/******************************************************************************/
-///////////////////////     CANNON JS - Variables     //////////////////////////
-/******************************************************************************/
-var world = new CANNON.World();
-world.gravity.set(0,0,0);
+	// create a point light
+	var pointLight = new THREE.PointLight(0xFFFFFF);
+	pointLight.position.set(2, 5, 10);
+	scene.add(pointLight);
 
-world.broadphase = new CANNON.NaiveBroadphase(); // Detect coilliding objects
-world.solver.iterations = 5; // collision detection sampling rate
+	var stoneMaterial = new THREE.MeshLambertMaterial( { color: 0x555555 } );
+	stoneMesh = new THREE.Mesh( new THREE.BoxGeometry( 2, 2, 2 ), stoneMaterial );
+	stoneMesh.position.set(0, 1, -3);
+	scene.add( stoneMesh );
 
-var timeStep = 1.0 / 60.0; // seconds
+	// var objMaterial = new THREE.MeshNormalMaterial();
+	// var mesh = new THREE.Mesh( nesww THREE.BoxGeometry( 1, 1, 1 ), objMaterial );
+	// scene.add( mesh );
+	// chase camera
 
-var cannonDebugRenderer = new THREE.CannonDebugRenderer( scene, world );  //only for debugging
+	var groundMaterial =  new THREE.MeshLambertMaterial( { color: 0x555599 } );
+	var groundMesh = new THREE.Mesh( new THREE.PlaneGeometry( 30, 30 ), groundMaterial );
+	groundMesh.rotation.x = -Math.PI / 2;
+	scene.add( groundMesh );
 
-/*/////////////////////     CANNON JS - Objects     //////////////////////////*/
-
-var stoneShape = new CANNON.Box(new CANNON.Vec3(1,1,1));
-var stoneBody = new CANNON.Body({ mass: 0 });
-	stoneBody.addShape(stoneShape);
-	stoneBody.position.set(4,1,-4);
-	world.addBody(stoneBody);
-
-
-	var objMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff88 })
-
-
-
-
-
-  var mesh = new THREE.Mesh( new THREE.BoxGeometry( 2, 3, 2 ), objMaterial );
-  scene.add(mesh);
-	// mesh.add( camera );
+	// var grid = new THREE.GridHelper(100, 10);
+	// scene.add(grid);
 	camera.position.set(0,2,5);
-
-
-  /*  THIS IS THE ROBOT PHYSICS   */
-
-  var shape = new CANNON.Box(new CANNON.Vec3( 1, 1.5, 1 ));
-  var body = new CANNON.Body({ mass: 1 });
-  body.addShape(shape)
-  body.position.set(0, 1.5, 0);
-  world.addBody(body);
+	return [scene, camera]
+}
 
 
 
-var groundShape = new CANNON.Plane();
-var groundBody = new CANNON.Body({ mass: 0, shape: groundShape });
-groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
-world.add(groundBody);
+export const initPhysics = (scene, camera)=>{
+
+	// ******************************************************************************/
+	///////////////////////     CANNON JS - Variables     //////////////////////////
+	/******************************************************************************/
+	world = new CANNON.World();
+	world.gravity.set(0,0,0);
+
+	world.broadphase = new CANNON.NaiveBroadphase(); // Detect coilliding objects
+	world.solver.iterations = 5; // collision detection sampling rate
+
+	cannonDebugRenderer = new THREE.CannonDebugRenderer( scene, world );  //only for debugging
+
+	/*/////////////////////     CANNON JS - Objects     //////////////////////////*/
+
+	var stoneShape = new CANNON.Box(new CANNON.Vec3(1,1,1));
+	stoneBody = new CANNON.Body({ mass: 0 });
+		stoneBody.addShape(stoneShape);
+		stoneBody.position.set(0,1,-3);
+		world.addBody(stoneBody);
+
+		var groundShape = new CANNON.Plane(new CANNON.Vec3( 60, 60 ));
+		var groundBody = new CANNON.Body({ mass: 0, shape: groundShape });
+		groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
+		world.add(groundBody);
+}
+
+// takes the instance and makes the graphics and the physics
+	export function buildRobot(robot){
+		var objMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff88 })
+
+		mesh = new THREE.Mesh( new THREE.BoxGeometry( 2, 3, 2 ), objMaterial );
+		scene.add(mesh);
+		// mesh.add( camera );
+
+		/*  THIS IS THE ROBOT PHYSICS   */
+
+		var shape = new CANNON.Box(new CANNON.Vec3( 1, 1.5, 1 ));
+		body = new CANNON.Body({ mass: 1 });
+		body.addShape(shape)
+		body.position.set(0, 1.5, 0);
+		world.addBody(body);
+		return mesh
+	}
+
+	var W, A, S, D, Q, E, Ctrl, Shft, Plus, Minus;
+	var acceleration, pitchSpeed, rollSpeed, yawSpeed
+
+	function moveObj() {
+		keysDebug()
+
+		if (Plus) { acceleration = -1 }
+		if (Minus) { acceleration = 1 }
+		if ( Plus || Minus ) {
+		var accelerationImpulse = new CANNON.Vec3(0,0,acceleration);
+		var accelerationImpulse = body.quaternion.vmult( accelerationImpulse );
+		var bodyCenter = new CANNON.Vec3(body.position.x,
+																		 body.position.y,
+																		 body.position.z );
+		body.applyImpulse ( accelerationImpulse, bodyCenter );
+		}
+}
 
 /*////////////////////////////////////////////////////////////////////////////*/
-var W, A, S, D, Q, E, Ctrl, Shft, Plus, Minus;
-var acceleration, pitchSpeed, rollSpeed, yawSpeed
+function keysDebug(){
+	var key = [];
 
-acceleration = pitchSpeed = rollSpeed = yawSpeed = 0;
-var accelerationImpulse, bodyCenter;
-function moveObj() {
+	  onkeydown = onkeyup = function(e){
+	    e = e || event; // to deal with IE
+	    key[e.keyCode] = e.type == 'keydown';
+				// Left( 37) A( 65 )
+	      if (key[65]){ A=1; } else {	A=0; }
+	      // Up( 38 ) W( 87 )
+	      if (key[87]){	W=1; } else {	W=0; }
+	      // Right( 39 ) D ( 68 )
+	      if (key[68]){ D=1; } else {	D=0; }
+	      // Down( 40 ) S ( 83 )
+	      if (key[83]){	S=1; } else {	S=0; }
+				// Q( 81 )
+				if (key[81]){	Q=1;	} else {	Q=0;	}
+				// E( 69 )
+				if (key[69]){	E=1;	} else {	E=0;	}
+				// Control( 17 )
+				//if (key[17]){	Ctrl=1;	} else {	Ctrl=0; }
+				// Shift( 16 )
+				//if (key[16]){ Shft=1;	} else { Shft=0; }
+				// +( 107 )
+				if (key[38]){	Plus=1;	} else {	Plus=0;	}
+				// -( 109 )
+				if (key[40]){	Minus=1;	} else {	Minus=0;	}
+		}
 
-	if (Plus) { acceleration = -1 }
-	if (Minus) { acceleration = 1 }
-	if ( Plus || Minus ) {
-	var accelerationImpulse = new CANNON.Vec3(0,0,acceleration);
-	var accelerationImpulse = body.quaternion.vmult( accelerationImpulse );
-	var bodyCenter = new CANNON.Vec3(body.position.x,
-																	 body.position.y,
-																	 body.position.z );
-	body.applyImpulse ( accelerationImpulse, bodyCenter );
+
+	acceleration = pitchSpeed = rollSpeed = yawSpeed = 0;
+	var accelerationImpulse, bodyCenter;
+
+
+
+		if ( W || S || A || D || Q || E ) {
+			if (W) { pitchSpeed = -0.5 }	else if (S) { pitchSpeed = 0.5 } else { pitchSpeed = 0 }
+			if (A) { rollSpeed = 0.5 } else if (D) { rollSpeed = -0.5 } else { rollSpeed = 0 }
+			if (Q) { yawSpeed = 0.5 } else if (E) { yawSpeed = -0.5 } else { yawSpeed = 0 }
+
+			var directionVector = new CANNON.Vec3(pitchSpeed, yawSpeed, rollSpeed);
+			var directionVector = body.quaternion.vmult( directionVector );
+
+			body.angularVelocity.set( directionVector.x, directionVector.y, directionVector.z );
+			body.linearDamping = 0.5;
+			body.angularDamping = 0.9;
 	}
 
-	if ( W || S || A || D || Q || E ) {
-		if (W) { pitchSpeed = -0.5 }	else if (S) { pitchSpeed = 0.5 } else { pitchSpeed = 0 }
-		if (A) { rollSpeed = 0.5 } else if (D) { rollSpeed = -0.5 } else { rollSpeed = 0 }
-		if (Q) { yawSpeed = 0.5 } else if (E) { yawSpeed = -0.5 } else { yawSpeed = 0 }
 
-		var directionVector = new CANNON.Vec3(pitchSpeed, yawSpeed, rollSpeed);
-		var directionVector = body.quaternion.vmult( directionVector );
-
-		body.angularVelocity.set( directionVector.x, directionVector.y, directionVector.z );
-	}
-
-	body.linearDamping = 0.5;
-	body.angularDamping = 0.9;
 }
+
 /*///////////////////////////////////////////////////////////////////////////*/
 
 var timer;
@@ -188,22 +231,48 @@ function updatePhysics() {
     // Step the physics world
     world.step(timeStep);
     // Copy coordinates from Cannon.js to Three.js
-    mesh.position.copy(body.position);
-    mesh.quaternion.copy(body.quaternion);
-		stoneMesh.position.copy(stoneBody.position);
-    stoneMesh.quaternion.copy(stoneBody.quaternion);
+    mesh && mesh.position.copy(body.position);
+    mesh && mesh.quaternion.copy(body.quaternion);
+		stoneMesh && stoneMesh.position.copy(stoneBody.position);
+    stoneMesh && stoneMesh.quaternion.copy(stoneBody.quaternion);
 
     for (var i = 0; i < projectileBodies.length; i++) {
 			projectileMeshes[i].position.copy(projectileBodies[i].position);
 			projectileMeshes[i].quaternion.copy(projectileBodies[i].quaternion);
 		}
 }
+var robots = []
+function placingRobotScene() {
+  if (robots.length < Object.keys(store.getState().robotData).length > 0 ){
+    var storeState = store.getState()
+    var keys = Object.keys(storeState.robotData)
 
-export default function render() {
+    for ( var i=0; i < keys.length; i++ ){
 
+      robots[i] = buildRobot(storeState.robotData[keys[i]])
+      // there's no reason for the storeState to have a "position" property, just X, Y, Z
+    }
+  // if the store has robots, AND our array has them, then we need to update their position
+  } else if (Object.keys(store.getState().robotData).length > 0 && robots.length > 1){
+    var storeState = store.getState()
+    console.log("store:", Object.keys(store.getState().robotData).length, "robots: ", robots.length)
+    var keys = Object.keys(storeState)
+
+    for ( var i=0; i < keys.length;i++ ){
+      robots[i].position.x = (storeState[keys[i]].position.x)
+      robots[i].position.y = (storeState[keys[i]].position.y)
+      robots[i].position.z = (storeState[keys[i]].position.z)
+
+    }
+  }
+}
+
+export function render() {
+	// boundRender = render.bind(this, robotArray)
 	requestAnimationFrame( render );
   updatePhysics();
 	moveObj();
+	placingRobotScene();
 
   cannonDebugRenderer.update(); //only for debugging
 	renderer.render( scene, camera );
@@ -214,29 +283,3 @@ export default function render() {
 /////////////////////////////////////////////////////////////////////////////////////////
 // keypress listener
 //array for multiple key press
-var key = [];
-
-  onkeydown = onkeyup = function(e){
-    e = e || event; // to deal with IE
-    key[e.keyCode] = e.type == 'keydown';
-			// Left( 37) A( 65 )
-      if (key[65]){ A=1; } else {	A=0; }
-      // Up( 38 ) W( 87 )
-      if (key[87]){	W=1; } else {	W=0; }
-      // Right( 39 ) D ( 68 )
-      if (key[68]){ D=1; } else {	D=0; }
-      // Down( 40 ) S ( 83 )
-      if (key[83]){	S=1; } else {	S=0; }
-			// Q( 81 )
-			if (key[81]){	Q=1;	} else {	Q=0;	}
-			// E( 69 )
-			if (key[69]){	E=1;	} else {	E=0;	}
-			// Control( 17 )
-			//if (key[17]){	Ctrl=1;	} else {	Ctrl=0; }
-			// Shift( 16 )
-			//if (key[16]){ Shft=1;	} else { Shft=0; }
-			// +( 107 )
-			if (key[38]){	Plus=1;	} else {	Plus=0;	}
-			// -( 109 )
-			if (key[40]){	Minus=1;	} else {	Minus=0;	}
-	}

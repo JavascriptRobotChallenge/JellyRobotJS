@@ -1,13 +1,14 @@
+import store from "../store"
 import React from 'react'
-import render from '../game/js/physics.js'
+import { initThree, initPhysics, render, buildRobot } from '../game/js/physics.js'
 
-// export const RobotWorld = () => {
-//   var robotThree = init()
-//   animate(robotThree)
-//   return <div></div>
-// }
+var robots = []
+
 
 export const RobotWorld = () => {
-  render()
+  var [scene, camera] = initThree()
+  
+  initPhysics(scene, camera)
+  render(robots)
   return <div></div>
 }
