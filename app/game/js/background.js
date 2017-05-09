@@ -114,6 +114,7 @@ function onWindowResize() {
 function buildRobot(robot){
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
+  ThreeRobot.rotation.y = robot.theta
   ThreeRobot.scale.set(40, 40, 40);
   scene.add(ThreeRobot);
   return ThreeRobot;
@@ -150,6 +151,7 @@ export const animate = () => {
         robots[key].position.x = storeState[key].x
         robots[key].position.y = storeState[key].y
         robots[key].position.z = storeState[key].z
+        robots[key].rotation.y = storeState[key].theta
       }
     }
     requestAnimationFrame(animate);
