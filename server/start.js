@@ -10,6 +10,8 @@ const finalHandler = require('finalhandler')
 const backendStore = require('./backendStore.jsx')
 const { AddPlayer } = require('./robotReducer')
 const { Rotation, WalkForward } = require("./robotReducer")
+const { FireProjectile } = require("./projectileReducer")
+
 var broadcastGameState = require('./updateClientLoop.js')
 
 // PrettyError docs: https://www.npmjs.com/package/pretty-error
@@ -102,6 +104,10 @@ if (module === require.main) {
   }
   RobotClass.prototype.hitWall = function() {
       this.health--
+  }
+
+  RobotClass.prototype.fire = function(playerId, theta){
+    backendStore.dispatch(FireProjectile(playerId, theta))
   }
 
   RobotClass.prototype.rotation = function(playerId, theta) {

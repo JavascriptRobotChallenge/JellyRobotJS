@@ -1,10 +1,9 @@
 const redux = require('redux')
 
-const {reducer} = require('./robotReducer.js')
+const rootReducer  = require('./index.jsx')
 
 const backendStore = redux.createStore(
-  reducer,
-  null
+  rootReducer
 );
 
 module.exports = backendStore

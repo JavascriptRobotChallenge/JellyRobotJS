@@ -73080,6 +73080,20 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return emptyFunction.thatReturnsNull;
     }
 
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        warning(
+          false,
+          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
+          'received %s at index %s.',
+          getPostfixForTypeWarning(checker),
+          i
+        );
+        return emptyFunction.thatReturnsNull;
+      }
+    }
+
     function validate(props, propName, componentName, location, propFullName) {
       for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
         var checker = arrayOfTypeCheckers[i];
@@ -73212,6 +73226,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   // This handles more types than `getPropType`. Only used for error messages.
   // See `createPrimitiveTypeChecker`.
   function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
     var propType = getPropType(propValue);
     if (propType === 'object') {
       if (propValue instanceof Date) {
@@ -73221,6 +73238,23 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
     }
     return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
   }
 
   // Returns class name of the object, if any.
@@ -76970,7 +77004,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var startingCode = "\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.start = function(id){\n       var robotInstance = backendStore.getState()[id]\n\n         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){\n          this.rotation(id, 1)\n          this.walkForward(id)\n        } \n        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {\n           this.rotation(id, 1)\n            this.walkForward(id)\n            }\n        else if (robotInstance.x>180&&robotInstance.x<300&&robotInstance.z<60&&robotInstance.z>-60) {\n             this.rotation(id, 1)\n             this.walkForward(id);\n            }\n        else {\n              this.walkForward(id)\n        }\n     }\n\n     return new SubRobot()\n    })";
+var startingCode = function startingCode() {
+  function SubRobot() {
+    this.color = "red";
+  };
+
+  SubRobot.prototype = Object.create(RobotClass.prototype);
+
+  SubRobot.prototype.start = function (id) {
+    var robotInstance = backendStore.getState()[id];
+    this.fire(id, 0);
+    if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z) > 700) {
+      this.rotation(id, 1);
+      this.walkForward(id);
+    } else if (robotInstance.x < 140 && robotInstance.x > -140 && robotInstance.z < 140 && robotInstance.z > -140) {
+      this.rotation(id, 1);
+      this.walkForward(id);
+    } else if (robotInstance.x > 148 && robotInstance.x < 332 && robotInstance.z < 92 && robotInstance.z > -92) {
+      this.rotation(id, 1);
+      this.walkForward(id);
+    } else {
+      this.walkForward(id);
+    }
+  };
+
+  return new SubRobot();
+};
 var inputCode = startingCode;
 
 var NameForm = function (_React$Component) {
@@ -78167,9 +78226,12 @@ var init = exports.init = function init() {
 
     var testMarker = new THREE.Mesh(robotModel.geometry, robotModel.materials);
     testMarker.position.set(100, 0, 100);
-    testMarker.scale.set(5, 5, 5);
+    testMarker.scale.set(40, 40, 40);
     scene.add(testMarker);
     window.testMarker = testMarker;
+
+    scene.add(practiceSphere);
+    window.practiceSphere = practiceSphere;
 
     // LIGHTS
 
@@ -78261,27 +78323,44 @@ function initializePlayers() {}
 // socket.on()
 
 
+// gonna use bcrypt
+var projectiles = {};
+function makeProjectile() {
+    if (Object.keys(projectiles).length < Object.keys(_store2.default.getState().gameData.robots).length) {
+
+        // store.getState
+        var geo = new THREE.SphereGeometry(5, 32, 32);
+        var mat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        var practiceSphere = new THREE.Mesh(geo, mat);
+        var myStoreState;
+        practiceSphere.position.set(500, 50, 500);
+    }
+}
+
+function updateProjectile() {}
+// reset positions
+
+
 //SW: keep game loop in mind - can affect future performance
 //SW: but don't pre optimize
 var robots = {};
 var animate = exports.animate = function animate() {
     // if the store has robots, and the local array doesn't -- we need to make new robots
     // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-    if (Object.keys(robots).length < Object.keys(_store2.default.getState().robotData).length) {
-        var storeState = _store2.default.getState();
-        var keys = Object.keys(storeState.robotData);
+    if (Object.keys(robots).length < Object.keys(_store2.default.getState().gameData.robots).length) {
+        var keys = Object.keys(_store2.default.getState().gameData.robots);
 
         for (var i = 0; i < keys.length; i++) {
             if (!robots[keys[i]]) {
-                robots[keys[i]] = buildRobot(storeState.robotData[keys[i]]);
+                robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]]);
             }
         }
         // there's no reason for the storeState to have a "position" property, just X, Y, Z
         // if the store has robots, AND our array has them, then we need to update their position
-    } else if (Object.keys(_store2.default.getState().robotData).length) {
-        var storeState = _store2.default.getState().robotData;
+    } else if (Object.keys(_store2.default.getState().gameData.robots).length) {
+        var storeState = _store2.default.getState().gameData.robots;
         for (var key in storeState) {
-            console.log(robots[key].position.x, robots[key].position.z);
+            // console.log(robots[key].position.x,robots[key].position.z)
             robots[key].position.x = storeState[key].x;
             robots[key].position.y = storeState[key].y;
             robots[key].position.z = storeState[key].z;
@@ -78397,7 +78476,7 @@ var _redux = __webpack_require__(48);
 
 var rootReducer = (0, _redux.combineReducers)({
   auth: __webpack_require__(38).default,
-  robotData: __webpack_require__(49).default
+  gameData: __webpack_require__(49).default
 });
 
 exports.default = rootReducer;

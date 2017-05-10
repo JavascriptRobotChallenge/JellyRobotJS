@@ -10,7 +10,9 @@ import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
-var startingCode = `
+
+var startingCode =
+
     (function(){
     function SubRobot(){
         this.color = "red"
@@ -20,16 +22,16 @@ var startingCode = `
 
      SubRobot.prototype.start = function(id){
        var robotInstance = backendStore.getState()[id]
-
+          this.fire(id, 0)
          if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){
           this.rotation(id, 1)
           this.walkForward(id)
-        } 
+        }
         else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {
            this.rotation(id, 1)
             this.walkForward(id)
             }
-        else if (robotInstance.x>180&&robotInstance.x<300&&robotInstance.z<60&&robotInstance.z>-60) {
+        else if (robotInstance.x>148&&robotInstance.x<332&&robotInstance.z<92&&robotInstance.z>-92) {
              this.rotation(id, 1)
              this.walkForward(id);
             }
@@ -39,7 +41,7 @@ var startingCode = `
      }
 
      return new SubRobot()
-    })`
+    })
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

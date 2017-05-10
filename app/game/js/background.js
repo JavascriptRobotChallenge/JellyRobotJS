@@ -40,9 +40,16 @@ export const init = () => {
 
   var testMarker = new THREE.Mesh(robotModel.geometry, robotModel.materials)
   testMarker.position.set(100, 0,100);
-  testMarker.scale.set(5, 5,5);
+  testMarker.scale.set(40, 40, 40);
   scene.add(testMarker);
   window.testMarker = testMarker
+
+
+
+
+  scene.add(practiceSphere)
+  window.practiceSphere = practiceSphere
+
 
     // LIGHTS
 
@@ -134,29 +141,46 @@ function initializePlayers(){
   // socket.on()
 }
 
+// gonna use bcrypt
+var projectiles = {}
+function makeProjectile(){
+  if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.robots).length ){
+
+  // store.getState
+  var geo = new THREE.SphereGeometry( 5, 32, 32 );
+  var mat = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+  var practiceSphere = new THREE.Mesh( geo, mat );
+  var myStoreState
+  practiceSphere.position.set(500, 50 ,500);
+  }
+}
+
+function updateProjectile(){
+  // reset positions
+}
+
 //SW: keep game loop in mind - can affect future performance
 //SW: but don't pre optimize
 var robots = {}
 export const animate = () => {
   // if the store has robots, and the local array doesn't -- we need to make new robots
   // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-    if (Object.keys(robots).length < Object.keys(store.getState().robotData).length ){
-      var storeState = store.getState()
-      var keys = Object.keys(storeState.robotData)
+    if (Object.keys(robots).length < Object.keys(store.getState().gameData.robots).length ){
+      var keys = Object.keys(store.getState().gameData.robots)
 
       for ( var i = 0; i < keys.length; i++ ){
         if (!robots[keys[i]]){
-          robots[keys[i]] = buildRobot(storeState.robotData[keys[i]])
+          robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]])
         }
 
       }
       // there's no reason for the storeState to have a "position" property, just X, Y, Z
     // if the store has robots, AND our array has them, then we need to update their position
     }
-    else if (Object.keys(store.getState().robotData).length ){
-      var storeState = store.getState().robotData
+    else if (Object.keys(store.getState().gameData.robots).length ){
+      var storeState = store.getState().gameData.robots
       for (var key in storeState){
-        console.log(robots[key].position.x,robots[key].position.z)
+        // console.log(robots[key].position.x,robots[key].position.z)
         robots[key].position.x = storeState[key].x
         robots[key].position.y = storeState[key].y
         robots[key].position.z = storeState[key].z
