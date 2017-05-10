@@ -80,7 +80,7 @@
 "mapBump": "stone.jpg",
 "mapSpecular": "stone.jpg",
 "mapBumpRepeat": [
-16,
+100,
 16
 ],
 "mapSpecularRepeat": [
