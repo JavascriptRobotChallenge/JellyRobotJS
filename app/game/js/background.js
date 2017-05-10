@@ -38,6 +38,12 @@ export const init = () => {
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
 
+  var testMarker = new THREE.Mesh(robotModel.geometry, robotModel.materials)
+  testMarker.position.set(100, 0,100);
+  testMarker.scale.set(5, 5,5);
+  scene.add(testMarker);
+  window.testMarker = testMarker
+
     // LIGHTS
 
     var light = new THREE.DirectionalLight(0xaabbff, 0.3);
@@ -101,6 +107,8 @@ export const init = () => {
 
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
+
+    buildRobot()
     //
     window.addEventListener('resize', onWindowResize, false);
 }
@@ -111,11 +119,11 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function buildRobot(robot){
+function buildRobot(){
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
-  ThreeRobot.position.set(robot.x, robot.y, robot.z);
-  ThreeRobot.rotation.y = robot.theta
+  ThreeRobot.position.set(400, 400, 400);
   ThreeRobot.scale.set(40, 40, 40);
+  window.robot = ThreeRobot
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
@@ -148,6 +156,7 @@ export const animate = () => {
     else if (Object.keys(store.getState().robotData).length ){
       var storeState = store.getState().robotData
       for (var key in storeState){
+        console.log(robots[key].position.x,robots[key].position.z)
         robots[key].position.x = storeState[key].x
         robots[key].position.y = storeState[key].y
         robots[key].position.z = storeState[key].z

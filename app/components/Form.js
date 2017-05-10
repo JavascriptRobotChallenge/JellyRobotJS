@@ -21,11 +21,20 @@ var startingCode = `
      SubRobot.prototype.start = function(id){
        var robotInstance = backendStore.getState()[id]
 
-         if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {
-             this.walkForward(id);
-         } else {
+         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){
           this.rotation(id, 1)
           this.walkForward(id)
+        } 
+        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {
+           this.rotation(id, 1)
+            this.walkForward(id)
+            }
+        else if (robotInstance.x>180&&robotInstance.x<300&&robotInstance.z<60&&robotInstance.z>-60) {
+             this.rotation(id, 1)
+             this.walkForward(id);
+            }
+        else {
+              this.walkForward(id)
         }
      }
 
