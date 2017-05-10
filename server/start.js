@@ -9,7 +9,7 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./backendStore.jsx')
 const { AddPlayer } = require('./robotReducer')
-const { Rotation, WalkForward } = require("./robotReducer")
+const { Rotation, WalkForward, WalkBackward } = require("./robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
 var util = require('util')
 var eventEmitter = require('events').EventEmitter;
@@ -106,12 +106,17 @@ if (module === require.main) {
       this.health--
   }
 
-  RobotClass.prototype.rotation = function(playerId, theta) {
+  RobotClass.prototype.rotation = function(playerId, degrees) {
+      var theta = degrees *.0174533
       backendStore.dispatch(Rotation(playerId, theta))
   }
 
   RobotClass.prototype.walkForward = function(theta) {
       backendStore.dispatch(WalkForward(theta))
+  }
+
+  RobotClass.prototype.walkBackward = function(theta) {
+      backendStore.dispatch(WalkBackward(theta))
   }
   // RobotClass.prototype.on('onWallCollision', function(listener) {
   //   console.log('there is a wall collision')
@@ -129,9 +134,9 @@ if (module === require.main) {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
       var robotProtos = Object.getPrototypeOf(roboInstance)
-      console.log(Object.keys(robotProtos), 'this is the prototypes')
+      // console.log(Object.keys(robotProtos), 'this is the prototypes')
       Object.keys(robotProtos).forEach(robotProto => {
-        console.log(robotProto, 'this is the proto key')
+        // console.log(robotProto, 'this is the proto key')
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
 
       })

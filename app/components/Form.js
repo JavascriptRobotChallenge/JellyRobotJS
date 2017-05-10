@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "axios"
 import store from "../store"
 import { RobotWorld } from './RobotWorld'
-import { Rotation, WalkForward } from "../reducers/robot"
+import { Rotation, WalkForward, WalkBackward } from "../reducers/robot"
 import { render } from 'react-dom';
 import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -22,11 +22,10 @@ var startingCode = `
        var robotInstance = backendStore.getState()[id]
         this.walkForward(id);
      }
-      SubRobot.prototype.onWallCollision = function(id){
-      console.log('i am emitting the wall event collision')
-          this.rotation(id, 1)
-          this.walkForward(id)
-       }  
+    SubRobot.prototype.onWallCollision = function(id){
+        this.rotation(id, 45)
+        this.walkForward(id)
+     }
      return new SubRobot()
     })`
 var inputCode = startingCode
