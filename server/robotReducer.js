@@ -15,7 +15,7 @@ const reducer = ( state = {}, action) => {
     switch (action.type) {
       //SW: these should be coming from a constant file
         case "AddPlayer":
-          newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance}
+          newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 100}
           return newState
         case "Rotation":
           newState[action.playerRotation.playerId].theta = newState[action.playerRotation.playerId].theta + action.playerRotation.theta
@@ -24,16 +24,21 @@ const reducer = ( state = {}, action) => {
           newState[action.playerId].x = newState[action.playerId].x + 5 * Math.sin(newState[action.playerId].theta)
           newState[action.playerId].z = newState[action.playerId].z + 5 * Math.cos(newState[action.playerId].theta)
           return newState
+        case "DecreaseHealth":
+          newState[action.playerId].health -= action.strength
         default:
           return newState
     }
 }
+
 
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
 const WalkForward = (playerId) => ({type: "WalkForward", playerId})
 const Rotation = (playerId, theta) =>{
   return {type: "Rotation", playerRotation:{ playerId: playerId, theta: theta}
 }}
+const DecreaseHealth = (playerId, strength) =>{
+  return {type: "DecreaseHealth", playerId, strength }
+}}
 
-
-module.exports = { reducer, AddPlayer, WalkForward, Rotation }
+module.exports = { reducer, AddPlayer, WalkForward, Rotation, DecreaseHealth }

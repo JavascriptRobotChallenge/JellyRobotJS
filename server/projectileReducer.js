@@ -15,15 +15,26 @@ const reducer = ( state = {}, action) => {
         newState[action.projectileId].x = newState[action.projectileId].x + 15 * Math.sin(newState[action.projectileId].theta)
         newState[action.projectileId].z = newState[action.projectileId].z + 15 * Math.cos(newState[action.projectileId].theta)
         return newState
+      case "RemoveProjectile":
+        delete newState[action.projectileId]
+        return newState
     }
     return newState
 }
 
-const FireProjectile = (robot,theta) => {
+const FireProjectile = (robot, theta, strength) => {
   return {
     type: "FireProjectile",
     position: { x: robot.x, y: robot.y, z: robot.z },
     theta: theta
+    strength
+  }
+}
+
+const RemoveProjectile = (projectileId) => {
+  return {
+    type: "RemoveProjectile",
+    projectileId
   }
 }
 
