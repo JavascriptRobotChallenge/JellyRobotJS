@@ -7,7 +7,7 @@ const {resolve} = require('path')
 const passport = require('passport')
 const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
-const backendStore = require('./backendStore.jsx')
+const backendStore = require('./backendStore.js')
 const { AddPlayer } = require('./robotReducer')
 const { Rotation, WalkForward } = require("./robotReducer")
 const { FireProjectile } = require("./projectileReducer")
@@ -20,7 +20,7 @@ var broadcastGameState = require('./updateClientLoop.js')
 // That means that we can require paths relative to the app root by
 // saying require('APP/whatever').
 //
-// This next line requires our root index.js:
+// This next line requires our root indexReducer.js:
 const pkg = require('APP')
 
 const app = express()
@@ -107,7 +107,8 @@ if (module === require.main) {
   }
 
   RobotClass.prototype.fire = function(playerId, theta){
-    backendStore.dispatch(FireProjectile(playerId, theta))
+    var firingRobot = backendStore.getState().robots[playerId]
+    backendStore.dispatch(FireProjectile(firingRobot, theta))
   }
 
   RobotClass.prototype.rotation = function(playerId, theta) {

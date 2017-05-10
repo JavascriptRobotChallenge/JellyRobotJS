@@ -1,11 +1,22 @@
-const backendStore = require('./backendStore.jsx');
+const backendStore = require('./backendStore.js');
 const { robotReducer } = require('./robotReducer.js');
 const SERVER_UPDATE_RATE = 1000/30;
 const { Rotation, WalkForward } = require("./robotReducer")
-const { MoveForward } = require("./projectileReducer")
+const { MoveOneForward } = require("./projectileReducer")
 
 let io;
 let gameLoop;
+
+const MoveForward = () => {
+  var projectiles = backendStore.getState().projectiles
+  for(var projectile in projectiles) {
+    console.log("projectiles",projectiles)
+    console.log("projectile",projectile)
+
+    backendStore.dispatch(MoveOneForward(projectile))
+  }
+}
+
 
 function broadcastGameState(io){
   // change when we add Rooms

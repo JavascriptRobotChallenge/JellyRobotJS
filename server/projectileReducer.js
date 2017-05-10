@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const backendStore = require('./backendStore.jsx')
 
 var initialState = {}
 
@@ -9,7 +8,8 @@ const reducer = ( state = {}, action) => {
 
     switch (action.type) {
       case "FireProjectile":
-        newState[action.projectileId] = { position: action.position, theta: theta }
+        projectileId = Math.floor(Math.random()*98643785).toString(),
+        newState[projectileId] = {x:action.position.x,y:action.position.y,z:action.position.z,theta: action.theta }
         return newState
       case "MoveOneForward":
         newState[action.projectileId].x = newState[action.projectileId].x + 15 * Math.sin(newState[action.projectileId].theta)
@@ -19,30 +19,19 @@ const reducer = ( state = {}, action) => {
     return newState
 }
 
-
-
-const FireProjectile = (robotId, theta) => {
-  var firingRobot = backendStore.getState().robots[robotId]
-  console.log(firingRobot)
-
+const FireProjectile = (robot,theta) => {
   return {
     type: "FireProjectile",
-    projectileID: Math.random(0, 999999999).toString(),
-    position: { x: firingRobot.x, y: firingRobot.y, z: firingRobot.z },
+    position: { x: robot.x, y: robot.y, z: robot.z },
     theta: theta
   }
 }
 
-const MoveForward = () => {
-  var projectiles = backendStore.getState().projectiles
-  for(var projectile in projectiles) {
-    backendStore.dispatch(MoveOneForward(projectile.id))
-  }
-}
+
 
 const MoveOneForward = (projectileId) => ({
   type: "MoveOneForward",
   projectileId
 })
 
-module.exports = { reducer, MoveForward, FireProjectile }
+module.exports = { reducer, FireProjectile, MoveOneForward}

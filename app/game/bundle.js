@@ -2532,12 +2532,12 @@ module.exports = DOMProperty;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony export (immutable) */ __webpack_exports__["b"] = isReactChildren;
 /* harmony export (immutable) */ __webpack_exports__["c"] = createRouteFromReactElement;
 /* unused harmony export createRoutesFromReactChildren */
 /* harmony export (immutable) */ __webpack_exports__["a"] = createRoutes;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -3650,13 +3650,13 @@ module.exports = ReactReconciler;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export compilePattern */
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
+/* unused harmony export compilePattern */
 /* harmony export (immutable) */ __webpack_exports__["c"] = matchPattern;
 /* harmony export (immutable) */ __webpack_exports__["b"] = getParamNames;
 /* unused harmony export getParams */
 /* harmony export (immutable) */ __webpack_exports__["a"] = formatPattern;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
 
 
 function escapeRegExp(string) {
@@ -3895,10 +3895,10 @@ function formatPattern(pattern, params) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = routerWarning;
-/* unused harmony export _resetWarned */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony export (immutable) */ __webpack_exports__["a"] = routerWarning;
+/* unused harmony export _resetWarned */
 
 
 var warned = {};
@@ -4582,14 +4582,14 @@ module.exports = SyntheticUIEvent;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 /* harmony export (immutable) */ __webpack_exports__["c"] = falsy;
 /* unused harmony export history */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return component; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return components; });
 /* unused harmony export route */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return routes; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 
 
 function falsy(props, propName, componentName) {
@@ -5932,8 +5932,8 @@ module.exports = canDefineProperty;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(140);
+/* WEBPACK VAR INJECTION */(function(process) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(327);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(326);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(325);
@@ -8403,10 +8403,10 @@ function mapAsync(array, work, callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = ContextProvider;
-/* harmony export (immutable) */ __webpack_exports__["b"] = ContextSubscriber;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
+/* harmony export (immutable) */ __webpack_exports__["a"] = ContextProvider;
+/* harmony export (immutable) */ __webpack_exports__["b"] = ContextSubscriber;
 
 
 // Works around issues with context updates failing to propagate.
@@ -8528,10 +8528,10 @@ function ContextSubscriber(name) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return routerShape; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return locationShape; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return routerShape; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return locationShape; });
 
 
 var routerShape = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_prop_types__["shape"])({
@@ -73080,20 +73080,6 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return emptyFunction.thatReturnsNull;
     }
 
-    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-      var checker = arrayOfTypeCheckers[i];
-      if (typeof checker !== 'function') {
-        warning(
-          false,
-          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
-          'received %s at index %s.',
-          getPostfixForTypeWarning(checker),
-          i
-        );
-        return emptyFunction.thatReturnsNull;
-      }
-    }
-
     function validate(props, propName, componentName, location, propFullName) {
       for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
         var checker = arrayOfTypeCheckers[i];
@@ -73226,9 +73212,6 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   // This handles more types than `getPropType`. Only used for error messages.
   // See `createPrimitiveTypeChecker`.
   function getPreciseType(propValue) {
-    if (typeof propValue === 'undefined' || propValue === null) {
-      return '' + propValue;
-    }
     var propType = getPropType(propValue);
     if (propType === 'object') {
       if (propValue instanceof Date) {
@@ -73238,23 +73221,6 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
     }
     return propType;
-  }
-
-  // Returns a string that is postfixed to a warning about an invalid type.
-  // For example, "undefined" or "of type array"
-  function getPostfixForTypeWarning(value) {
-    var type = getPreciseType(value);
-    switch (type) {
-      case 'array':
-      case 'object':
-        return 'an ' + type;
-      case 'boolean':
-      case 'date':
-      case 'regexp':
-        return 'a ' + type;
-      default:
-        return type;
-    }
   }
 
   // Returns class name of the object, if any.
@@ -75898,13 +75864,13 @@ function assignRouterState(router, _ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createMemoryHistory;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_history_lib_useQueries__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_history_lib_useQueries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_history_lib_useQueries__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_history_lib_useBasename__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_history_lib_useBasename___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_history_lib_useBasename__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_lib_createMemoryHistory__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_history_lib_createMemoryHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_history_lib_createMemoryHistory__);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createMemoryHistory;
 
 
 
@@ -75926,8 +75892,8 @@ function createMemoryHistory(options) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createRouterHistory;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__useRouterHistory__ = __webpack_require__(133);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createRouterHistory;
 
 
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
@@ -75943,13 +75909,13 @@ function createRouterHistory(createHistory) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createTransitionManager;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routerWarning__ = __webpack_require__(31);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routerWarning__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__computeChangedRoutes__ = __webpack_require__(298);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TransitionUtils__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__isActive__ = __webpack_require__(302);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getComponents__ = __webpack_require__(299);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__matchRoutes__ = __webpack_require__(304);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createTransitionManager;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -76215,11 +76181,11 @@ function createTransitionManager(history, routes) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = useRouterHistory;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_history_lib_useQueries__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_history_lib_useQueries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_history_lib_useQueries__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_history_lib_useBasename__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_history_lib_useBasename___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_history_lib_useBasename__);
+/* harmony export (immutable) */ __webpack_exports__["a"] = useRouterHistory;
 
 
 
@@ -76662,11 +76628,11 @@ function compose() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ActionTypes; });
-/* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(329);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ActionTypes; });
+/* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
 
 
 
@@ -77004,32 +76970,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var startingCode = function startingCode() {
-  function SubRobot() {
-    this.color = "red";
-  };
-
-  SubRobot.prototype = Object.create(RobotClass.prototype);
-
-  SubRobot.prototype.start = function (id) {
-    var robotInstance = backendStore.getState()[id];
-    this.fire(id, 0);
-    if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z) > 700) {
-      this.rotation(id, 1);
-      this.walkForward(id);
-    } else if (robotInstance.x < 140 && robotInstance.x > -140 && robotInstance.z < 140 && robotInstance.z > -140) {
-      this.rotation(id, 1);
-      this.walkForward(id);
-    } else if (robotInstance.x > 148 && robotInstance.x < 332 && robotInstance.z < 92 && robotInstance.z > -92) {
-      this.rotation(id, 1);
-      this.walkForward(id);
-    } else {
-      this.walkForward(id);
-    }
-  };
-
-  return new SubRobot();
-};
+var startingCode = "(function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.start = function(id){\n       var robotInstance = backendStore.getState().robots[id]\n          this.fire(id, 0)\n         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){\n          this.rotation(id, 1)\n          this.walkForward(id)\n        }\n        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {\n           this.rotation(id, 1)\n            this.walkForward(id)\n            }\n        else if (robotInstance.x>148&&robotInstance.x<332&&robotInstance.z<92&&robotInstance.z>-92) {\n             this.rotation(id, 1)\n             this.walkForward(id);\n            }\n        else {\n              this.walkForward(id)\n        }\n     }\n\n     return new SubRobot()\n    })";
 var inputCode = startingCode;
 
 var NameForm = function (_React$Component) {
@@ -78170,7 +78111,7 @@ var RobotWorld = exports.RobotWorld = function RobotWorld() {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.animate = exports.init = exports.renderer = exports.scene = exports.camera = undefined;
 
@@ -78196,125 +78137,120 @@ var SCREEN_HEIGHT = window.innerHeight;
 var camera = exports.camera = new THREE.PerspectiveCamera(40, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000);
 var scene = exports.scene = new THREE.Scene();
 var renderer = exports.renderer = new THREE.WebGLRenderer({
-    antialias: true
+  antialias: true
 });
 
 var robotModel;
 
 var init = exports.init = function init() {
-    camera.position.set(700, 200, -500);
+  camera.position.set(700, 200, -500);
 
-    var loader = new THREE.JSONLoader();
-    robotModel = loader.parse(Window.robotjelly);
+  var loader = new THREE.JSONLoader();
+  robotModel = loader.parse(Window.robotjelly);
 
-    renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setPixelRatio(window.devicePixelRatio);
 
-    var container = document.createElement('div');
-    document.body.appendChild(container);
-    container.appendChild(renderer.domElement);
+  var container = document.createElement('div');
+  document.body.appendChild(container);
+  container.appendChild(renderer.domElement);
 
-    renderer.gammaInput = true;
-    renderer.gammaOutput = true;
+  renderer.gammaInput = true;
+  renderer.gammaOutput = true;
 
-    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    var stats;
-    var clock = new THREE.Clock();
-    var controls = new OrbitControls(camera);
-    controls.maxPolarAngle = 0.9 * Math.PI / 2;
-    controls.enableZoom = false;
+  var stats;
+  var clock = new THREE.Clock();
+  var controls = new OrbitControls(camera);
+  controls.maxPolarAngle = 0.9 * Math.PI / 2;
+  controls.enableZoom = false;
 
-    var testMarker = new THREE.Mesh(robotModel.geometry, robotModel.materials);
-    testMarker.position.set(100, 0, 100);
-    testMarker.scale.set(40, 40, 40);
-    scene.add(testMarker);
-    window.testMarker = testMarker;
+  var testMarker = new THREE.Mesh(robotModel.geometry, robotModel.materials);
+  testMarker.position.set(100, 0, 100);
+  testMarker.scale.set(40, 40, 40);
+  scene.add(testMarker);
+  window.testMarker = testMarker;
 
-    scene.add(practiceSphere);
-    window.practiceSphere = practiceSphere;
+  var light = new THREE.DirectionalLight(0xaabbff, 0.3);
+  light.position.x = 300;
+  light.position.y = 250;
+  light.position.z = -500;
+  scene.add(light);
 
-    // LIGHTS
+  var ambientLight = new THREE.AmbientLight(0x111111);
+  scene.add(ambientLight);
 
-    var light = new THREE.DirectionalLight(0xaabbff, 0.3);
-    light.position.x = 300;
-    light.position.y = 250;
-    light.position.z = -500;
-    scene.add(light);
+  // SKYDOME
 
-    var ambientLight = new THREE.AmbientLight(0x111111);
-    scene.add(ambientLight);
+  var vertexShader = document.getElementById('vertexShader').textContent;
+  var fragmentShader = document.getElementById('fragmentShader').textContent;
+  var uniforms = {
+    topColor: {
+      type: "c",
+      value: new THREE.Color(0x0077ff)
+    },
+    bottomColor: {
+      type: "c",
+      value: new THREE.Color(0xffffff)
+    },
+    offset: {
+      type: "f",
+      value: 400
+    },
+    exponent: {
+      type: "f",
+      value: 0.6
+    }
+  };
+  uniforms.topColor.value.copy(light.color);
 
-    // SKYDOME
+  var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
+  var skyMat = new THREE.ShaderMaterial({
+    uniforms: uniforms,
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    side: THREE.BackSide
+  });
 
-    var vertexShader = document.getElementById('vertexShader').textContent;
-    var fragmentShader = document.getElementById('fragmentShader').textContent;
-    var uniforms = {
-        topColor: {
-            type: "c",
-            value: new THREE.Color(0x0077ff)
-        },
-        bottomColor: {
-            type: "c",
-            value: new THREE.Color(0xffffff)
-        },
-        offset: {
-            type: "f",
-            value: 400
-        },
-        exponent: {
-            type: "f",
-            value: 0.6
-        }
-    };
-    uniforms.topColor.value.copy(light.color);
+  var sky = new THREE.Mesh(skyGeo, skyMat);
+  scene.add(sky);
 
-    var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
-    var skyMat = new THREE.ShaderMaterial({
-        uniforms: uniforms,
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        side: THREE.BackSide
-    });
+  // STATS
+  stats = new Stats();
+  container.appendChild(stats.dom);
 
-    var sky = new THREE.Mesh(skyGeo, skyMat);
-    scene.add(sky);
+  // MODEL
+  loader.load("obj/lightmap/lightmap.js", function (geometry, materials) {
+    for (var i = 0; i < materials.length; i++) {
+      materials[i].lightMapIntensity = 0.1;
+    }
 
-    // STATS
-    stats = new Stats();
-    container.appendChild(stats.dom);
+    var mesh = new THREE.Mesh(geometry, materials);
+    mesh.scale.multiplyScalar(100);
+    scene.add(mesh);
+  });
 
-    // MODEL
-    loader.load("obj/lightmap/lightmap.js", function (geometry, materials) {
-        for (var i = 0; i < materials.length; i++) {
-            materials[i].lightMapIntensity = 0.1;
-        }
+  var ambientLight = new THREE.AmbientLight(0x111111);
+  scene.add(ambientLight);
 
-        var mesh = new THREE.Mesh(geometry, materials);
-        mesh.scale.multiplyScalar(100);
-        scene.add(mesh);
-    });
-
-    var ambientLight = new THREE.AmbientLight(0x111111);
-    scene.add(ambientLight);
-
-    buildRobot();
-    //
-    window.addEventListener('resize', onWindowResize, false);
+  buildRobot();
+  //
+  window.addEventListener('resize', onWindowResize, false);
 };
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function buildRobot() {
-    var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials);
-    ThreeRobot.position.set(400, 400, 400);
-    ThreeRobot.scale.set(40, 40, 40);
-    window.robot = ThreeRobot;
-    scene.add(ThreeRobot);
-    return ThreeRobot;
+  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials);
+  ThreeRobot.position.set(400, 400, 400);
+  ThreeRobot.scale.set(40, 40, 40);
+  window.robot = ThreeRobot;
+  scene.add(ThreeRobot);
+  return ThreeRobot;
 }
 
 function initializePlayers() {}
@@ -78325,16 +78261,13 @@ function initializePlayers() {}
 
 // gonna use bcrypt
 var projectiles = {};
-function makeProjectile() {
-    if (Object.keys(projectiles).length < Object.keys(_store2.default.getState().gameData.robots).length) {
-
-        // store.getState
-        var geo = new THREE.SphereGeometry(5, 32, 32);
-        var mat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        var practiceSphere = new THREE.Mesh(geo, mat);
-        var myStoreState;
-        practiceSphere.position.set(500, 50, 500);
-    }
+function makeProjectile(projectile) {
+  var geo = new THREE.SphereGeometry(5, 32, 32);
+  var mat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+  var practiceSphere = new THREE.Mesh(geo, mat);
+  practiceSphere.position.set(projectile.x, 0, projectile.z);
+  scene.add(practiceSphere);
+  return practiceSphere;
 }
 
 function updateProjectile() {}
@@ -78345,30 +78278,54 @@ function updateProjectile() {}
 //SW: but don't pre optimize
 var robots = {};
 var animate = exports.animate = function animate() {
-    // if the store has robots, and the local array doesn't -- we need to make new robots
-    // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-    if (Object.keys(robots).length < Object.keys(_store2.default.getState().gameData.robots).length) {
-        var keys = Object.keys(_store2.default.getState().gameData.robots);
+  // if the store has robots, and the local array doesn't -- we need to make new robots
+  // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
 
-        for (var i = 0; i < keys.length; i++) {
-            if (!robots[keys[i]]) {
-                robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]]);
-            }
+  var storeState = _store2.default.getState();
+  //IF NOT ENOUGH ROBOTS - ADD ROBOTS
+  if (storeState.gameData.robots) {
+    if (Object.keys(robots).length < Object.keys(_store2.default.getState().gameData.robots).length) {
+      var keys = Object.keys(_store2.default.getState().gameData.robots);
+
+      for (var i = 0; i < keys.length; i++) {
+        if (!robots[keys[i]]) {
+          robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]]);
         }
-        // there's no reason for the storeState to have a "position" property, just X, Y, Z
-        // if the store has robots, AND our array has them, then we need to update their position
-    } else if (Object.keys(_store2.default.getState().gameData.robots).length) {
-        var storeState = _store2.default.getState().gameData.robots;
-        for (var key in storeState) {
-            // console.log(robots[key].position.x,robots[key].position.z)
-            robots[key].position.x = storeState[key].x;
-            robots[key].position.y = storeState[key].y;
-            robots[key].position.z = storeState[key].z;
-            robots[key].rotation.y = storeState[key].theta;
+      }
+    } // IF ENOUGH ROBOTS - UPDATE ROBOT POSITION
+    else if (Object.keys(_store2.default.getState().gameData.robots).length) {
+        var robotState = _store2.default.getState().gameData.robots;
+        var projectileState = _store2.default.getState().gameData.projectiles;
+        for (var key in robotState) {
+          robots[key].position.x = robotState[key].x;
+          robots[key].position.z = robotState[key].z;
+          robots[key].rotation.y = robotState[key].theta;
         }
+      }
+  }
+  console.log('ROBOTS ARR', robots);
+
+  if (storeState.gameData.projectiles) {
+    if (Object.keys(projectiles).length < Object.keys(_store2.default.getState().gameData.projectiles).length) {
+      var projKeys = Object.keys(_store2.default.getState().gameData.projectiles);
+      for (var j = 0; j < projKeys.length; j++) {
+        if (!projectiles[projKeys[j]] && projectiles.length < 10) {
+          projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]]);
+        }
+      }
+    } else if (Object.keys(_store2.default.getState().gameData.projectiles).length) {
+      var projectileState = _store2.default.getState().gameData.projectiles;
+      for (var projKey in projectileState) {
+        // console.log("projkey", projKey)
+        // console.log("projectiles", projectiles, projectileState)
+        projectiles[projKey].position.x = projectileState[projKey].x;
+        projectiles[projKey].position.z = projectileState[projKey].z;
+        console.log("success");
+      }
     }
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
 };
 
 /***/ }),
@@ -112470,8 +112427,8 @@ var Router = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getTransitionUtils;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AsyncUtils__ = __webpack_require__(73);
+/* harmony export (immutable) */ __webpack_exports__["a"] = getTransitionUtils;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
@@ -112857,8 +112814,8 @@ function getRouteParams(route, params) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = isActive;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PatternUtils__ = __webpack_require__(30);
+/* harmony export (immutable) */ __webpack_exports__["a"] = isActive;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 
@@ -113080,12 +113037,12 @@ function match(_ref, callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = matchRoutes;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AsyncUtils__ = __webpack_require__(73);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AsyncUtils__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PromiseUtils__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PatternUtils__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routerWarning__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__RouteUtils__ = __webpack_require__(20);
+/* harmony export (immutable) */ __webpack_exports__["a"] = matchRoutes;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -113333,8 +113290,7 @@ function matchRoutes(routes, location, callback, remainingPathname) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = withRouter;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(8);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
@@ -113344,6 +113300,7 @@ function matchRoutes(routes, location, callback, remainingPathname) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_hoist_non_react_statics__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ContextUtils__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__PropTypes__ = __webpack_require__(75);
+/* harmony export (immutable) */ __webpack_exports__["a"] = withRouter;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -115643,8 +115600,8 @@ exports['default'] = thunk;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = applyMiddleware;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(139);
+/* harmony export (immutable) */ __webpack_exports__["a"] = applyMiddleware;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -115753,10 +115710,10 @@ function bindActionCreators(actionCreators, dispatch) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(140);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(141);
+/* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
 
 
 

@@ -12,8 +12,7 @@ import 'brace/theme/monokai';
 
 
 var startingCode =
-
-    (function(){
+  `(function(){
     function SubRobot(){
         this.color = "red"
      };
@@ -21,7 +20,7 @@ var startingCode =
      SubRobot.prototype = Object.create(RobotClass.prototype)
 
      SubRobot.prototype.start = function(id){
-       var robotInstance = backendStore.getState()[id]
+       var robotInstance = backendStore.getState().robots[id]
           this.fire(id, 0)
          if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){
           this.rotation(id, 1)
@@ -41,7 +40,7 @@ var startingCode =
      }
 
      return new SubRobot()
-    })
+    })`
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

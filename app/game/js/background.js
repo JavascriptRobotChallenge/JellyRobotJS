@@ -44,15 +44,6 @@ export const init = () => {
   scene.add(testMarker);
   window.testMarker = testMarker
 
-
-
-
-  scene.add(practiceSphere)
-  window.practiceSphere = practiceSphere
-
-
-    // LIGHTS
-
     var light = new THREE.DirectionalLight(0xaabbff, 0.3);
     light.position.x = 300;
     light.position.y = 250;
@@ -126,9 +117,9 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function buildRobot(){
+function buildRobot(robot){
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
-  ThreeRobot.position.set(400, 400, 400);
+  ThreeRobot.position.set(robot.x, robot.y, robot.z, robot.theta);
   ThreeRobot.scale.set(40, 40, 40);
   window.robot = ThreeRobot
   scene.add(ThreeRobot);
@@ -143,16 +134,14 @@ function initializePlayers(){
 
 // gonna use bcrypt
 var projectiles = {}
-function makeProjectile(){
-  if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.robots).length ){
+function makeProjectile(projectile){
+    var geo = new THREE.SphereGeometry( 5, 32, 32 );
+    var mat = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var practiceSphere = new THREE.Mesh( geo, mat );
+    practiceSphere.position.set(projectile.x,0,projectile.z);
+    scene.add(practiceSphere)
+    return practiceSphere
 
-  // store.getState
-  var geo = new THREE.SphereGeometry( 5, 32, 32 );
-  var mat = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-  var practiceSphere = new THREE.Mesh( geo, mat );
-  var myStoreState
-  practiceSphere.position.set(500, 50 ,500);
-  }
 }
 
 function updateProjectile(){
@@ -165,26 +154,49 @@ var robots = {}
 export const animate = () => {
   // if the store has robots, and the local array doesn't -- we need to make new robots
   // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-    if (Object.keys(robots).length < Object.keys(store.getState().gameData.robots).length ){
-      var keys = Object.keys(store.getState().gameData.robots)
 
-      for ( var i = 0; i < keys.length; i++ ){
-        if (!robots[keys[i]]){
-          robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]])
+    var storeState = store.getState()
+    //IF NOT ENOUGH ROBOTS - ADD ROBOTS
+    if (storeState.gameData.robots) {
+      if (Object.keys(robots).length < Object.keys(store.getState().gameData.robots).length) {
+        var keys = Object.keys(store.getState().gameData.robots)
+
+        for (var i = 0; i < keys.length; i++) {
+          if (!robots[keys[i]]) {
+            robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]])
+          }
         }
-
+      } // IF ENOUGH ROBOTS - UPDATE ROBOT POSITION
+      else if (Object.keys(store.getState().gameData.robots).length) {
+        var robotState = store.getState().gameData.robots
+        var projectileState = store.getState().gameData.projectiles
+        for (var key in robotState) {
+          robots[key].position.x = robotState[key].x
+          robots[key].position.z = robotState[key].z
+          robots[key].rotation.y = robotState[key].theta
+        }
       }
-      // there's no reason for the storeState to have a "position" property, just X, Y, Z
-    // if the store has robots, AND our array has them, then we need to update their position
     }
-    else if (Object.keys(store.getState().gameData.robots).length ){
-      var storeState = store.getState().gameData.robots
-      for (var key in storeState){
-        // console.log(robots[key].position.x,robots[key].position.z)
-        robots[key].position.x = storeState[key].x
-        robots[key].position.y = storeState[key].y
-        robots[key].position.z = storeState[key].z
-        robots[key].rotation.y = storeState[key].theta
+    // console.log('ROBOTS ARR', robots)
+
+    if (storeState.gameData.projectiles) {
+      if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.projectiles).length) {
+        var projKeys = Object.keys(store.getState().gameData.projectiles)
+        for (var j = 0; j < projKeys.length; j++) {
+          if (!projectiles[projKeys[j]] && projectiles.length < 10) {
+            projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]])
+          }
+        }
+      }
+      else if (Object.keys(store.getState().gameData.projectiles).length) {
+        var projectileState = store.getState().gameData.projectiles
+        for (var projKey in projectileState) {
+          // console.log("projkey", projKey)
+          // console.log("projectiles", projectiles, projectileState)
+          projectiles[projKey].position.x = projectileState[projKey].x
+          projectiles[projKey].position.z = projectileState[projKey].z
+          console.log("success")
+        }
       }
     }
     requestAnimationFrame(animate);
