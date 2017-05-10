@@ -23,20 +23,23 @@ function checkProjectilesToRemove(){
 
   for(var projectileId in projectileObj){
     var projectile = projectileObj[projectileId]
-    if(Math.abs(projectile.x) > 700 || Math.abs(projectile.z) > 700 ){
+    console.log('projectile', projectile)
+    if(Math.abs(projectile.x) > 705 || Math.abs(projectile.z) > 705 ){
+      console.log('hitting wall')
       backendStore.dispatch(RemoveProjectile(projectileId))
     }
     else if(projectile.x < 140 && projectile.x > -140 && projectile.z < 140 && projectile.z > -140){
       backendStore.dispatch(RemoveProjectile(projectileId))
     }
-    else if ( projectile.x > 148 && projectile.x < 332 && projectile.z < 92& & projectile.z > -92 ) {
+    else if ( projectile.x > 148 && projectile.x < 332 && projectile.z < 92 && projectile.z > -92 ) {
       backendStore.dispatch(RemoveProjectile(projectileId))
     }
     for(var robotID in robotsObj){
       var robot = robotsObj[robotID]
 
-      if(robot.x === projectile.x  && robot.z === projectile.z){
-        backendStore.dispatch(DecreaseHealth(robotId, ))
+      if(Math.abs(robot.x - projectile.x) < 3 && Math.abs(robot.z - projectile.z) < 3 ){
+        backendStore.dispatch(DecreaseHealth(robotId, projectile.strength))
+        backendStore.dispatch(RemoveProjectile(projectileId))
       }
     }
   }
@@ -55,6 +58,7 @@ function broadcastGameState(io){
         state[playerArr[i]].robotInstance.start(playerArr[i])
       }
       MoveForward()
+      checkProjectilesToRemove()
       io.emit('serverUpdate', backendStore.getState());
     }
   }, SERVER_UPDATE_RATE);

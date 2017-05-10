@@ -184,6 +184,14 @@ export const animate = () => {
             projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]])
           }
         }
+      } else if (Object.keys(projectiles).length > Object.keys(store.getState().gameData.projectiles).length){
+        console.log('INSIDE DELETING PROJECTILES')
+        var projectileState = store.getState().gameData.projectiles
+        for (var projKey in projectiles) {
+          if (!projectileState[projkey]) {
+            delete projectile[projKey]
+          }
+        }
       }
       else if (Object.keys(store.getState().gameData.projectiles).length) {
         var projectileState = store.getState().gameData.projectiles

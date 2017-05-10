@@ -33,12 +33,14 @@ const reducer = ( state = {}, action) => {
 
 
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
-const WalkForward = (playerId) => ({type: "WalkForward", playerId})
+const WalkForward = (playerId) => ({ type: "WalkForward", playerId })
 const Rotation = (playerId, theta) =>{
-  return {type: "Rotation", playerRotation:{ playerId: playerId, theta: theta}
-}}
-const DecreaseHealth = (playerId, strength) =>{
-  return {type: "DecreaseHealth", playerId, strength }
-}}
+  return {type: "Rotation", playerRotation:{ playerId: playerId, theta: theta} }
+}
+const DecreaseHealth = (playerId, strength)=> {
+  return { type: "DecreaseHealth",
+  playerId: playerId,
+  strength: strength }
+}
 
 module.exports = { reducer, AddPlayer, WalkForward, Rotation, DecreaseHealth }
