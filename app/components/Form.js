@@ -11,7 +11,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-    (function(){
+    `(function(){
     function SubRobot(){
         this.color = "red"
      };
@@ -20,18 +20,19 @@ var startingCode =
 
      SubRobot.prototype.onIdle = function(id){
        var robotInstance = backendStore.getState()[id]
-       timesToCall = 999
-       return [()=>{this.walkForward.bind(null, timesToCall, id)}, ()=>{this.rotation.bind(null, 1, id)}]
+        return [
+          { frequency: 1, action: this.walkForward},
+          { frequency: 400, action: this.rotation, degrees: 60},
+        ]
+
     }
-    SubRobot.prototype.onWalkForward = function(time, id){
-       this.walkForward(100, id);
-  }
-    SubRobot.prototype.onWallCollision = function(time, id){
-        this.rotation(30, id)
-        this.walkForward(45, id)
+    
+    SubRobot.prototype.onWallCollision = function(id){
+        this.rotation(id, 45)
+        this.walkForward(id)
      }
      return new SubRobot()
-    })
+    })`
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

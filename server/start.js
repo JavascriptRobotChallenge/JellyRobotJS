@@ -106,34 +106,21 @@ if (module === require.main) {
       this.health--
   }
 
-  RobotClass.prototype.rotation = function(degrees, playerId) {
-      var theta = degrees *.0174533
-      setTimeout(function(){
-        backendStore.dispatch(Rotation(playerId, theta))
-      }, 0)
+  RobotClass.prototype.rotation = function(playerId, degrees) {
+    console.log('i am trying to rotate!!!!', playerId, degrees)
+    var theta = degrees *.0174533
+
+    backendStore.dispatch(Rotation(playerId, theta))
+
   }
 
-  RobotClass.prototype.walkForward = async function(numTimes, id) {
-    var i = 0
-    while( i < numTimes ){
-
-      // setTimeout(function() {
-        backendStore.dispatch(WalkForward(id))
-        await 2;
-      // }, 1)
-        i++
-    }
+  RobotClass.prototype.walkForward = function(id) {
+    console.log('i am trying to walk!!!!', id)
+    backendStore.dispatch(WalkForward(id))
   }
 
-  RobotClass.prototype.walkBackward = async function(numTimes, id) {
-    var i = 0
-    while( i < numTimes ){
-      // setTimeout(function() {
-        backendStore.dispatch(WalkBackward(id))
-        await 5;
-      // }, 1)
-        i++
-    }
+  RobotClass.prototype.walkBackward = function(numTimes, id) {
+    backendStore.dispatch(WalkBackward(id))
   }
   // RobotClass.prototype.on('onWalkForward', function(listener) {
   //   console.log('there is a wall collision')
@@ -141,7 +128,7 @@ if (module === require.main) {
   // })
   util.inherits(RobotClass, eventEmitter)
 
-  var connectCounter = 0
+  var connectCounter = 0, idleActions = {}
   var io = require('socket.io')(server)
 
   io.on('connection', function(socket) {
@@ -154,11 +141,13 @@ if (module === require.main) {
       // console.log(Object.keys(robotProtos), 'this is the prototypes')
       Object.keys(robotProtos).forEach(robotProto => {
         // console.log(robotProto, 'this is the proto key')
+        console.log(robotProtos[robotProto], 'here are the robot protos')
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
 
       })
-      // roboInstance.emit('onWallCollision')
       backendStore.dispatch(AddPlayer(socket.id, roboInstance))
+      // idleActions[socket.id] = robotInstance.onIdle(socket.id);
+
     })
   })
   broadcastGameState(io)
