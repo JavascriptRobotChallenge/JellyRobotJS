@@ -10,7 +10,7 @@ import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
-var startingCode = `
+var startingCode =
     (function(){
     function SubRobot(){
         this.color = "red"
@@ -19,8 +19,9 @@ var startingCode = `
      SubRobot.prototype = Object.create(RobotClass.prototype)
 
      SubRobot.prototype.onIdle = function(id){
-        var robotInstance = backendStore.getState()[id]
-        this.walkForward(9999, id);
+       var robotInstance = backendStore.getState()[id]
+       timesToCall = 999
+       return [()=>{this.walkForward.bind(null, timesToCall, id)}, ()=>{this.rotation.bind(null, 1, id)}]
     }
     SubRobot.prototype.onWalkForward = function(time, id){
        this.walkForward(100, id);
@@ -30,7 +31,7 @@ var startingCode = `
         this.walkForward(45, id)
      }
      return new SubRobot()
-    })`
+    })
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {
