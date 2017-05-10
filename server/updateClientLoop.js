@@ -12,8 +12,16 @@ function broadcastGameState(io){
     var playerArr = Object.keys(state)
     if (playerArr.length) {
       for(var i = 0; i < playerArr.length; i++){
-        state[playerArr[i]].robotInstance.start(playerArr[i])
+        let robot = state[playerArr[i]];
+        console.log('robotInstance here is ', robot.x, robot.y)
+        if (Math.abs(robot.x) < 700 && Math.abs(robot.z) < 700) {
+          robot.robotInstance.emit('start', playerArr[i])
+        }
+        else {
+          robot.robotInstance.emit('onWallCollision', playerArr[i]);
+        }
       }
+
       io.emit('serverUpdate', backendStore.getState());
     }
   }, SERVER_UPDATE_RATE);

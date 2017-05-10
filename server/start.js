@@ -11,6 +11,8 @@ const backendStore = require('./backendStore.jsx')
 const { AddPlayer } = require('./robotReducer')
 const { Rotation, WalkForward } = require("./robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
+var util = require('util')
+var eventEmitter = require('events').EventEmitter;
 
 // PrettyError docs: https://www.npmjs.com/package/pretty-error
 
@@ -111,6 +113,11 @@ if (module === require.main) {
   RobotClass.prototype.walkForward = function(theta) {
       backendStore.dispatch(WalkForward(theta))
   }
+  // RobotClass.prototype.on('onWallCollision', function(listener) {
+  //   console.log('there is a wall collision')
+  //   console.log(listener, 'here is the listener')
+  // })
+  util.inherits(RobotClass, eventEmitter)
 
   var connectCounter = 0
   var io = require('socket.io')(server)
@@ -121,6 +128,14 @@ if (module === require.main) {
     socket.on('sendCode', (code)=>{
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
+      var robotProtos = Object.getPrototypeOf(roboInstance)
+      console.log(Object.keys(robotProtos), 'this is the prototypes')
+      Object.keys(robotProtos).forEach(robotProto => {
+        console.log(robotProto, 'this is the proto key')
+        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
+
+      })
+      // roboInstance.emit('onWallCollision')
       backendStore.dispatch(AddPlayer(socket.id, roboInstance))
     })
   })

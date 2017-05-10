@@ -20,15 +20,13 @@ var startingCode = `
 
      SubRobot.prototype.start = function(id){
        var robotInstance = backendStore.getState()[id]
-
-         if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {
-             this.walkForward(id);
-         } else {
+        this.walkForward(id);
+     }
+      SubRobot.prototype.onWallCollision = function(id){
+      console.log('i am emitting the wall event collision')
           this.rotation(id, 1)
           this.walkForward(id)
-        }
-     }
-
+       }  
      return new SubRobot()
     })`
 var inputCode = startingCode
