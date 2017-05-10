@@ -106,19 +106,36 @@ if (module === require.main) {
       this.health--
   }
 
-  RobotClass.prototype.rotation = function(playerId, degrees) {
+  RobotClass.prototype.rotation = function(degrees, playerId) {
       var theta = degrees *.0174533
-      backendStore.dispatch(Rotation(playerId, theta))
+      setTimeout(function(){
+        backendStore.dispatch(Rotation(playerId, theta))
+      }, 0)
   }
 
-  RobotClass.prototype.walkForward = function(theta) {
-      backendStore.dispatch(WalkForward(theta))
+  RobotClass.prototype.walkForward = async function(numTimes, id) {
+    var i = 0
+    while( i < numTimes ){
+
+      // setTimeout(function() {
+        backendStore.dispatch(WalkForward(id))
+        await 2;
+      // }, 1)
+        i++
+    }
   }
 
-  RobotClass.prototype.walkBackward = function(theta) {
-      backendStore.dispatch(WalkBackward(theta))
+  RobotClass.prototype.walkBackward = async function(numTimes, id) {
+    var i = 0
+    while( i < numTimes ){
+      // setTimeout(function() {
+        backendStore.dispatch(WalkBackward(id))
+        await 5;
+      // }, 1)
+        i++
+    }
   }
-  // RobotClass.prototype.on('onWallCollision', function(listener) {
+  // RobotClass.prototype.on('onWalkForward', function(listener) {
   //   console.log('there is a wall collision')
   //   console.log(listener, 'here is the listener')
   // })
@@ -128,7 +145,7 @@ if (module === require.main) {
   var io = require('socket.io')(server)
 
   io.on('connection', function(socket) {
-    connectCounter++
+
 
     socket.on('sendCode', (code)=>{
       var roboFunc = eval(code)

@@ -77004,7 +77004,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var startingCode = "\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.start = function(id){\n       var robotInstance = backendStore.getState()[id]\n        this.walkForward(id);\n     }\n    SubRobot.prototype.onWallCollision = function(id){\n        this.rotation(id, 45)\n        this.walkForward(id)\n     }\n     return new SubRobot()\n    })";
+var startingCode = "\n    (function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.onIdle = function(id){\n        var robotInstance = backendStore.getState()[id]\n        this.walkForward(9999, id);\n    }\n    SubRobot.prototype.onWalkForward = function(time, id){\n       this.walkForward(100, id);\n  }\n    SubRobot.prototype.onWallCollision = function(time, id){\n        this.rotation(30, id)\n        this.walkForward(45, id)\n     }\n     return new SubRobot()\n    })";
 var inputCode = startingCode;
 
 var NameForm = function (_React$Component) {
@@ -78278,6 +78278,7 @@ function buildRobot(robot) {
     ThreeRobot.rotation.y = robot.theta;
     ThreeRobot.scale.set(40, 40, 40);
     scene.add(ThreeRobot);
+    console.log(ThreeRobot, 'is this in the scene?');
     return ThreeRobot;
 }
 

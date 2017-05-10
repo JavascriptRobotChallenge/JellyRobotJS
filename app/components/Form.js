@@ -18,13 +18,16 @@ var startingCode = `
 
      SubRobot.prototype = Object.create(RobotClass.prototype)
 
-     SubRobot.prototype.start = function(id){
-       var robotInstance = backendStore.getState()[id]
-        this.walkForward(id);
-     }
-    SubRobot.prototype.onWallCollision = function(id){
-        this.rotation(id, 45)
-        this.walkForward(id)
+     SubRobot.prototype.onIdle = function(id){
+        var robotInstance = backendStore.getState()[id]
+        this.walkForward(9999, id);
+    }
+    SubRobot.prototype.onWalkForward = function(time, id){
+       this.walkForward(100, id);
+  }
+    SubRobot.prototype.onWallCollision = function(time, id){
+        this.rotation(30, id)
+        this.walkForward(45, id)
      }
      return new SubRobot()
     })`

@@ -6,6 +6,7 @@ let io;
 let gameLoop;
 
 function broadcastGameState(io){
+
   // change when we add Rooms
   const gameLoop = setInterval(() => {
     let state = backendStore.getState();
@@ -13,9 +14,9 @@ function broadcastGameState(io){
     if (playerArr.length) {
       for(var i = 0; i < playerArr.length; i++){
         let robot = state[playerArr[i]];
-        console.log('robotInstance here is ', robot.x, robot.y)
+        console.log('robotInstance here is ', robot.x, robot.y, robot.z)
         if (Math.abs(robot.x) < 700 && Math.abs(robot.z) < 700) {
-          robot.robotInstance.emit('start', playerArr[i])
+              robot.robotInstance.emit('onIdle', playerArr[i])
         }
         else {
           robot.robotInstance.emit('onWallCollision', playerArr[i]);

@@ -117,6 +117,7 @@ function buildRobot(robot){
   ThreeRobot.rotation.y = robot.theta
   ThreeRobot.scale.set(40, 40, 40);
   scene.add(ThreeRobot);
+  console.log(ThreeRobot, 'is this in the scene?')
   return ThreeRobot;
 }
 
