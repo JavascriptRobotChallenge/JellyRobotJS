@@ -21,9 +21,10 @@ var startingCode =
 
      SubRobot.prototype.start = function(id){
        var robotInstance = backendStore.getState().robots[id]
-          this.fire(id, 0)
+          
          if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){
           this.rotation(id, 1)
+          this.fire(id, 0)
           this.walkForward(id)
         }
         else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {

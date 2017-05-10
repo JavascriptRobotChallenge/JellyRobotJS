@@ -76970,7 +76970,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var startingCode = "(function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.start = function(id){\n       var robotInstance = backendStore.getState().robots[id]\n          this.fire(id, 0)\n         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){\n          this.rotation(id, 1)\n          this.walkForward(id)\n        }\n        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {\n           this.rotation(id, 1)\n            this.walkForward(id)\n            }\n        else if (robotInstance.x>148&&robotInstance.x<332&&robotInstance.z<92&&robotInstance.z>-92) {\n             this.rotation(id, 1)\n             this.walkForward(id);\n            }\n        else {\n              this.walkForward(id)\n        }\n     }\n\n     return new SubRobot()\n    })";
+var startingCode = "(function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.start = function(id){\n       var robotInstance = backendStore.getState().robots[id]\n          \n         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){\n          this.rotation(id, 1)\n          this.fire(id, 0)\n          this.walkForward(id)\n        }\n        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {\n           this.rotation(id, 1)\n            this.walkForward(id)\n            }\n        else if (robotInstance.x>148&&robotInstance.x<332&&robotInstance.z<92&&robotInstance.z>-92) {\n             this.rotation(id, 1)\n             this.walkForward(id);\n            }\n        else {\n              this.walkForward(id)\n        }\n     }\n\n     return new SubRobot()\n    })";
 var inputCode = startingCode;
 
 var NameForm = function (_React$Component) {
@@ -78232,8 +78232,6 @@ var init = exports.init = function init() {
 
   var ambientLight = new THREE.AmbientLight(0x111111);
   scene.add(ambientLight);
-
-  buildRobot();
   //
   window.addEventListener('resize', onWindowResize, false);
 };
@@ -78244,22 +78242,21 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function buildRobot() {
+function buildRobot(robot) {
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials);
-  ThreeRobot.position.set(400, 400, 400);
+  ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
   window.robot = ThreeRobot;
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
 
-function initializePlayers() {}
-//when server emits a connect event, make our own ThreeRobot
-// when server emits a PlayerAdded event, make their ThreeRobot
-// socket.on()
+function initializePlayers() {
+  //when server emits a connect event, make our own ThreeRobot
+  // when server emits a PlayerAdded event, make their ThreeRobot
+  // socket.on()
+}
 
-
-// gonna use bcrypt
 var projectiles = {};
 function makeProjectile(projectile) {
   var geo = new THREE.SphereGeometry(5, 32, 32);
@@ -78289,7 +78286,7 @@ var animate = exports.animate = function animate() {
 
       for (var i = 0; i < keys.length; i++) {
         if (!robots[keys[i]]) {
-          robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]]);
+          robots[keys[i]] = buildRobot(_store2.default.getState().gameData.robots[keys[i]]);
         }
       }
     } // IF ENOUGH ROBOTS - UPDATE ROBOT POSITION
@@ -78303,13 +78300,13 @@ var animate = exports.animate = function animate() {
         }
       }
   }
-  console.log('ROBOTS ARR', robots);
+  // console.log('ROBOTS ARR', robots)
 
   if (storeState.gameData.projectiles) {
     if (Object.keys(projectiles).length < Object.keys(_store2.default.getState().gameData.projectiles).length) {
       var projKeys = Object.keys(_store2.default.getState().gameData.projectiles);
       for (var j = 0; j < projKeys.length; j++) {
-        if (!projectiles[projKeys[j]] && projectiles.length < 10) {
+        if (!projectiles[projKeys[j]]) {
           projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]]);
         }
       }

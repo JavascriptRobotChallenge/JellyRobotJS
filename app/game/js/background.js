@@ -105,8 +105,6 @@ export const init = () => {
 
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
-
-    buildRobot()
     //
     window.addEventListener('resize', onWindowResize, false);
 }
@@ -119,7 +117,7 @@ function onWindowResize() {
 
 function buildRobot(robot){
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
-  ThreeRobot.position.set(robot.x, robot.y, robot.z, robot.theta);
+  ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
   window.robot = ThreeRobot
   scene.add(ThreeRobot);
@@ -132,7 +130,6 @@ function initializePlayers(){
   // socket.on()
 }
 
-// gonna use bcrypt
 var projectiles = {}
 function makeProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
@@ -163,7 +160,7 @@ export const animate = () => {
 
         for (var i = 0; i < keys.length; i++) {
           if (!robots[keys[i]]) {
-            robots[keys[i]] = buildRobot(storeState.gameData.robots[keys[i]])
+            robots[keys[i]] = buildRobot(store.getState().gameData.robots[keys[i]])
           }
         }
       } // IF ENOUGH ROBOTS - UPDATE ROBOT POSITION
@@ -183,7 +180,7 @@ export const animate = () => {
       if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.projectiles).length) {
         var projKeys = Object.keys(store.getState().gameData.projectiles)
         for (var j = 0; j < projKeys.length; j++) {
-          if (!projectiles[projKeys[j]] && projectiles.length < 10) {
+          if (!projectiles[projKeys[j]]) {
             projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]])
           }
         }
