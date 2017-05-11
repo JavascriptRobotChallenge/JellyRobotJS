@@ -15,7 +15,7 @@ const reducer = ( state = {}, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
       case "AddPlayer":
-        newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 100,lastFired:0}
+        newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 5,lastFired:0}
         return newState
       case "UpdateLastFired":
         newState[action.playerId].lastFired = action.lastFired
@@ -40,7 +40,7 @@ const reducer = ( state = {}, action) => {
 }
 
 const UpdateLastFired = (playerId,lastFired) => {
-console.log("lastfiredinaction",lastFired)
+// console.log("lastfiredinaction",lastFired)
   return {playerId:playerId,type:"UpdateLastFired", lastFired}
 }
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})

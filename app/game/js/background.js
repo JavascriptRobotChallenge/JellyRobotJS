@@ -122,9 +122,10 @@ function buildRobot(robot){
 
 function makeProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
-    var mat = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var mat = new THREE.MeshBasicMaterial( {color: "rgb(132, 6, 0)"} );
     var practiceSphere = new THREE.Mesh( geo, mat );
-    practiceSphere.position.set(projectile.x,0,projectile.z);
+    practiceSphere.position.set(projectile.x, 60 ,projectile.z);
+    practiceSphere.scale.set(3, 3, 3);
     scene.add(practiceSphere)
     return practiceSphere
 }
@@ -176,8 +177,9 @@ export const animate = () => {
     }
 
     for(var projKey in projectiles) {
-      projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
-      projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
+      console.log('projectiles', projectiles)
+      projectiles && projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
+      projectiles && projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
     }
     requestAnimationFrame(animate);
     renderer.render(scene, camera);

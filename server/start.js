@@ -102,21 +102,17 @@ if (module === require.main) {
       this.health = 100;
       this.direction;
   }
-  RobotClass.prototype.hitWall = function() {
-      this.health--
-  }
 
-var counter = 0
-  RobotClass.prototype.fire = function(playerId, degrees){
+  var counter = 0
+  RobotClass.prototype.fire = function(playerId, degrees, strength){
     var theta = degrees *.0174533
 
-    console.log('inside fire')
-    if ( Date.now() - backendStore.getState().robots[playerId].lastFired > 1000){
-      console.log('date approved')
-      console.log('last fired according to store', backendStore.getState().robots[playerId].lastFired)
-      console.log('counter', counter, (Date.now() - backendStore.getState().robots[playerId].lastFired))
+    if ( Date.now() - backendStore.getState().robots[playerId].lastFired > strength * 1000){
+      // console.log('date approved')
+      // console.log('last fired according to store', backendStore.getState().robots[playerId].lastFired)
+      // console.log('counter', counter, (Date.now() - backendStore.getState().robots[playerId].lastFired))
       backendStore.dispatch(UpdateLastFired(playerId,Date.now()))
-      backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], theta))
+      backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], theta, strength))
       counter++
     }
 

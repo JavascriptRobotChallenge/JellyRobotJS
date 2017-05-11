@@ -1,8 +1,8 @@
 const backendStore = require('./backendStore.js');
 const { robotReducer } = require('./robotReducer.js');
 const SERVER_UPDATE_RATE = 1000/30;
-const { Rotation, WalkForward } = require("./robotReducer")
-const { MoveOneForward, RemoveProjectile, DecreaseHealth } = require("./projectileReducer")
+const { Rotation, WalkForward, DecreaseHealth } = require("./robotReducer")
+const { MoveOneForward, RemoveProjectile } = require("./projectileReducer")
 
 let io;
 let gameLoop;
@@ -33,8 +33,16 @@ function checkProjectilesToRemove(){
     for(var robotID in robotsObj){
       var robot = robotsObj[robotID]
 
-      if(Math.abs(robot.x - projectile.x) < 3 && Math.abs(robot.z - projectile.z) < 3 ){
-        backendStore.dispatch(DecreaseHealth(robotId, projectile.strength))
+      if(Math.abs(robot.x - projectile.x) < 22 && Math.abs(robot.z - projectile.z) < 22 ){
+        console.log('hit registered')
+        // console.log("projectile", projectileObj[projectileId])
+        // console.log("projectile", projectileObj[projectileId])
+
+        backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
+        // if(robots[robotID].health === 0){
+        //   // remove robot!
+        //   destroy robots[robotID]
+        // }
         backendStore.dispatch(RemoveProjectile(projectileId))
       }
     }
@@ -64,7 +72,12 @@ function broadcastGameState(io){
           var actionObjects = robot.robotInstance.onIdle(playerArr[i])
           actionObjects.forEach((actionObject) => {
             if(userTime % actionObject.frequency === 0){
-              actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees)
+
+              if (actionObject.action.toString().indexOf('Fire') !== -1){
+                actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees, actionObject.strength)
+              } else {
+                actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees)
+              }
             }
           })
         }
