@@ -21,7 +21,7 @@ export default class Healthbar extends React.Component{
       // console.log('robot health', this.state[robotID].health)
       var healthBars = robots.map(robotID => {
         return ((this.state[robotID].health) ?
-        <Line percent={this.state[robotID].health} key={robotID} strokeWidth="4" strokeColor="#42f471"/>
+        <Line percent={this.state[robotID].health*10} key={robotID} strokeWidth="4" strokeColor="#42f471"/>
         : <div/>
         )
       })
