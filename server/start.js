@@ -56,7 +56,8 @@ module.exports = app
   .use(passport.session())
 
   // Serve static files from ../public
-  .use(express.static(resolve(__dirname, '..', 'app', 'game')))
+  .use(express.static(resolve(__dirname, '..', 'public')))
+  // .use(express.static(resolve(__dirname, '..', 'app', 'game', 'js', '*')))
 
   // Serve our api - ./api also requires in ../db, which syncs with our database
   .use('/api', require('./api'))
@@ -73,7 +74,7 @@ module.exports = app
   })
 
   // Send index.html for anything else.
-  .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'app', 'game', 'index.html')))
+  .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
 
   // Error middleware interceptor, delegates to same handler Express uses.
   // https://github.com/expressjs/express/blob/master/lib/application.js#L162
