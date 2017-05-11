@@ -38,12 +38,6 @@ export const init = () => {
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
 
-  var testMarker = new THREE.Mesh(robotModel.geometry, robotModel.materials)
-  testMarker.position.set(100, 0,100);
-  testMarker.scale.set(40, 40, 40);
-  scene.add(testMarker);
-  window.testMarker = testMarker
-
     var light = new THREE.DirectionalLight(0xaabbff, 0.3);
     light.position.x = 300;
     light.position.y = 250;
@@ -166,7 +160,7 @@ export const animate = () => {
         }
       }
     }
-
+    
     if (storeState.gameData.projectiles) {
       if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.projectiles).length) {
         var projKeys = Object.keys(store.getState().gameData.projectiles)
@@ -187,9 +181,12 @@ export const animate = () => {
       }
       else if (Object.keys(store.getState().gameData.projectiles).length) {
         var projectileState = store.getState().gameData.projectiles
-        for (var projKey in projectileState) {
-          projectiles[projKey].position.x = projectileState[projKey].x
-          projectiles[projKey].position.z = projectileState[projKey].z
+        for (var projKey in projectiles) {
+          console.log('PROJKEY', projKey)
+          console.log('projectiles', projectiles)
+          console.log('projectilesState[projKey]', projectileState[projKey])
+          projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
+          projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
         }
       }
     }

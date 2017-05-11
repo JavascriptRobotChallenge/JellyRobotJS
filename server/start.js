@@ -107,7 +107,8 @@ if (module === require.main) {
       this.health--
   }
 
-  RobotClass.prototype.fire = function(playerId, theta){
+  RobotClass.prototype.fire = function(playerId, degrees){
+    var theta = degrees *.0174533
     var firingRobot = backendStore.getState().robots[playerId]
     backendStore.dispatch(FireProjectile(firingRobot, theta))
   }
@@ -139,7 +140,6 @@ if (module === require.main) {
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
-
       })
       backendStore.dispatch(AddPlayer(socket.id, roboInstance))
     })

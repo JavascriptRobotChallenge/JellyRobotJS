@@ -22,17 +22,19 @@ var startingCode =
        var robotInstance = backendStore.getState()[id]
         return [
           { frequency: 1, action: this.walkForward},
-          { frequency: 400, action: this.rotation, degrees: 60},
+          { frequency: 400, action: this.rotation, degrees: 60}
         ]
     }
 
     SubRobot.prototype.onWallCollision = function(id){
         this.rotation(id, 45)
+        this.fire(id, 180)
         this.walkForward(id)
      }
 
      SubRobot.prototype.onBoxCollision = function(id){
         this.rotation(id, 45)
+        this.fire(id, 90)
         this.walkForward(id)
      }
      return new SubRobot()
