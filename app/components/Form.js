@@ -11,27 +11,32 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-    (function(){
+ `(function(){
     function SubRobot(){
         this.color = "red"
      };
 
-     SubRobot.prototype = Object.create(RobotClass.prototype)
+    SubRobot.prototype = Object.create(RobotClass.prototype)
 
-     SubRobot.prototype.git  = function(id){
+    SubRobot.prototype.onIdle = function(id){
        var robotInstance = backendStore.getState()[id]
-       timesToCall = 999
-       return [()=>{this.walkForward.bind(null, timesToCall, id)}, ()=>{this.rotation.bind(null, 1, id)}]
+        return [
+          { frequency: 1, action: this.walkForward},
+          { frequency: 400, action: this.rotation, degrees: 60},
+        ]
     }
-    SubRobot.prototype.onWalkForward = function(time, id){
-       this.walkForward(100, id);
-  }
-    SubRobot.prototype.onWallCollision = function(time, id){
-        this.rotation(30, id)
-        this.walkForward(45, id)
+
+    SubRobot.prototype.onWallCollision = function(id){
+        this.rotation(id, 45)
+        this.walkForward(id)
+     }
+
+     SubRobot.prototype.onBoxCollision = function(id){
+        this.rotation(id, 45)
+        this.walkForward(id)
      }
      return new SubRobot()
-    })
+  })`
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {
@@ -69,63 +74,3 @@ export default class NameForm extends React.Component {
     );
   }
 }
-
-// export default class NameForm extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             value: `
-//             (function(){
-//             function SubRobot(){
-//                 this.color = "red"
-//              };
-//
-//              SubRobot.prototype = Object.create(RobotClass.prototype)
-//
-//              SubRobot.prototype.start = function(id){
-//                var robotInstance = backendStore.getState()[id]
-//
-//                  if (Math.abs(robotInstance.x) < 700 && Math.abs(robotInstance.z) < 700) {
-//                      this.walkForward(id);
-//                  } else {
-//                   this.rotation(id, 1)
-//                   this.walkForward(id)
-//                 }
-//              }
-//
-//              return new SubRobot()
-//             })`
-//         };
-//
-//         this.handleChange = this.handleChange.bind(this);
-//         this.handleSubmit = this.handleSubmit.bind(this);
-//     }
-//
-//     handleChange(event) {
-//         this.setState({
-//             value: event.target.value
-//         });
-//     }
-//
-//     handleSubmit(event) {
-//         event.preventDefault();
-//         socket.emit('sendCode', this.state.value)
-//     }
-//
-//     render() {
-//       return (
-//         <div>
-//         <form onSubmit={this.handleSubmit}>
-//           <label>
-//             Code robot:
-//             <br />
-//             <textarea  value={this.state.value} rows="40" onChange={this.handleChange} />
-//           </label>
-//           <br />
-//           <input type="submit" value="Submit" />
-//         </form>
-//         <RobotWorld />
-//       </div>
-//       );
-//     }
-// }

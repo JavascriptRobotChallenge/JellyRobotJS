@@ -121,6 +121,7 @@ function buildRobot(robot){
   ThreeRobot.scale.set(40, 40, 40);
   window.robot = ThreeRobot
   scene.add(ThreeRobot);
+  console.log(ThreeRobot, 'is this in the scene?')
   return ThreeRobot;
 }
 

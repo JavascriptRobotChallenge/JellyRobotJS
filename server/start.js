@@ -9,10 +9,11 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./backendStore.js')
 const { AddPlayer } = require('./robotReducer')
-const { Rotation, WalkForward } = require("./robotReducer")
 const { FireProjectile } = require("./projectileReducer")
-
+const { Rotation, WalkForward, WalkBackward } = require("./robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
+var util = require('util')
+var eventEmitter = require('events').EventEmitter;
 
 // PrettyError docs: https://www.npmjs.com/package/pretty-error
 
@@ -111,23 +112,35 @@ if (module === require.main) {
     backendStore.dispatch(FireProjectile(firingRobot, theta))
   }
 
-  RobotClass.prototype.rotation = function(playerId, theta) {
-      backendStore.dispatch(Rotation(playerId, theta))
+  RobotClass.prototype.rotation = function(playerId, degrees) {
+    var theta = degrees *.0174533
+    backendStore.dispatch(Rotation(playerId, theta))
   }
 
-  RobotClass.prototype.walkForward = function(theta) {
-      backendStore.dispatch(WalkForward(theta))
+  RobotClass.prototype.walkForward = function(id) {
+    backendStore.dispatch(WalkForward(id))
   }
 
-  var connectCounter = 0
+  RobotClass.prototype.walkBackward = function(numTimes, id) {
+    backendStore.dispatch(WalkBackward(id))
+  }
+
+  util.inherits(RobotClass, eventEmitter)
+
+
+  var connectCounter = 0, idleActions = {}
   var io = require('socket.io')(server)
 
   io.on('connection', function(socket) {
-    connectCounter++
 
     socket.on('sendCode', (code)=>{
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
+      var robotProtos = Object.getPrototypeOf(roboInstance)
+      Object.keys(robotProtos).forEach(robotProto => {
+        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
+
+      })
       backendStore.dispatch(AddPlayer(socket.id, roboInstance))
     })
   })

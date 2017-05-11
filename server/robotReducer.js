@@ -24,6 +24,10 @@ const reducer = ( state = {}, action) => {
         newState[action.playerId].x = newState[action.playerId].x + 5 * Math.sin(newState[action.playerId].theta)
         newState[action.playerId].z = newState[action.playerId].z + 5 * Math.cos(newState[action.playerId].theta)
         return newState
+      case "WalkBackward":
+        newState[action.playerId].x = newState[action.playerId].x - Math.sin(newState[action.playerId].theta)
+        newState[action.playerId].z = newState[action.playerId].z - Math.cos(newState[action.playerId].theta)
+        return newState
       case "DecreaseHealth":
         newState[action.playerId].health -= action.strength
       default:
@@ -31,9 +35,9 @@ const reducer = ( state = {}, action) => {
     }
 }
 
-
 const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
-const WalkForward = (playerId) => ({ type: "WalkForward", playerId })
+const WalkForward = (playerId) => ({type: "WalkForward", playerId})
+const WalkBackward = (playerId) => ({type: "WalkBackward", playerId})
 const Rotation = (playerId, theta) =>{
   return {type: "Rotation", playerRotation:{ playerId: playerId, theta: theta} }
 }
@@ -43,4 +47,4 @@ const DecreaseHealth = (playerId, strength)=> {
   strength: strength }
 }
 
-module.exports = { reducer, AddPlayer, WalkForward, Rotation, DecreaseHealth }
+module.exports = { reducer, AddPlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth }
