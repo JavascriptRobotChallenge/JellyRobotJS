@@ -16,7 +16,7 @@ module.exports = {
   entry: './app/main.jsx',
   output: {
     path: __dirname,
-    filename: './app/game/bundle.js'
+    filename: './public/bundle.js'
   },
   context: __dirname,
   devtool: devMode && USE_FAST_SOURCE_MAPS
