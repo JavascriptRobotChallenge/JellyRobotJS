@@ -1,12 +1,14 @@
 # Ignore all node_modules
-node_modules/*
+node_modules
+
+.idea/
 
 # ...except the symlink to ourselves.
 !node_modules/APP
 
 # Compiled JS
-public/bundle.js
-public/bundle.js.map
+app/game/bundle.js
+app/game/bundle.js.map
 
 # NPM errors
 npm-debug.log
