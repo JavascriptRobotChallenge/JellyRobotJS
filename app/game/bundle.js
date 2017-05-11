@@ -77004,7 +77004,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var startingCode = "(function(){\n    function SubRobot(){\n        this.color = \"red\"\n     };\n\n     SubRobot.prototype = Object.create(RobotClass.prototype)\n\n     SubRobot.prototype.start = function(id){\n       var robotInstance = backendStore.getState().robots[id]\n          \n         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){\n          this.rotation(id, 1)\n          this.fire(id, 0)\n          this.walkForward(id)\n        }\n        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {\n           this.rotation(id, 1)\n            this.walkForward(id)\n            }\n        else if (robotInstance.x>148&&robotInstance.x<332&&robotInstance.z<92&&robotInstance.z>-92) {\n             this.rotation(id, 1)\n             this.walkForward(id);\n            }\n        else {\n              this.walkForward(id)\n        }\n     }\n\n     return new SubRobot()\n    })";
+var startingCode = function startingCode() {
+  function SubRobot() {
+    this.color = "red";
+  };
+
+  SubRobot.prototype = Object.create(RobotClass.prototype);
+
+  SubRobot.prototype.git = function (id) {
+    var _this = this;
+
+    var robotInstance = backendStore.getState()[id];
+    timesToCall = 999;
+    return [function () {
+      _this.walkForward.bind(null, timesToCall, id);
+    }, function () {
+      _this.rotation.bind(null, 1, id);
+    }];
+  };
+  SubRobot.prototype.onWalkForward = function (time, id) {
+    this.walkForward(100, id);
+  };
+  SubRobot.prototype.onWallCollision = function (time, id) {
+    this.rotation(30, id);
+    this.walkForward(45, id);
+  };
+  return new SubRobot();
+};
 var inputCode = startingCode;
 
 var NameForm = function (_React$Component) {
@@ -77013,12 +77039,12 @@ var NameForm = function (_React$Component) {
   function NameForm(props) {
     _classCallCheck(this, NameForm);
 
-    var _this = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
 
-    _this.state = {
+    _this2.state = {
       previousInput: ''
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(NameForm, [{
@@ -78285,12 +78311,6 @@ function buildRobot(robot) {
   return ThreeRobot;
 }
 
-function initializePlayers() {
-  //when server emits a connect event, make our own ThreeRobot
-  // when server emits a PlayerAdded event, make their ThreeRobot
-  // socket.on()
-}
-
 var projectiles = {};
 function makeProjectile(projectile) {
   var geo = new THREE.SphereGeometry(5, 32, 32);
@@ -78302,6 +78322,7 @@ function makeProjectile(projectile) {
 }
 
 function removeProjectile(projectile) {
+  //poor garbage collection - might need to also remove materials and geometries
   scene.remove(projectile);
 }
 
@@ -78309,9 +78330,6 @@ function removeProjectile(projectile) {
 //SW: but don't pre optimize
 var robots = {};
 var animate = exports.animate = function animate() {
-  // if the store has robots, and the local array doesn't -- we need to make new robots
-  // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-
   var storeState = _store2.default.getState();
   //IF NOT ENOUGH ROBOTS - ADD ROBOTS
   if (storeState.gameData.robots) {

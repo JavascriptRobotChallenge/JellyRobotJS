@@ -16,9 +16,7 @@ const reducer = ( state = {}, action) => {
         newState[action.projectileId].z = newState[action.projectileId].z + 15 * Math.cos(newState[action.projectileId].theta)
         return newState
       case "RemoveProjectile":
-      console.log('INSIDE REMOVE PROJECTILE')
         delete newState[action.projectileId]
-      console.log('NEW STATE', newState)
         return newState
     }
     return newState
