@@ -24,8 +24,7 @@ function checkProjectilesToRemove(){
   for(var projectileId in projectileObj){
     var projectile = projectileObj[projectileId]
     console.log('projectile', projectile)
-    if(Math.abs(projectile.x) > 705 || Math.abs(projectile.z) > 705 ){
-      console.log('hitting wall')
+    if(Math.abs(projectile.x) > 800 || Math.abs(projectile.z) > 800 ){
       backendStore.dispatch(RemoveProjectile(projectileId))
     }
     else if(projectile.x < 140 && projectile.x > -140 && projectile.z < 140 && projectile.z > -140){

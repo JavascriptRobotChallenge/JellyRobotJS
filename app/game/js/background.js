@@ -138,7 +138,10 @@ function makeProjectile(projectile){
     practiceSphere.position.set(projectile.x,0,projectile.z);
     scene.add(practiceSphere)
     return practiceSphere
+}
 
+function removeProjectile(projectile) {
+  scene.remove(projectile);
 }
 
 function updateProjectile(){
@@ -185,11 +188,13 @@ export const animate = () => {
           }
         }
       } else if (Object.keys(projectiles).length > Object.keys(store.getState().gameData.projectiles).length){
-        console.log('INSIDE DELETING PROJECTILES')
         var projectileState = store.getState().gameData.projectiles
         for (var projKey in projectiles) {
-          if (!projectileState[projkey]) {
-            delete projectile[projKey]
+          var temp = projKey
+          if (!projectileState[temp]) {
+            removeProjectile(projectiles[projKey])
+            console.log('inside if statement', projectiles)
+            delete projectiles[projKey]
           }
         }
       }
@@ -200,7 +205,6 @@ export const animate = () => {
           // console.log("projectiles", projectiles, projectileState)
           projectiles[projKey].position.x = projectileState[projKey].x
           projectiles[projKey].position.z = projectileState[projKey].z
-          console.log("success")
         }
       }
     }
