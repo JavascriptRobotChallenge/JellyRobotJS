@@ -119,7 +119,7 @@ function buildRobot(robot){
   return ThreeRobot;
 }
 
-var projectiles = {}
+
 function makeProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
     var mat = new THREE.MeshBasicMaterial( {color: 0xffff00} );
@@ -129,14 +129,15 @@ function makeProjectile(projectile){
     return practiceSphere
 }
 
-function removeProjectile(projectile) {
-  //poor garbage collection - might need to also remove materials and geometries
-  scene.remove(projectile);
-}
+// function removeProjectile(projectile) {
+//   //poor garbage collection - might need to also remove materials and geometries
+// }
 
 //SW: keep game loop in mind - can affect future performance
 //SW: but don't pre optimize
+var projectiles = {}
 var robots = {}
+
 export const animate = () => {
     var storeState = store.getState()
     //IF NOT ENOUGH ROBOTS - ADD ROBOTS
@@ -160,36 +161,59 @@ export const animate = () => {
         }
       }
     }
-    
-    if (storeState.gameData.projectiles) {
-      if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.projectiles).length) {
-        var projKeys = Object.keys(store.getState().gameData.projectiles)
-        for (var j = 0; j < projKeys.length; j++) {
-          if (!projectiles[projKeys[j]]) {
-            projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]])
-          }
-        }
-      } else if (Object.keys(projectiles).length > Object.keys(store.getState().gameData.projectiles).length){
-        var projectileState = store.getState().gameData.projectiles
-        for (var projKey in projectiles) {
-          var temp = projKey
-          if (!projectileState[temp]) {
-            removeProjectile(projectiles[projKey])
-            delete projectiles[projKey]
-          }
-        }
+
+    for( var individualProjectile in projectiles){
+      if(!store.getState().gameData.projectiles[individualProjectile]){
+        scene.remove(projectiles[individualProjectile])
+        delete projectiles[individualProjectile]
       }
-      else if (Object.keys(store.getState().gameData.projectiles).length) {
-        var projectileState = store.getState().gameData.projectiles
-        for (var projKey in projectiles) {
-          console.log('PROJKEY', projKey)
-          console.log('projectiles', projectiles)
-          console.log('projectilesState[projKey]', projectileState[projKey])
-          projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
-          projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
-        }
+    }
+
+    for(var storeProjectile in store.getState().gameData.projectiles){
+      if(!projectiles[storeProjectile]){
+        projectiles[storeProjectile] = makeProjectile(storeProjectile)
       }
+    }
+
+    for(var projKey in projectiles) {
+      projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
+      projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
     }
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
+
+
+
+
+// // If there are more projectiles in store than local obj... make them
+// if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.projectiles).length) {
+//   var projKeys = Object.keys(store.getState().gameData.projectiles)
+//   for (var j = 0; j < projKeys.length; j++) {
+//     if (!projectiles[projKeys[j]]) {
+//
+//       projectiles[projKeys[j]] = makeProjectile(storeState.gameData.projectiles[projKeys[j]])
+//     }
+//   }
+// // vice versa, delete them
+// } else if (Object.keys(projectiles).length > Object.keys(store.getState().gameData.projectiles).length){
+//   var projectileState = store.getState().gameData.projectiles
+//   for (var projKey in projectiles) {
+//     var temp = projKey
+//     if (!projectileState[temp]) {
+//       removeProjectile(projectiles[projKey])
+//       delete projectiles[projKey]
+//     }
+//   }
+// }
+// // if they are the same length, just move them
+// else if (Object.keys(store.getState().gameData.projectiles).length) {
+//   var projectileState = store.getState().gameData.projectiles
+//   for (var projKey in projectiles) {
+//     console.log('PROJKEY', projKey)
+//     console.log('projectiles', projectiles)
+//     console.log('projectilesState[projKey]', projectileState[projKey])
+//     projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
+//     projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
+//   }
+// }

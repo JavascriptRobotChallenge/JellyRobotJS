@@ -6,7 +6,7 @@ import { Rotation, WalkForward, WalkBackward } from "../reducers/robot"
 import { render } from 'react-dom';
 import brace from 'brace';
 import AceEditor from 'react-ace';
-
+import _ from "lodash"
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
@@ -27,9 +27,15 @@ var startingCode =
     }
 
     SubRobot.prototype.onWallCollision = function(id){
+      var robotInstance = backendStore.getState()[id]
+
         this.rotation(id, 45)
-        this.fire(id, 180)
         this.walkForward(id)
+        this.walkForward(id)
+        this.walkForward(id)
+        this.walkForward(id)
+        this.walkForward(id)
+        this.fire(id, 90)
      }
 
      SubRobot.prototype.onBoxCollision = function(id){

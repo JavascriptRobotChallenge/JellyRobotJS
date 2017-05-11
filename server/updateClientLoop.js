@@ -46,7 +46,6 @@ function broadcastGameState(io){
   // change when we add Rooms
   const gameLoop = setInterval(() => {
     userTime++;
-    console.log('USERTIME', userTime)
     let state = backendStore.getState().robots
     var playerArr = Object.keys(state)
     if (playerArr.length) {

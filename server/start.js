@@ -8,9 +8,8 @@ const passport = require('passport')
 const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./backendStore.js')
-const { AddPlayer } = require('./robotReducer')
 const { FireProjectile } = require("./projectileReducer")
-const { Rotation, WalkForward, WalkBackward } = require("./robotReducer")
+const { AddPlayer, Rotation, WalkForward, WalkBackward, UpdateLastFired } = require("./robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
 var util = require('util')
 var eventEmitter = require('events').EventEmitter;
@@ -107,10 +106,20 @@ if (module === require.main) {
       this.health--
   }
 
+var counter = 0
   RobotClass.prototype.fire = function(playerId, degrees){
     var theta = degrees *.0174533
-    var firingRobot = backendStore.getState().robots[playerId]
-    backendStore.dispatch(FireProjectile(firingRobot, theta))
+
+    console.log('inside fire')
+    if ( Date.now() - backendStore.getState().robots[playerId].lastFired > 1000){
+      console.log('date approved')
+      console.log('last fired according to store', backendStore.getState().robots[playerId].lastFired)
+      console.log('counter', counter, (Date.now() - backendStore.getState().robots[playerId].lastFired))
+      backendStore.dispatch(UpdateLastFired(playerId,Date.now()))
+      backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], theta))
+      counter++
+    }
+
   }
 
   RobotClass.prototype.rotation = function(playerId, degrees) {
@@ -146,6 +155,7 @@ if (module === require.main) {
   })
   broadcastGameState(io)
 }
+
 
 // This check on line 64 is only starting the server if this file is being run directly by Node, and not required by another file.
 // Bones does this for testing reasons. If we're running our app in development or production, we've run it directly from Node using 'npm start'.
