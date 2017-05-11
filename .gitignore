@@ -7,8 +7,8 @@ node_modules
 !node_modules/APP
 
 # Compiled JS
-app/game/bundle.js
-app/game/bundle.js.map
+public/bundle.js
+public/bundle.js.map
 
 # NPM errors
 npm-debug.log
