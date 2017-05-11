@@ -78305,10 +78305,6 @@ function removeProjectile(projectile) {
   scene.remove(projectile);
 }
 
-function updateProjectile() {}
-// reset positions
-
-
 //SW: keep game loop in mind - can affect future performance
 //SW: but don't pre optimize
 var robots = {};
@@ -78338,7 +78334,6 @@ var animate = exports.animate = function animate() {
         }
       }
   }
-  // console.log('ROBOTS ARR', robots)
 
   if (storeState.gameData.projectiles) {
     if (Object.keys(projectiles).length < Object.keys(_store2.default.getState().gameData.projectiles).length) {
@@ -78354,15 +78349,12 @@ var animate = exports.animate = function animate() {
         var temp = projKey;
         if (!projectileState[temp]) {
           removeProjectile(projectiles[projKey]);
-          console.log('inside if statement', projectiles);
           delete projectiles[projKey];
         }
       }
     } else if (Object.keys(_store2.default.getState().gameData.projectiles).length) {
       var projectileState = _store2.default.getState().gameData.projectiles;
       for (var projKey in projectileState) {
-        // console.log("projkey", projKey)
-        // console.log("projectiles", projectiles, projectileState)
         projectiles[projKey].position.x = projectileState[projKey].x;
         projectiles[projKey].position.z = projectileState[projKey].z;
       }

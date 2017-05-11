@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "axios"
 import store from "../store"
 import { RobotWorld } from './RobotWorld'
-import { Rotation, WalkForward } from "../reducers/robot"
+import { Rotation, WalkForward, WalkBackward } from "../reducers/robot"
 import { render } from 'react-dom';
 import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -10,38 +10,28 @@ import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
-
 var startingCode =
-  `(function(){
+    (function(){
     function SubRobot(){
         this.color = "red"
      };
 
      SubRobot.prototype = Object.create(RobotClass.prototype)
 
-     SubRobot.prototype.start = function(id){
-       var robotInstance = backendStore.getState().robots[id]
-          
-         if (Math.abs(robotInstance.x) > 700 || Math.abs(robotInstance.z)>700){
-          this.rotation(id, 1)
-          this.fire(id, 0)
-          this.walkForward(id)
-        }
-        else if(robotInstance.x<140&&robotInstance.x>-140&&robotInstance.z<140&&robotInstance.z>-140) {
-           this.rotation(id, 1)
-            this.walkForward(id)
-            }
-        else if (robotInstance.x>148&&robotInstance.x<332&&robotInstance.z<92&&robotInstance.z>-92) {
-             this.rotation(id, 1)
-             this.walkForward(id);
-            }
-        else {
-              this.walkForward(id)
-        }
+     SubRobot.prototype.git  = function(id){
+       var robotInstance = backendStore.getState()[id]
+       timesToCall = 999
+       return [()=>{this.walkForward.bind(null, timesToCall, id)}, ()=>{this.rotation.bind(null, 1, id)}]
+    }
+    SubRobot.prototype.onWalkForward = function(time, id){
+       this.walkForward(100, id);
+  }
+    SubRobot.prototype.onWallCollision = function(time, id){
+        this.rotation(30, id)
+        this.walkForward(45, id)
      }
-
      return new SubRobot()
-    })`
+    })
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

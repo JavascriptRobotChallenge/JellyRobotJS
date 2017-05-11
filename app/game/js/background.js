@@ -124,12 +124,6 @@ function buildRobot(robot){
   return ThreeRobot;
 }
 
-function initializePlayers(){
-  //when server emits a connect event, make our own ThreeRobot
-  // when server emits a PlayerAdded event, make their ThreeRobot
-  // socket.on()
-}
-
 var projectiles = {}
 function makeProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
@@ -141,20 +135,14 @@ function makeProjectile(projectile){
 }
 
 function removeProjectile(projectile) {
+  //poor garbage collection - might need to also remove materials and geometries
   scene.remove(projectile);
-}
-
-function updateProjectile(){
-  // reset positions
 }
 
 //SW: keep game loop in mind - can affect future performance
 //SW: but don't pre optimize
 var robots = {}
 export const animate = () => {
-  // if the store has robots, and the local array doesn't -- we need to make new robots
-  // console.log(Object.keys(store.getState().robotData), 'ROBOT DATA KEYS OBJECT')
-
     var storeState = store.getState()
     //IF NOT ENOUGH ROBOTS - ADD ROBOTS
     if (storeState.gameData.robots) {
@@ -177,7 +165,6 @@ export const animate = () => {
         }
       }
     }
-    // console.log('ROBOTS ARR', robots)
 
     if (storeState.gameData.projectiles) {
       if (Object.keys(projectiles).length < Object.keys(store.getState().gameData.projectiles).length) {
@@ -193,7 +180,6 @@ export const animate = () => {
           var temp = projKey
           if (!projectileState[temp]) {
             removeProjectile(projectiles[projKey])
-            console.log('inside if statement', projectiles)
             delete projectiles[projKey]
           }
         }
@@ -201,8 +187,6 @@ export const animate = () => {
       else if (Object.keys(store.getState().gameData.projectiles).length) {
         var projectileState = store.getState().gameData.projectiles
         for (var projKey in projectileState) {
-          // console.log("projkey", projKey)
-          // console.log("projectiles", projectiles, projectileState)
           projectiles[projKey].position.x = projectileState[projKey].x
           projectiles[projKey].position.z = projectileState[projKey].z
         }

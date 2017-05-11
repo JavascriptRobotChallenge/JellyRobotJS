@@ -12,22 +12,22 @@ const reducer = ( state = {}, action) => {
   const newState = _.merge({}, state)
   Object.freeze(state)
 
-    switch (action.type) {
-      //SW: these should be coming from a constant file
-        case "AddPlayer":
-          newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 100}
-          return newState
-        case "Rotation":
-          newState[action.playerRotation.playerId].theta = newState[action.playerRotation.playerId].theta + action.playerRotation.theta
-          return newState
-        case "WalkForward":
-          newState[action.playerId].x = newState[action.playerId].x + 5 * Math.sin(newState[action.playerId].theta)
-          newState[action.playerId].z = newState[action.playerId].z + 5 * Math.cos(newState[action.playerId].theta)
-          return newState
-        case "DecreaseHealth":
-          newState[action.playerId].health -= action.strength
-        default:
-          return newState
+  switch (action.type) {
+    //SW: these should be coming from a constant file
+      case "AddPlayer":
+        newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 100}
+        return newState
+      case "Rotation":
+        newState[action.playerRotation.playerId].theta = newState[action.playerRotation.playerId].theta + action.playerRotation.theta
+        return newState
+      case "WalkForward":
+        newState[action.playerId].x = newState[action.playerId].x + 5 * Math.sin(newState[action.playerId].theta)
+        newState[action.playerId].z = newState[action.playerId].z + 5 * Math.cos(newState[action.playerId].theta)
+        return newState
+      case "DecreaseHealth":
+        newState[action.playerId].health -= action.strength
+      default:
+        return newState
     }
 }
 

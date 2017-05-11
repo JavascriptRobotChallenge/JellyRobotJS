@@ -15,15 +15,12 @@ const MoveForward = () => {
 }
 
 // positions for walls and boxes
-
-
 function checkProjectilesToRemove(){
   var robotsObj = backendStore.getState().robots
   var projectileObj = backendStore.getState().projectiles
 
   for(var projectileId in projectileObj){
     var projectile = projectileObj[projectileId]
-    console.log('projectile', projectile)
     if(Math.abs(projectile.x) > 800 || Math.abs(projectile.z) > 800 ){
       backendStore.dispatch(RemoveProjectile(projectileId))
     }
@@ -42,8 +39,6 @@ function checkProjectilesToRemove(){
       }
     }
   }
-
-
 }
 
 
