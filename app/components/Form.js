@@ -31,6 +31,12 @@ var startingCode =
         this.rotation(id, 45)
         this.walkForward(id)
      }
+     
+     SubRobot.prototype.onBoxCollision = function(id){
+        this.rotation(id, 45)
+        this.walkForward(id)
+     }
+     
      return new SubRobot()
     })`
 var inputCode = startingCode
