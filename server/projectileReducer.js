@@ -25,7 +25,7 @@ const reducer = ( state = {}, action) => {
 const FireProjectile = (robot, theta, strength) => {
   return {
     type: "FireProjectile",
-    position: { x: robot.x, y: robot.y, z: robot.z },
+    position: { x: robot.x + 20 * Math.sin(theta), y: robot.y, z: robot.z + 20 * Math.cos(theta)},
     theta: theta,
     strength
   }
