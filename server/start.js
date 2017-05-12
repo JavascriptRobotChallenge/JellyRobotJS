@@ -116,7 +116,6 @@ if (module === require.main) {
 
   RobotClass.prototype.accurateFire = function(id){
       var ownPosition = this.getOwnPosition(id)
-      this.rotation(id, 45)
       var otherPlayersPosition = this.findOpponent(id)
       var radAngle;
       if (!otherPlayersPosition){radAngle=0}
