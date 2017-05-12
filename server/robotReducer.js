@@ -19,10 +19,9 @@ const reducer = ( state = {}, action) => {
         return newState
       case "UpdateLastFired":
         newState[action.playerId].lastFired = action.lastFired
-        console.log("newstate is ",newState)
         return newState
       case "Rotation":
-        newState[action.playerRotation.playerId].theta = newState[action.playerRotation.playerId].theta + action.playerRotation.theta
+        newState[action.playerId].theta = newState[action.playerId].theta + action.theta
         return newState
       case "WalkForward":
         newState[action.playerId].x = newState[action.playerId].x + 5 * Math.sin(newState[action.playerId].theta)
@@ -39,20 +38,23 @@ const reducer = ( state = {}, action) => {
     }
 }
 
-const UpdateLastFired = (playerId,lastFired) => {
-// console.log("lastfiredinaction",lastFired)
-  return {playerId:playerId,type:"UpdateLastFired", lastFired}
-}
-const AddPlayer = (playerId, robotInstance) => ({type: "AddPlayer", playerId, robotInstance})
+const UpdateLastFired = (playerId,lastFired) => ({
+  type: "UpdateLastFired", playerId, lastFired
+})
+
+const AddPlayer = (playerId, robotInstance) => ({
+  type: "AddPlayer", playerId, robotInstance
+})
+
 const WalkForward = (playerId) => ({type: "WalkForward", playerId})
 const WalkBackward = (playerId) => ({type: "WalkBackward", playerId})
-const Rotation = (playerId, theta) =>{
-  return {type: "Rotation", playerRotation:{ playerId: playerId, theta: theta} }
-}
-const DecreaseHealth = (playerId, strength)=> {
-  return { type: "DecreaseHealth",
-  playerId: playerId,
-  strength: strength }
-}
+
+const Rotation = (playerId, theta) =>({
+  type: "Rotation", playerId, theta}
+})
+
+const DecreaseHealth = (playerId, strength)=> ({
+  type: "DecreaseHealth", playerId, strength
+})
 
 module.exports = { reducer, AddPlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateLastFired }
