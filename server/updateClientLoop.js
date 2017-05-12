@@ -1,8 +1,8 @@
-const backendStore = require('./backendStore.js');
-const { robotReducer } = require('./robotReducer.js');
+const backendStore = require('./reducers/backendStore.js');
+const { robotReducer } = require('./reducers/robotReducer.js');
 const SERVER_UPDATE_RATE = 1000/30;
-const { Rotation, WalkForward, DecreaseHealth } = require("./robotReducer")
-const { MoveOneForward, RemoveProjectile } = require("./projectileReducer")
+const { Rotation, WalkForward, DecreaseHealth } = require("./reducers/robotReducer")
+const { MoveOneForward, RemoveProjectile } = require("./reducers/projectileReducer")
 
 let io;
 let gameLoop;
