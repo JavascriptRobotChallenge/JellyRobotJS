@@ -101,7 +101,7 @@ function buildRobot(robot){
   return ThreeRobot;
 }
 
-function makeProjectile(projectile){
+function buildProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
     var mat = new THREE.MeshBasicMaterial( {color: "rgb(132, 6, 0)"} );
     var practiceSphere = new THREE.Mesh( geo, mat );
@@ -131,45 +131,50 @@ export const animate = () => {
     delta = now - then;
 
     if (delta > interval) {
-      var storeState = store.getState()
-      //IF NOT ENOUGH ROBOTS - ADD ROBOTS
-      if (storeState.gameData.robots) {
-        then = now - (delta % interval);
+      var storeState = store.getState().gameData
+      then = now - (delta % interval);
 
-        if (Object.keys(robots).length < Object.keys(store.getState().gameData.robots).length) {
-          var keys = Object.keys(store.getState().gameData.robots)
-
-          for (var i = 0; i < keys.length; i++) {
-            if (!robots[keys[i]]) {
-              robots[keys[i]] = buildRobot(store.getState().gameData.robots[keys[i]])
-            }
+        //ROBOTS
+        if (storeState.robots) {
+        for( var individualRobot in robots){
+          if(!storeState.robots[individualRobot]){
+            scene.remove(robots[individualRobot])
+            delete robots[individualRobot]
           }
-        } // IF ENOUGH ROBOTS - UPDATE ROBOT POSITION
-        else if (Object.keys(store.getState().gameData.robots).length) {
-          var robotState = store.getState().gameData.robots
-          var projectileState = store.getState().gameData.projectiles
-          for (var key in robotState) {
-            robots[key].position.x = robotState[key].x
-            robots[key].position.z = robotState[key].z
-            robots[key].rotation.y = robotState[key].theta
+        }
+        //ADDS ROBOTS IF THEY ARE IN STORE.STATE
+        if (Object.keys(robots).length < Object.keys(storeState.robots).length) {
+          for(var robotKey in storeState.robots){
+            robots[robotKey] = buildRobot(storeState.robots[robotKey])
           }
+        }
+        //UPDATES ROBOT POSITION W STORE.STATE POSITION
+        for(var robotKey in robots) {
+          var robotState = storeState.robots
+          robots && robots[robotKey] && (robots[robotKey].position.x = robotState[robotKey].x)
+          robots && robots[robotKey] && (robots[robotKey].position.z = robotState[robotKey].z)
+          robots && robots[robotKey] && (robots[robotKey].rotation.y = robotState[robotKey].theta)
         }
       }
 
+      //PROJECTILES
+
+      //REMOVES PROJECTILES IF THEY ARE NOT IN STORE.STATE
       for( var individualProjectile in projectiles){
-        if(!store.getState().gameData.projectiles[individualProjectile]){
+        if(!storeState.projectiles[individualProjectile]){
           scene.remove(projectiles[individualProjectile])
           delete projectiles[individualProjectile]
         }
       }
-
-      for(var storeProjectile in store.getState().gameData.projectiles){
+      //ADDS PROJECTILES IF THEY ARE IN STORE.STATE
+      for(var storeProjectile in storeState.projectiles){
         if(!projectiles[storeProjectile]){
-          projectiles[storeProjectile] = makeProjectile(storeProjectile)
+          projectiles[storeProjectile] = buildProjectile(storeProjectile)
         }
       }
-
+      //UPDATES PROJECTILE POSITION W STORE.STATE POSITION
       for(var projKey in projectiles) {
+        var projectileState = storeState.projectiles
         projectiles && projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
         projectiles && projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
       }

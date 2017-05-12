@@ -168,7 +168,7 @@ if (module === require.main) {
     })
 
     socket.on('disconnect', function() {
-      store.dispatch(RemovePlayer(socket.id))
+      backendStore.dispatch(RemovePlayer(socket.id))
     })
   })
   broadcastGameState(io)
