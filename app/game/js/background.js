@@ -145,7 +145,9 @@ export const animate = () => {
         //ADDS ROBOTS IF THEY ARE IN STORE.STATE
         if (Object.keys(robots).length < Object.keys(storeState.robots).length) {
           for(var robotKey in storeState.robots){
-            robots[robotKey] = buildRobot(storeState.robots[robotKey])
+            if (!robots[robotKey]) {
+              robots[robotKey] = buildRobot(storeState.robots[robotKey])
+            }
           }
         }
         //UPDATES ROBOT POSITION W STORE.STATE POSITION

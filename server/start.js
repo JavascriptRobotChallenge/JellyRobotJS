@@ -106,7 +106,6 @@ if (module === require.main) {
 
   var counter = 0
   RobotClass.prototype.fire = function(playerId, theta, strength){
-    console.log('FIRING PROJECTILES', theta)
 
     if ( Date.now() - backendStore.getState().robots[playerId].lastFired > strength * 1000){
       // console.log('date approved')
