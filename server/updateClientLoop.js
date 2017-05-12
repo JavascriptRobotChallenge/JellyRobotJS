@@ -90,5 +90,4 @@ function broadcastGameState(io){
 
 }
 
-//return [()=>{this.walkForward.bind(null, timesToCall, id)}, ()=>{this.rotation.bind(null, 1, id)}]
 module.exports =  broadcastGameState

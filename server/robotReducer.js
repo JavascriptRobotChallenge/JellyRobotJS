@@ -50,7 +50,7 @@ const WalkForward = (playerId) => ({type: "WalkForward", playerId})
 const WalkBackward = (playerId) => ({type: "WalkBackward", playerId})
 
 const Rotation = (playerId, theta) =>({
-  type: "Rotation", playerId, theta}
+  type: "Rotation", playerId, theta
 })
 
 const DecreaseHealth = (playerId, strength)=> ({
