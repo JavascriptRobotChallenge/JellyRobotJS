@@ -15,15 +15,16 @@ import * as THREE from 'three';
 
 socket.on('connect', function(){
   console.log('we have a connection')
-  // call BuildOurRobot
+  socket.emit('giveMeARoom')
+})
+
+socket.on('roomAssigned', function(myRoom){
+  console.log('this is my room: ', myRoom)
 })
 
 socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
-  console.log(store.getState().gameData.robots, 'this is our store at this point')
-  if (store.getState().gameData.robots) {
-    socket.emit('room', store.getState().gameData.robots[socket.id].roomName);
-  }
+  // console.log(store.getState().gameData.robots, 'this is our store at this point')
 })
 
 
