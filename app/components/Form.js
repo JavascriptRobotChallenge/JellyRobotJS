@@ -11,41 +11,62 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
- `(function(){
-    function SubRobot(){
-        this.color = "red"
-     };
+`(function(){
+   function SubRobot(){
+       this.color = "red"
+    };
 
-    SubRobot.prototype = Object.create(RobotClass.prototype)
+  SubRobot.prototype = Object.create(RobotClass.prototype)
 
-    SubRobot.prototype.onIdle = function(id){
+  SubRobot.prototype.onIdle = function(id){
        var robotInstance = backendStore.getState()[id]
-        return [
-          { frequency: 1, action: this.walkForward},
-          { frequency: 400, action: this.rotation, degrees: 60},
-          { frequency: 60, action: this.fire, degrees: 90, strength: 1}
-        ]
+       return [
+         { frequency: 1, action: this.walkForward},
+         { frequency: 400, action: this.rotation, degrees: 60}
+       ]
+   }
+
+  SubRobot.prototype.onWallCollision = function(id){
+     var robotInstance = backendStore.getState()[id]
+       var ownPosition = this.getOwnPosition(id)
+       var otherPlayersPosition = this.findOpponent(id)
+       var radAngle;
+       if (!otherPlayersPosition){radAngle=0}
+       else{
+       var xDiff = otherPlayersPosition[0]-ownPosition[0]
+       var zDiff = otherPlayersPosition[1]-ownPosition[1]
+       if (xDiff>0&&zDiff>0){
+         radAngle = Math.atan(xDiff/zDiff)
+       }
+       else if (xDiff>0&&zDiff<0){
+         radAngle = Math.PI+Math.atan(xDiff/zDiff)
+       }
+       else if (xDiff<0&&zDiff<0){
+         console.log("bothminus")
+         radAngle = Math.PI+Math.atan(xDiff/zDiff)
+       }
+       else if(xDiff<0&&zDiff>0){
+         console.log("quadfour")
+         radAngle = Math.atan(xDiff/zDiff)
+       }
+     }
+       console.log("radangle",radAngle,"ownPostition",ownPosition,"otherposition",otherPlayersPosition,"xdiff",xDiff,"zDiff",zDiff)
+       this.rotation(id, 45)
+       this.walkForward(id)
+       this.walkForward(id)
+       this.walkForward(id)
+       this.walkForward(id)
+       this.walkForward(id)
+       this.fire(id, radAngle, 1)
     }
 
-    SubRobot.prototype.onWallCollision = function(id){
-      var robotInstance = backendStore.getState()[id]
-
-        this.rotation(id, 45)
-        this.walkForward(id)
-        this.walkForward(id)
-        this.walkForward(id)
-        this.walkForward(id)
-        this.walkForward(id)
-        this.fire(id, 90, 3)
-     }
-
-     SubRobot.prototype.onBoxCollision = function(id){
-        this.rotation(id, 45)
-        this.fire(id, 90, 1)
-        this.walkForward(id)
-     }
-     return new SubRobot()
-  })`
+   SubRobot.prototype.onBoxCollision = function(id){
+       this.rotation(id, 45)
+       this.fire(id, 90)
+       this.walkForward(id)
+    }
+    return new SubRobot()
+ })`
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

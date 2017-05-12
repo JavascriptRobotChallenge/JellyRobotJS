@@ -1,8 +1,8 @@
-const backendStore = require('./backendStore.js');
-const { robotReducer } = require('./robotReducer.js');
+const backendStore = require('./reducers/backendStore.js');
+const { robotReducer } = require('./reducers/robotReducer.js');
 const SERVER_UPDATE_RATE = 1000/30;
-const { Rotation, WalkForward, DecreaseHealth } = require("./robotReducer")
-const { MoveOneForward, RemoveProjectile } = require("./projectileReducer")
+const { Rotation, WalkForward, DecreaseHealth } = require("./reducers/robotReducer")
+const { MoveOneForward, RemoveProjectile } = require("./reducers/projectileReducer")
 
 let io;
 let gameLoop;
@@ -35,8 +35,6 @@ function checkProjectilesToRemove(){
 
       if(Math.abs(robot.x - projectile.x) < 22 && Math.abs(robot.z - projectile.z) < 22 ){
         console.log('hit registered')
-        // console.log("projectile", projectileObj[projectileId])
-        // console.log("projectile", projectileObj[projectileId])
 
         backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
         // if(robots[robotID].health === 0){

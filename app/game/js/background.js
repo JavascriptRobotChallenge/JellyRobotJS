@@ -16,28 +16,27 @@ export var renderer = new THREE.WebGLRenderer({
 var robotModel;
 
 export const init = () => {
-    camera.position.set(700, 200, -500);
-
-    var loader = new THREE.JSONLoader()
-    robotModel = loader.parse(Window.robotjelly);
-
-    renderer.setPixelRatio(window.devicePixelRatio);
-
     var container = document.createElement('div');
     document.body.appendChild(container);
     container.appendChild(renderer.domElement);
+    window.addEventListener('resize', onWindowResize, false);
 
+    //RENDERER
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
-
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    var stats;
+    //CAMERA
+    camera.position.set(700, 200, -500);
+
+    //CLOCK AND CONTROLS
     var clock = new THREE.Clock();
     var controls = new OrbitControls(camera);
     controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
 
+    //LIGHT
     var light = new THREE.DirectionalLight(0xaabbff, 0.3);
     light.position.x = 300;
     light.position.y = 250;
@@ -48,45 +47,34 @@ export const init = () => {
     scene.add(ambientLight);
 
     // SKYDOME
-
     var vertexShader = document.getElementById('vertexShader').textContent;
     var fragmentShader = document.getElementById('fragmentShader').textContent;
     var uniforms = {
-        topColor: {
-            type: "c",
-            value: new THREE.Color(0x0077ff)
-        },
-        bottomColor: {
-            type: "c",
-            value: new THREE.Color(0xffffff)
-        },
-        offset: {
-            type: "f",
-            value: 400
-        },
-        exponent: {
-            type: "f",
-            value: 0.6
-        }
+        topColor: { type: "c", value: new THREE.Color(0x0077ff) },
+        bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
+        offset: { type: "f", value: 400 },
+        exponent: { type: "f", value: 0.6 }
     };
     uniforms.topColor.value.copy(light.color);
 
     var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
     var skyMat = new THREE.ShaderMaterial({
-        uniforms: uniforms,
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        side: THREE.BackSide
+        uniforms: uniforms, vertexShader: vertexShader,
+        fragmentShader: fragmentShader, side: THREE.BackSide
     });
 
     var sky = new THREE.Mesh(skyGeo, skyMat);
     scene.add(sky);
 
     // STATS
-    stats = new Stats();
+    var stats = new Stats();
     container.appendChild(stats.dom);
 
-    // MODEL
+    //LOADING ROBOT MESH
+    var loader = new THREE.JSONLoader()
+    robotModel = loader.parse(robotjelly);
+
+    // FLOOR AND BOXES MODEL
     loader.load("obj/lightmap/lightmap.js", function(geometry, materials) {
         for (var i = 0; i < materials.length; i++) {
             materials[i].lightMapIntensity = 0.1;
@@ -96,11 +84,6 @@ export const init = () => {
         mesh.scale.multiplyScalar(100);
         scene.add(mesh);
     });
-
-    var ambientLight = new THREE.AmbientLight(0x111111);
-    scene.add(ambientLight);
-    //
-    window.addEventListener('resize', onWindowResize, false);
 }
 
 function onWindowResize() {
@@ -115,10 +98,8 @@ function buildRobot(robot){
   ThreeRobot.scale.set(40, 40, 40);
   window.robot = ThreeRobot
   scene.add(ThreeRobot);
-  console.log(ThreeRobot, 'is this in the scene?')
   return ThreeRobot;
 }
-
 
 function makeProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
@@ -189,7 +170,6 @@ export const animate = () => {
       }
 
       for(var projKey in projectiles) {
-        console.log('projectiles', projectiles)
         projectiles && projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
         projectiles && projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
       }
