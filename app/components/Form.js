@@ -27,10 +27,10 @@ var startingCode =
        ]
    }
 
-  SubRobot.prototype.onWallCollision = function(id){
-     var robotInstance = backendStore.getState()[id]
-     this.rotation(id,60)
-    }
+  // SubRobot.prototype.onWallCollision = function(id){
+  //    var robotInstance = backendStore.getState()[id]
+  //    this.rotation(id,60)
+  //   }
 
    SubRobot.prototype.onBoxCollision = function(id){
        this.rotation(id, 45)

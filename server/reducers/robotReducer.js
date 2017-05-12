@@ -15,7 +15,7 @@ const reducer = ( state = {}, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
       case "AddPlayer":
-        newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,lastFired:0}
+        newState[action.playerId] = {x:300, y: 0, z: 300, theta: 1.5*Math.PI, robotInstance: action.robotInstance, health: 10,lastFired:0}
         return newState
       case "UpdateLastFired":
         newState[action.playerId].lastFired = action.lastFired
@@ -33,6 +33,10 @@ const reducer = ( state = {}, action) => {
         return newState
       case "DecreaseHealth":
         newState[action.playerId].health -= action.strength
+        return newState
+      case "Perp":
+      newState[action.playerId].theta = action.theta
+      return newState
       default:
         return newState
     }
@@ -57,4 +61,8 @@ const DecreaseHealth = (playerId, strength)=> ({
   type: "DecreaseHealth", playerId, strength
 })
 
-module.exports = { reducer, AddPlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateLastFired }
+const Perp = (playerId,theta)=>({
+  type:"Perp",theta,playerId
+})
+
+module.exports = { reducer, AddPlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateLastFired, Perp }
