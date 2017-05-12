@@ -15,46 +15,53 @@ const reducer = ( state = {}, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
       case "AddPlayer":
-        newState[action.playerId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,lastFired:0}
+        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,lastFired:0}
+        return newState
+      case "RemovePlayer":
+        delete newState[action.socketId]
         return newState
       case "UpdateLastFired":
-        newState[action.playerId].lastFired = action.lastFired
+        newState[action.socketId].lastFired = action.lastFired
         return newState
       case "Rotation":
-        newState[action.playerId].theta = newState[action.playerId].theta + action.theta
+        newState[action.socketId].theta = newState[action.socketId].theta + action.theta
         return newState
       case "WalkForward":
-        newState[action.playerId].x = newState[action.playerId].x + 5 * Math.sin(newState[action.playerId].theta)
-        newState[action.playerId].z = newState[action.playerId].z + 5 * Math.cos(newState[action.playerId].theta)
+        newState[action.socketId].x = newState[action.socketId].x + 5 * Math.sin(newState[action.socketId].theta)
+        newState[action.socketId].z = newState[action.socketId].z + 5 * Math.cos(newState[action.socketId].theta)
         return newState
       case "WalkBackward":
-        newState[action.playerId].x = newState[action.playerId].x - Math.sin(newState[action.playerId].theta)
-        newState[action.playerId].z = newState[action.playerId].z - Math.cos(newState[action.playerId].theta)
+        newState[action.socketId].x = newState[action.socketId].x - Math.sin(newState[action.socketId].theta)
+        newState[action.socketId].z = newState[action.socketId].z - Math.cos(newState[action.socketId].theta)
         return newState
       case "DecreaseHealth":
-        newState[action.playerId].health -= action.strength
+        newState[action.socketId].health -= action.strength
       default:
         return newState
     }
 }
 
-const UpdateLastFired = (playerId,lastFired) => ({
-  type: "UpdateLastFired", playerId, lastFired
+const UpdateLastFired = (socketId,lastFired) => ({
+  type: "UpdateLastFired", socketId, lastFired
 })
 
-const AddPlayer = (playerId, robotInstance) => ({
-  type: "AddPlayer", playerId, robotInstance
+const AddPlayer = (socketId, robotInstance) => ({
+  type: "AddPlayer", socketId, robotInstance
 })
 
-const WalkForward = (playerId) => ({type: "WalkForward", playerId})
-const WalkBackward = (playerId) => ({type: "WalkBackward", playerId})
-
-const Rotation = (playerId, theta) =>({
-  type: "Rotation", playerId, theta
+const RemovePlayer = (socketId) => ({
+  type: "RemovePlayer", socketId
 })
 
-const DecreaseHealth = (playerId, strength)=> ({
-  type: "DecreaseHealth", playerId, strength
+const WalkForward = (socketId) => ({type: "WalkForward", socketId})
+const WalkBackward = (socketId) => ({type: "WalkBackward", socketId})
+
+const Rotation = (socketId, theta) =>({
+  type: "Rotation", socketId, theta
 })
 
-module.exports = { reducer, AddPlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateLastFired }
+const DecreaseHealth = (socketId, strength)=> ({
+  type: "DecreaseHealth", socketId, strength
+})
+
+module.exports = { reducer, AddPlayer, RemovePlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateLastFired }

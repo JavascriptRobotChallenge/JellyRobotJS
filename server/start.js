@@ -9,7 +9,7 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const { FireProjectile } = require("./reducers/projectileReducer")
-const { AddPlayer, Rotation, WalkForward, WalkBackward, UpdateLastFired } = require("./reducers/robotReducer")
+const { AddPlayer, RemovePlayer, Rotation, WalkForward, WalkBackward, UpdateLastFired } = require("./reducers/robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
 var util = require('util')
 var eventEmitter = require('events').EventEmitter;
@@ -165,6 +165,10 @@ if (module === require.main) {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
       })
       backendStore.dispatch(AddPlayer(socket.id, roboInstance))
+    })
+
+    socket.on('disconnect', function() {
+      store.dispatch(RemovePlayer(socket.id))
     })
   })
   broadcastGameState(io)
