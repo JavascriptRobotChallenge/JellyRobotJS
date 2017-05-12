@@ -35,8 +35,6 @@ function checkProjectilesToRemove(){
 
       if(Math.abs(robot.x - projectile.x) < 22 && Math.abs(robot.z - projectile.z) < 22 ){
         console.log('hit registered')
-        // console.log("projectile", projectileObj[projectileId])
-        // console.log("projectile", projectileObj[projectileId])
 
         backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
         // if(robots[robotID].health === 0){
