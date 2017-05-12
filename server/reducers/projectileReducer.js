@@ -9,7 +9,7 @@ const reducer = ( state = {}, action) => {
     switch (action.type) {
       case "FireProjectile":
         projectileId = Math.floor(Math.random()*98643785).toString(),
-        newState[projectileId] = { x: action.position.x, y: action.position.y, z: action.position.z, theta: action.theta, strength: action.strength }
+        newState[projectileId] = { x: action.position.x, y: action.position.y, z: action.position.z, theta: action.theta, strength: action.strength, id: action.robotId }
         return newState
       case "MoveOneForward":
         newState[action.projectileId].x = newState[action.projectileId].x + 15 * Math.sin(newState[action.projectileId].theta)
@@ -22,9 +22,10 @@ const reducer = ( state = {}, action) => {
     return newState
 }
 
-const FireProjectile = (robot, theta, strength) => {
+const FireProjectile = (robot, robotId, theta, strength) => {
   return {
     type: "FireProjectile",
+    robotId: robotId,
     position: { x: robot.x + 20 * Math.sin(theta), y: robot.y, z: robot.z + 20 * Math.cos(theta)},
     theta: theta,
     strength

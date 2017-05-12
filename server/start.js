@@ -106,16 +106,37 @@ if (module === require.main) {
 
   var counter = 0
   RobotClass.prototype.fire = function(playerId, theta, strength){
-    console.log('FIRING PROJECTILES', theta)
 
     if ( Date.now() - backendStore.getState().robots[playerId].lastFired > strength * 1000){
-      // console.log('date approved')
-      // console.log('last fired according to store', backendStore.getState().robots[playerId].lastFired)
-      // console.log('counter', counter, (Date.now() - backendStore.getState().robots[playerId].lastFired))
       backendStore.dispatch(UpdateLastFired(playerId,Date.now()))
-      backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], theta, strength))
+      backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], playerId, theta, strength))
       counter++
     }
+  }
+
+  RobotClass.prototype.accurateFire = function(id){
+      var ownPosition = this.getOwnPosition(id)
+      this.rotation(id, 45)
+      var otherPlayersPosition = this.findOpponent(id)
+      var radAngle;
+      if (!otherPlayersPosition){radAngle=0}
+      else{
+      var xDiff = otherPlayersPosition[0]-ownPosition[0]
+      var zDiff = otherPlayersPosition[1]-ownPosition[1]
+      if (xDiff>0&&zDiff>0){
+        radAngle = Math.atan(xDiff/zDiff)
+      }
+      else if (xDiff>0&&zDiff<0){
+        radAngle = Math.PI+Math.atan(xDiff/zDiff)
+      }
+      else if (xDiff<0&&zDiff<0){
+        radAngle = Math.PI+Math.atan(xDiff/zDiff)
+      }
+      else if(xDiff<0&&zDiff>0){
+        radAngle = Math.atan(xDiff/zDiff)
+      }
+    }
+    this.fire(id, radAngle, 1)
   }
 
   RobotClass.prototype.findOpponent = function(playerId){
@@ -139,6 +160,7 @@ if (module === require.main) {
     backendStore.dispatch(WalkForward(playerId))
     backendStore.dispatch(WalkForward(playerId))
     backendStore.dispatch(WalkForward(playerId))
+
   }
 
   RobotClass.prototype.walkForward = function(id) {
