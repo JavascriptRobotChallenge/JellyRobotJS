@@ -31,12 +31,10 @@ const FireProjectile = (robot, theta, strength) => {
   }
 }
 
-const RemoveProjectile = (projectileId) => {
-  return {
+const RemoveProjectile = (projectileId) => ({
     type: "RemoveProjectile",
     projectileId
-  }
-}
+})
 
 const MoveOneForward = (projectileId) => ({
   type: "MoveOneForward",
