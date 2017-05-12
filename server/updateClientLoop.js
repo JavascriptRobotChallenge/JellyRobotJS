@@ -33,15 +33,12 @@ function checkProjectilesToRemove(){
     for(var robotID in robotsObj){
       var robot = robotsObj[robotID]
 
-      if(Math.abs(robot.x - projectile.x) < 22 && Math.abs(robot.z - projectile.z) < 22 ){
-        console.log('hit registered')
-
-        backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
-        // if(robots[robotID].health === 0){
-        //   // remove robot!
-        //   destroy robots[robotID]
-        // }
-        backendStore.dispatch(RemoveProjectile(projectileId))
+      if( robotID !== projectile.id){
+        if(Math.sqrt(Math.pow(robot.x - projectile.x,2)+Math.pow(robot.z - projectile.z,2)) < 20){
+          console.log('hit registered', 'robotid: ', robotID, ' projectile.id: ', projectile.id)
+          backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
+          backendStore.dispatch(RemoveProjectile(projectileId))
+        }
       }
     }
   }
