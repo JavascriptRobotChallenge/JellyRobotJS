@@ -57,31 +57,34 @@ function broadcastGameState(io){
     if (playerArr.length) {
       for (var i = 0; i < playerArr.length; i++){
         let robot = state[playerArr[i]];
-        ///if the robot hits the wall
-        if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
-          robot.robotInstance.emit('onWallCollision', playerArr[i]);
-        }
-        ///if the robot hits a box
-        else if((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z >- 140)||
-          (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)){
-          robot.robotInstance.emit("onBoxCollision", playerArr[i])
-        }
-        else{
-          var actionObjects = robot.robotInstance.onIdle(playerArr[i])
-          actionObjects.forEach((actionObject) => {
-            if(userTime % actionObject.frequency === 0){
+        if(robot.robotInstance) {
+          ///if the robot hits the wall
+          if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
+            robot.robotInstance.emit('onWallCollision', playerArr[i]);
+          }
+          ///if the robot hits a box
+          else if ((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z > -140) ||
+            (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)) {
+            robot.robotInstance.emit("onBoxCollision", playerArr[i])
+          }
+          else {
+            var actionObjects = robot.robotInstance.onIdle(playerArr[i])
+            actionObjects.forEach((actionObject) => {
+              if (userTime % actionObject.frequency === 0) {
 
-              if (actionObject.action.toString().indexOf('Fire') !== -1){
-                actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees, actionObject.strength)
-              } else {
-                actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees)
+                if (actionObject.action.toString().indexOf('Fire') !== -1) {
+                  actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees, actionObject.strength)
+                } else {
+                  actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees)
+                }
               }
-            }
-          })
+            })
+          }
         }
       }
       MoveForward()
       checkProjectilesToRemove()
+      // console.log('backendStore.getState()', backendStore.getState());
       io.emit('serverUpdate', backendStore.getState());
     }
   }, SERVER_UPDATE_RATE);

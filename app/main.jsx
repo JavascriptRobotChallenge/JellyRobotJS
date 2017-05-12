@@ -20,7 +20,13 @@ socket.on('connect', function(){
 
 socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
+  console.log(store.getState().gameData.robots, 'this is our store at this point')
+  if (store.getState().gameData.robots) {
+    socket.emit('room', store.getState().gameData.robots[socket.id].roomName);
+  }
 })
+
+
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })

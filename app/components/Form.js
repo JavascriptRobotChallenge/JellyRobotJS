@@ -50,7 +50,6 @@ var startingCode =
          radAngle = Math.atan(xDiff/zDiff)
        }
      }
-       console.log("radangle",radAngle,"ownPostition",ownPosition,"otherposition",otherPlayersPosition,"xdiff",xDiff,"zDiff",zDiff)
        this.rotation(id, 45)
        this.walkForward(id)
        this.walkForward(id)

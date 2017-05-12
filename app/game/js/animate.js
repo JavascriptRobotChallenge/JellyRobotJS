@@ -51,7 +51,7 @@ export const animate = () => {
         //ADDS ROBOTS IF THEY ARE IN STORE.STATE
         if (Object.keys(robots).length < Object.keys(storeState.robots).length) {
           for(var robotKey in storeState.robots){
-            if (!robots[robotKey]) {
+            if (!robots[robotKey] && storeState.robots[robotKey].robotInstance) {
               robots[robotKey] = buildRobot(storeState.robots[robotKey])
             }
           }
