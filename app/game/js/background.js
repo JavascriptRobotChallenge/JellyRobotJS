@@ -50,31 +50,17 @@ export const init = () => {
     var vertexShader = document.getElementById('vertexShader').textContent;
     var fragmentShader = document.getElementById('fragmentShader').textContent;
     var uniforms = {
-        topColor: {
-            type: "c",
-            value: new THREE.Color(0x0077ff)
-        },
-        bottomColor: {
-            type: "c",
-            value: new THREE.Color(0xffffff)
-        },
-        offset: {
-            type: "f",
-            value: 400
-        },
-        exponent: {
-            type: "f",
-            value: 0.6
-        }
+        topColor: { type: "c", value: new THREE.Color(0x0077ff) },
+        bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
+        offset: { type: "f", value: 400 },
+        exponent: { type: "f", value: 0.6 }
     };
     uniforms.topColor.value.copy(light.color);
 
     var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
     var skyMat = new THREE.ShaderMaterial({
-        uniforms: uniforms,
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        side: THREE.BackSide
+        uniforms: uniforms, vertexShader: vertexShader,
+        fragmentShader: fragmentShader, side: THREE.BackSide
     });
 
     var sky = new THREE.Mesh(skyGeo, skyMat);
@@ -114,7 +100,6 @@ function buildRobot(robot){
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
-
 
 function makeProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
