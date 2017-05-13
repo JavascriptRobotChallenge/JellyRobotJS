@@ -39,7 +39,7 @@ RobotClass.prototype.accurateFire = function(roomName, id){
       radAngle = Math.atan(xDiff/zDiff)
     }
   }
-  this.fire( id, radAngle, 1, 5 )
+  this.fire(roomName, id, radAngle, 1, 5 )
 }
 
 RobotClass.prototype.rapidFire = function(roomName, id){
