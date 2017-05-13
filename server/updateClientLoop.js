@@ -82,7 +82,7 @@ function broadcastGameState(io){
             }
           }
         }
-        MoveForward()
+        MoveForward(roomName)
         checkProjectilesToRemove()
         // console.log('backendStore.getState()', backendStore.getState());
 

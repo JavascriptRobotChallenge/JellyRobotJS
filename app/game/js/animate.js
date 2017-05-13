@@ -93,9 +93,13 @@ export const animate = () => {
 
       //UPDATES PROJECTILE POSITION W STORE.STATE POSITION
       for(var projKey in projectiles) {
+        console.log("prrrr",projectiles[projKey])
         var projectileState = storeState.server.projectiles[roomName]
-        projectiles && projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
-        projectiles && projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
+        console.log("stateprr",projectileState[projKey].x)
+        if (projectiles && projectiles[projKey]){
+          projectiles[projKey].position.x = projectileState[projKey].x
+          projectiles[projKey].position.z = projectileState[projKey].z
+        }
       }
     }
 
