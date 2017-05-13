@@ -70,6 +70,9 @@ function broadcastGameState(io){
           (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)){
           robot.robotInstance.onBoxCollision(playerArr[i])
         }
+
+
+
         else{
           var actionObjects = robot.robotInstance.onIdle(playerArr[i])
           actionObjects.forEach((actionObject) => {
