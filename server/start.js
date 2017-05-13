@@ -82,6 +82,7 @@ if (module === require.main) {
         console.log('socket id even', counterPeople, socket.id)
         roomIndex = Math.floor(counterPeople /2) + 1
         myRoom = rooms[roomIndex]
+        console.log(myRoom)
         backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
 
       } else {

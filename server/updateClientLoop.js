@@ -8,7 +8,7 @@ let io;
 let gameLoop;
 
 const MoveForward = (roomName) => {
-  var projectiles = backendStore.getState().projectiles
+  var projectiles = backendStore.getState().projectiles[roomName]
   for(var projectile in projectiles) {
     backendStore.dispatch(MoveOneForward(roomName, projectile))
   }
@@ -53,9 +53,7 @@ function broadcastGameState(io){
   const gameLoop = setInterval(() => {
     userTime++;
     let state = backendStore.getState().robots
-    console.log(state)
-    var roomNames = Object.keys(state)
-    for(var roomName in roomNames){
+    for(var roomName in state){
       var playerArr = Object.keys(state[roomName])
       if (playerArr.length) {
         for (var i = 0; i < playerArr.length; i++){
@@ -63,21 +61,21 @@ function broadcastGameState(io){
           if(robot.robotInstance) {
             ///if the robot hits the wall
             if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
-              robot.robotInstance.emit('onWallCollision', playerArr[i]);
+              robot.robotInstance.emit('onWallCollision', roomName, playerArr[i]);
             }
             ///if the robot hits a box
             else if ((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z > -140) ||
               (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)) {
-              robot.robotInstance.emit("onBoxCollision", playerArr[i])
+              robot.robotInstance.emit("onBoxCollision", roomName, playerArr[i])
             }
             else {
-              var actionObjects = robot.robotInstance.onIdle(playerArr[i])
+              var actionObjects = robot.robotInstance.onIdle(roomName, playerArr[i])
               actionObjects.forEach((actionObject) => {
                 if (userTime % actionObject.frequency === 0) {
                   if (actionObject.action.toString().indexOf('Fire') !== -1) {
-                    actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees, actionObject.strength)
+                    actionObject.action.call(robot.robotInstance, roomName, playerArr[i], actionObject.degrees, actionObject.strength)
                   } else {
-                    actionObject.action.call(robot.robotInstance, playerArr[i], actionObject.degrees)
+                    actionObject.action.call(robot.robotInstance, roomName, playerArr[i], actionObject.degrees)
                   }
                 }
               })
@@ -87,7 +85,12 @@ function broadcastGameState(io){
         MoveForward()
         checkProjectilesToRemove()
         // console.log('backendStore.getState()', backendStore.getState());
+
+        // with rooms, we can broadcast to only that room
         io.emit('serverUpdate', backendStore.getState());
+        // state.robots[roomName]
+        // state.robots[roomName]
+        // get the room from the projectile part of the state, and the robot part of the state, and
       }
     }
   }, SERVER_UPDATE_RATE);

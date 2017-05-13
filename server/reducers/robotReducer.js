@@ -61,9 +61,9 @@ const RemovePlayer = (roomName, socketId) => ({
   type: "RemovePlayer", socketId, roomName
 })
 
-const WalkForward = (roomName, socketId) => ({type: "WalkForward", socketId})
+const WalkForward = (roomName, socketId) => ({type: "WalkForward", socketId, roomName})
 
-const WalkBackward = (roomName, socketId) => ({type: "WalkBackward", socketId})
+const WalkBackward = (roomName, socketId) => ({type: "WalkBackward", socketId, roomName})
 
 const Rotation = (roomName, socketId, theta) =>({
   type: "Rotation", socketId, theta, roomName

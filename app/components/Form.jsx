@@ -11,7 +11,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-(function(){
+`(function(){
    function SubRobot(){
        this.color = "red"
     };
@@ -19,17 +19,17 @@ var startingCode =
   SubRobot.prototype = Object.create(RobotClass.prototype)
 
   SubRobot.prototype.onIdle = function(roomName, id){
-       var robotInstance = backendStore.getState()[id]
+      //  var robotInstance = backendStore.getState()[roomName][id]
        return [
          { frequency: 1, action: this.walkForward, roomName: roomName},
          { frequency: 400, action: this.rotation, degrees: 60, roomName: roomName}
        ]
    }
 
-  SubRobot.prototype.onWallCollision = function(id){
-     var robotInstance = backendStore.getState()[id]
-       var ownPosition = this.getOwnPosition(id)
-       var otherPlayersPosition = this.findOpponent(id)
+  SubRobot.prototype.onWallCollision = function(roomName, id){
+    //  var robotInstance = backendStore.getState()[roomName][id]
+       var ownPosition = this.getOwnPosition(roomName, id)
+       var otherPlayersPosition = this.findOpponent(roomName, id)
        var radAngle;
        if (!otherPlayersPosition){radAngle=0}
        else{
@@ -60,12 +60,12 @@ var startingCode =
     }
 
    SubRobot.prototype.onBoxCollision = function(roomName, id){
-       this.rotation(id, 45)
-       this.fire(id, 90)
-       this.walkForward(id)
+       this.rotation(roomName, id, 45)
+       this.fire(roomName, id, 90)
+       this.walkForward(roomName, id)
     }
     return new SubRobot()
- })
+ })`
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

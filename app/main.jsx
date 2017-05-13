@@ -9,7 +9,7 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Form from "./components/Form"
-import { ServerUpdate } from "./reducers/robot.jsx"
+import { ServerUpdate, AssignRoom } from "./reducers/robot.js"
 
 import * as THREE from 'three';
 
@@ -19,12 +19,14 @@ socket.on('connect', function(){
 })
 
 socket.on('roomAssigned', function(myRoom){
+  console.log(typeof myRoom)
   console.log('this is my room: ', myRoom)
+
+  store.dispatch(AssignRoom(myRoom))
 })
 
 socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
-  // console.log(store.getState().gameData.robots, 'this is our store at this point')
 })
 
 
