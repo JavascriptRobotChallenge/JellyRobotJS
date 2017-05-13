@@ -68,7 +68,7 @@ function broadcastGameState(io){
         ///if the robot hits a box
         else if((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z >- 140)||
           (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)){
-          robot.robotInstance.emit("onBoxCollision", playerArr[i])
+          robot.robotInstance.onBoxCollision(playerArr[i])
         }
         else{
           var actionObjects = robot.robotInstance.onIdle(playerArr[i])
