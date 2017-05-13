@@ -21,47 +21,20 @@ var startingCode =
   SubRobot.prototype.onIdle = function(roomName, id){
       //  var robotInstance = backendStore.getState()[roomName][id]
        return [
-         { frequency: 1, action: this.walkForward, roomName: roomName},
-         { frequency: 400, action: this.rotation, degrees: 60, roomName: roomName}
+          { frequency: 1, action: this.walkForward},
+          { frequency: 10, action: this.accurateFire, playerId: id},
+          { frequency: 400, action: this.rotation, degrees: 60}
        ]
    }
 
-  SubRobot.prototype.onWallCollision = function(roomName, id){
-    //  var robotInstance = backendStore.getState()[roomName][id]
-       var ownPosition = this.getOwnPosition(roomName, id)
-       var otherPlayersPosition = this.findOpponent(roomName, id)
-       var radAngle;
-       if (!otherPlayersPosition){radAngle=0}
-       else{
-       var xDiff = otherPlayersPosition[0]-ownPosition[0]
-       var zDiff = otherPlayersPosition[1]-ownPosition[1]
-       if (xDiff>0&&zDiff>0){
-         radAngle = Math.atan(xDiff/zDiff)
-       }
-       else if (xDiff>0&&zDiff<0){
-         radAngle = Math.PI+Math.atan(xDiff/zDiff)
-       }
-       else if (xDiff<0&&zDiff<0){
-         radAngle = Math.PI+Math.atan(xDiff/zDiff)
-       }
-       else if(xDiff<0&&zDiff>0){
-         radAngle = Math.atan(xDiff/zDiff)
-       }
-     }
-       this.rotation(roomName, id, 45)
-       this.walkForward(roomName, id)
-       this.walkForward(roomName, id)
-       this.walkForward(roomName, id)
-       this.walkForward(roomName, id)
-       this.walkForward(roomName, id)
-       this.fire(roomName, id, radAngle, 1)
-    }
-
-   SubRobot.prototype.onBoxCollision = function(roomName, id){
-       this.rotation(roomName, id, 45)
-       this.fire(roomName, id, 90)
-       this.walkForward(roomName, id)
-    }
+  SubRobot.prototype.onClose = function(id){
+     var robotInstance = backendStore.getState()[id]
+     return [
+       { frequency: 1, action: this.walkForward},
+      { frequency: 10, action: this.accurateFire, playerId: id},
+       { frequency: 400, action: this.rotation, degrees: 60}
+     ]
+   }
     return new SubRobot()
  })`
 var inputCode = startingCode

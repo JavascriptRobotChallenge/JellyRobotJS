@@ -8,10 +8,9 @@ const passport = require('passport')
 const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
-const { AddOrUpdatePlayer, RemovePlayer, AddRoom } = require("./reducers/robotReducer")
-const broadcastGameState = require('./updateClientLoop.js')
 const RobotClass =  require('./RobotClass')
-
+const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
+var broadcastGameState = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
 
@@ -67,6 +66,7 @@ if (module === require.main) {
     3: 'Strawberry',
     4: 'Watermelon'
   }
+
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
     socket.on('giveMeARoom', ()=>{
@@ -80,7 +80,6 @@ if (module === require.main) {
         myRoom = rooms[roomIndex]
         backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
       }
-
       socket.join(myRoom)
       socket.emit('roomAssigned', myRoom)
       counterPeople++;
@@ -89,6 +88,7 @@ if (module === require.main) {
     socket.on('sendCode', (code)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
+
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
