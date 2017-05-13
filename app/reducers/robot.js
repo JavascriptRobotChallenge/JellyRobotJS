@@ -15,6 +15,7 @@ const reducer = ( state = initialState, action) => {
           newState.room = action.room
           return newState
         case "ServerUpdate":
+        console.log("payload",action.payload)
           newState.server = action.payload
           return newState
         default:
@@ -23,8 +24,7 @@ const reducer = ( state = initialState, action) => {
 }
 
 export const AssignRoom = (room) => ({type: "AssignRoom", room})
-
+window.AssignRoom = AssignRoom;
 export const ServerUpdate = (payload) => ({type: "ServerUpdate", payload})
-
-
+window.ServerUpdate = ServerUpdate
 export default reducer

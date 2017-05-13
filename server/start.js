@@ -59,7 +59,7 @@ if (module === require.main) {
   )
 
   var io = require('socket.io')(server)
-  var counterPeople = 0, roomIndex = 0;
+  var users = 0, roomIndex = 0;
   var rooms = {
     1: 'Blueberry',
     2: 'Cherry',
@@ -70,24 +70,15 @@ if (module === require.main) {
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
     socket.on('giveMeARoom', ()=>{
-      var myRoom;
-
-      if(counterPeople % 2 === 0) {
-        roomIndex = Math.floor(counterPeople /2) + 1
-        console.log('roomindex', roomIndex)
-        console.log('room', rooms[roomIndex])
-        backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
-        myRoom = rooms[roomIndex]
-      } else {
-        myRoom = rooms[roomIndex]
-        backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
-      }
-
-      socket.join(myRoom)
-      socket.emit('roomAssigned', myRoom)
-      counterPeople++;
+      users++
+      roomIndex = Math.ceil(users/2)
+      backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex],socket.id,null))
+      socket.join(rooms[roomIndex])
+      socket.emit('roomAssigned', rooms[roomIndex])
+      console.log("index",roomIndex)
+      console.log("rooms",rooms)
+      console.log("myroomis",rooms[roomIndex])
     })
-
     socket.on('sendCode', (code, room)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()

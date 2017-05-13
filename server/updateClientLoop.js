@@ -135,8 +135,8 @@ function broadcastGameState(io){
         projectiles: backendStore.getState().projectiles[room],
         robots: backendStore.getState().robots[room]
       }
-      console.log('store to send', room, storeToSend)
-      io.to(room).emit('serverUpdate', storeToSend);
+      // console.log(room,storeToSend)
+      io.sockets.to(room).emit('serverUpdate', storeToSend);
     }
     // console.log('BACKEND STORE', backendStore.getState())
   }, SERVER_UPDATE_RATE);

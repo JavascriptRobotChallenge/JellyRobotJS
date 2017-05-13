@@ -13,23 +13,7 @@ import { ServerUpdate, AssignRoom } from "./reducers/robot.js"
 
 import * as THREE from 'three';
 
-socket.on('connect', function(){
-  console.log('we have a connection')
-  socket.emit('giveMeARoom')
-})
 
-socket.on('roomAssigned', function(myRoom){
-  console.log('room assigned: ', myRoom)
-  store.dispatch(AssignRoom(myRoom))
-})
-
-socket.on('serverUpdate', function(data){
-  store.dispatch(ServerUpdate(data))
-})
-
-socket.on('gameOver', function(data){
-  console.log("gamesoverdoeeeeee")
-})
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
