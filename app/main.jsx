@@ -19,9 +19,6 @@ socket.on('connect', function(){
 })
 
 socket.on('roomAssigned', function(myRoom){
-  console.log(typeof myRoom)
-  console.log('this is my room: ', myRoom)
-
   store.dispatch(AssignRoom(myRoom))
 })
 

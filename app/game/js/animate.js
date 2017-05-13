@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { init, robotModel, camera, renderer, scene } from './initThree.js'
 
 function buildRobot(robot){
-  console.log('inside buildRobot')
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
@@ -41,10 +40,7 @@ export const animate = () => {
       var storeState = store.getState().gameData
       const roomName = store.getState().gameData.room
       then = now - (delta % interval);
-      console.log('storeState ', storeState)
 
-      console.log('storeState robots: ', storeState.server.robots)
-      // console.log('roomName: ', roomName)
         //ROBOTS
         if(roomName.length){
           if (storeState.server.robots[roomName]) {
@@ -93,9 +89,7 @@ export const animate = () => {
 
       //UPDATES PROJECTILE POSITION W STORE.STATE POSITION
       for(var projKey in projectiles) {
-        console.log("prrrr",projectiles[projKey])
         var projectileState = storeState.server.projectiles[roomName]
-        console.log("stateprr",projectileState[projKey].x)
         if (projectiles && projectiles[projKey]){
           projectiles[projKey].position.x = projectileState[projKey].x
           projectiles[projKey].position.z = projectileState[projKey].z

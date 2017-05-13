@@ -24,13 +24,13 @@ function checkProjectilesToRemove(){
     for(var projectileId in projectileObj){
       var projectile = projectileObj[projectileId]
       if(Math.abs(projectile.x) > 800 || Math.abs(projectile.z) > 800 ){
-        backendStore.dispatch(RemoveProjectile(projectileId))
+        backendStore.dispatch(RemoveProjectile(room, projectileId))
       }
       else if(projectile.x < 140 && projectile.x > -140 && projectile.z < 140 && projectile.z > -140){
-        backendStore.dispatch(RemoveProjectile(projectileId))
+        backendStore.dispatch(RemoveProjectile(room, projectileId))
       }
       else if ( projectile.x > 148 && projectile.x < 332 && projectile.z < 92 && projectile.z > -92 ) {
-        backendStore.dispatch(RemoveProjectile(projectileId))
+        backendStore.dispatch(RemoveProjectile(room, projectileId))
       }
       for(var robotID in robotsObj){
         var robot = robotsObj[robotID]
@@ -84,7 +84,6 @@ function broadcastGameState(io){
         }
         MoveForward(roomName)
         checkProjectilesToRemove()
-        // console.log('backendStore.getState()', backendStore.getState());
 
         // with rooms, we can broadcast to only that room
         io.emit('serverUpdate', backendStore.getState());

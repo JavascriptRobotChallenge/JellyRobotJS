@@ -42,11 +42,9 @@ var startingCode =
          radAngle = Math.PI+Math.atan(xDiff/zDiff)
        }
        else if (xDiff<0&&zDiff<0){
-         console.log("bothminus")
          radAngle = Math.PI+Math.atan(xDiff/zDiff)
        }
        else if(xDiff<0&&zDiff>0){
-         console.log("quadfour")
          radAngle = Math.atan(xDiff/zDiff)
        }
      }

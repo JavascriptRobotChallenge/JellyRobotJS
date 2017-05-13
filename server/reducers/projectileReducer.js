@@ -21,6 +21,9 @@ const reducer = ( state = initialState, action) => {
         newState[action.roomName][action.projectileId].z = newState[action.roomName][action.projectileId].z + 15 * Math.cos(newState[action.roomName][action.projectileId].theta)
         return newState
       case "RemoveProjectile":
+        // console.log('before RemoveProjectile: ', newState)
+        // console.log('roomName', action.roomName, 'projectileId', action.projectileId)
+        // console.log('projectile to remove', newState[action.roomName][action.projectileId])
         delete newState[action.roomName][action.projectileId]
         return newState
     }
@@ -39,14 +42,15 @@ const FireProjectile = (roomName, robot, theta, strength) => {
 
 const RemoveProjectile = (roomName, projectileId) => ({
     type: "RemoveProjectile",
-    projectileId,
-    roomName
+    roomName,
+    projectileId
+
 })
 
 const MoveOneForward = (roomName, projectileId) => ({
   type: "MoveOneForward",
-  projectileId,
-  roomName
+  roomName,
+  projectileId
 })
 
 module.exports = { reducer, FireProjectile, MoveOneForward, RemoveProjectile }
