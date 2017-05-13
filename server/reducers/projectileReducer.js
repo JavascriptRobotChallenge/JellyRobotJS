@@ -23,6 +23,7 @@ const reducer = ( state = {}, action) => {
 }
 
 const FireProjectile = (robot, robotId, theta, strength) => {
+  console.log('firint')
   return {
     type: "FireProjectile",
     robotId: robotId,

@@ -9,7 +9,7 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const { FireProjectile } = require("./reducers/projectileReducer")
-const { AddPlayer, Rotation, WalkForward, WalkBackward, UpdateLastFired } = require("./reducers/robotReducer")
+const { AddPlayer, Rotation, WalkForward, WalkBackward, UpdateGoodTime, Perp } = require("./reducers/robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
 var util = require('util')
 var eventEmitter = require('events').EventEmitter;
@@ -105,11 +105,12 @@ if (module === require.main) {
   }
 
   var counter = 0
-  RobotClass.prototype.fire = function(playerId, theta, strength){
-
-    if ( Date.now() - backendStore.getState().robots[playerId].lastFired > strength * 1000){
-      backendStore.dispatch(UpdateLastFired(playerId,Date.now()))
+  RobotClass.prototype.fire = function(playerId, theta, strength, reloadTime){
+    console.log("here",playerId,Date.now(),backendStore.getState().robots[playerId].goodTime)
+    if ( Date.now()>backendStore.getState().robots[playerId].goodTime){
+      console.log("gothere")
       backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], playerId, theta, strength))
+      backendStore.dispatch(UpdateGoodTime(playerId,Date.now()+reloadTime*1000))
       counter++
     }
   }
@@ -135,7 +136,17 @@ if (module === require.main) {
         radAngle = Math.atan(xDiff/zDiff)
       }
     }
-    this.fire(id, radAngle, 1)
+    this.fire(id, radAngle, 1,5)
+  }
+
+  RobotClass.prototype.rapidFire = function(id){
+    console.log("rapidFire")
+    this.fire(id,Math.random()*2*Math.PI,1,0.1)
+  }
+
+  RobotClass.prototype.straightFire = function(id){
+    const robot = backendStore.getState().robots[id]
+    this.fire(id,robot.x * Math.sin(robot.theta), 1, 1)
   }
 
   RobotClass.prototype.findOpponent = function(playerId){
@@ -166,8 +177,20 @@ if (module === require.main) {
     backendStore.dispatch(WalkForward(id))
   }
 
+  RobotClass.prototype.perp=function(playerId,theta){
+    console.log("perp")
+    backendStore.dispatch(Perp(playerId,theta))
+    backendStore.dispatch(WalkForward(playerId))
+    backendStore.dispatch(WalkForward(playerId))
+  }
+
   RobotClass.prototype.walkBackward = function(numTimes, id) {
     backendStore.dispatch(WalkBackward(id))
+    
+  }
+  RobotClass.prototype.onBoxCollision = function(id){
+      this.rotation(id, 45)
+      this.walkForward(id)
   }
 
   util.inherits(RobotClass, eventEmitter)

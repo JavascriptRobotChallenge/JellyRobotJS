@@ -38,6 +38,9 @@ function checkProjectilesToRemove(){
           console.log('hit registered', 'robotid: ', robotID, ' projectile.id: ', projectile.id)
           backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
           backendStore.dispatch(RemoveProjectile(projectileId))
+          if (robot.health<1){
+            io.emit("gameOver",robotID)
+          }
         }
       }
     }
@@ -56,12 +59,16 @@ function broadcastGameState(io){
         let robot = state[playerArr[i]];
         ///if the robot hits the wall
         if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
-          robot.robotInstance.emit('onWallCollision', playerArr[i]);
+          console.log(robot.x,robot.z)
+          if (robot.x>700){robot.robotInstance.perp(playerArr[i],1.5*Math.PI)}
+          else if (robot.x<-700){robot.robotInstance.perp(playerArr[i],0.5*Math.PI)}
+          else if (robot.z>700){robot.robotInstance.perp(playerArr[i],Math.PI)}
+          else if (robot.z<-700){robot.robotInstance.perp(playerArr[i],0)}
         }
         ///if the robot hits a box
         else if((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z >- 140)||
           (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)){
-          robot.robotInstance.emit("onBoxCollision", playerArr[i])
+          robot.robotInstance.onBoxCollision(playerArr[i])
         }
         else{
           var actionObjects = robot.robotInstance.onIdle(playerArr[i])

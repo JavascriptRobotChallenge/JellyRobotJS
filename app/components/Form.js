@@ -27,16 +27,7 @@ var startingCode =
        ]
    }
 
-  SubRobot.prototype.onWallCollision = function(id){
-     var robotInstance = backendStore.getState()[id]
-     this.rotation(id,60)
-    }
-
-   SubRobot.prototype.onBoxCollision = function(id){
-       this.rotation(id, 45)
-       this.fire(id, 90)
-       this.walkForward(id)
-    }
+  
     return new SubRobot()
  })`
 var inputCode = startingCode
