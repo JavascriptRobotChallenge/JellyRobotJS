@@ -11,18 +11,18 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-`(function(){
+(function(){
    function SubRobot(){
        this.color = "red"
     };
 
   SubRobot.prototype = Object.create(RobotClass.prototype)
 
-  SubRobot.prototype.onIdle = function(id){
+  SubRobot.prototype.onIdle = function(roomName, id){
        var robotInstance = backendStore.getState()[id]
        return [
-         { frequency: 1, action: this.walkForward},
-         { frequency: 400, action: this.rotation, degrees: 60}
+         { frequency: 1, action: this.walkForward, roomName: roomName},
+         { frequency: 400, action: this.rotation, degrees: 60, roomName: roomName}
        ]
    }
 
@@ -50,22 +50,22 @@ var startingCode =
          radAngle = Math.atan(xDiff/zDiff)
        }
      }
-       this.rotation(id, 45)
-       this.walkForward(id)
-       this.walkForward(id)
-       this.walkForward(id)
-       this.walkForward(id)
-       this.walkForward(id)
-       this.fire(id, radAngle, 1)
+       this.rotation(roomName, id, 45)
+       this.walkForward(roomName, id)
+       this.walkForward(roomName, id)
+       this.walkForward(roomName, id)
+       this.walkForward(roomName, id)
+       this.walkForward(roomName, id)
+       this.fire(roomName, id, radAngle, 1)
     }
 
-   SubRobot.prototype.onBoxCollision = function(id){
+   SubRobot.prototype.onBoxCollision = function(roomName, id){
        this.rotation(id, 45)
        this.fire(id, 90)
        this.walkForward(id)
     }
     return new SubRobot()
- })`
+ })
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

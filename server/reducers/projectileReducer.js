@@ -1,6 +1,11 @@
 const _ = require('lodash')
 
-var initialState = {}
+var initialState = {
+  'Blueberry': {},
+  'Cherry': {},
+  'Strawberry': {},
+  'Watermelon': {}
+}
 
 const reducer = ( state = {}, action) => {
   const newState = _.merge({}, state)
@@ -9,20 +14,20 @@ const reducer = ( state = {}, action) => {
     switch (action.type) {
       case "FireProjectile":
         projectileId = Math.floor(Math.random()*98643785).toString(),
-        newState[projectileId] = { x: action.position.x, y: action.position.y, z: action.position.z, theta: action.theta, strength: action.strength }
+        newState[action.roomName][projectileId] = { x: action.position.x, y: action.position.y, z: action.position.z, theta: action.theta, strength: action.strength }
         return newState
       case "MoveOneForward":
-        newState[action.projectileId].x = newState[action.projectileId].x + 15 * Math.sin(newState[action.projectileId].theta)
-        newState[action.projectileId].z = newState[action.projectileId].z + 15 * Math.cos(newState[action.projectileId].theta)
+        newState[action.roomName][action.projectileId].x = newState[action.roomName][action.projectileId].x + 15 * Math.sin(newState[action.roomName][action.projectileId].theta)
+        newState[action.roomName][action.projectileId].z = newState[action.roomName][action.projectileId].z + 15 * Math.cos(newState[action.roomName][action.projectileId].theta)
         return newState
       case "RemoveProjectile":
-        delete newState[action.projectileId]
+        delete newState[action.roomName][action.projectileId]
         return newState
     }
     return newState
 }
 
-const FireProjectile = (robot, theta, strength) => {
+const FireProjectile = (roomName, robot, theta, strength) => {
   return {
     type: "FireProjectile",
     position: { x: robot.x + 20 * Math.sin(theta), y: robot.y, z: robot.z + 20 * Math.cos(theta)},
@@ -31,12 +36,12 @@ const FireProjectile = (robot, theta, strength) => {
   }
 }
 
-const RemoveProjectile = (projectileId) => ({
+const RemoveProjectile = (roomName, projectileId) => ({
     type: "RemoveProjectile",
     projectileId
 })
 
-const MoveOneForward = (projectileId) => ({
+const MoveOneForward = (roomName, projectileId) => ({
   type: "MoveOneForward",
   projectileId
 })
