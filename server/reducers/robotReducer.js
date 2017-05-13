@@ -20,8 +20,8 @@ const reducer = ( state = {}, action) => {
       case "RemovePlayer":
         delete newState[action.socketId]
         return newState
-      case "UpdateLastFired":
-        newState[action.socketId].lastFired = action.lastFired
+      case "UpdateGoodTime":
+        newState[action.playerId].goodTime = action.goodTime
         return newState
       case "Rotation":
         newState[action.socketId].theta = newState[action.socketId].theta + action.theta
@@ -35,20 +35,24 @@ const reducer = ( state = {}, action) => {
         newState[action.socketId].z = newState[action.socketId].z - Math.cos(newState[action.socketId].theta)
         return newState
       case "DecreaseHealth":
-        newState[action.socketId].health -= action.strength
+        newState[action.playerId].health -= action.strength
+        return newState
+      case "Perp":
+      newState[action.playerId].theta = action.theta
+      return newState
       default:
         return newState
     }
 }
 
-const UpdateLastFired = (socketId,lastFired) => ({
-  type: "UpdateLastFired", socketId, lastFired
-})
-
 const AddPlayer = (socketId, robotInstance) => ({
   type: "AddPlayer", socketId, robotInstance
 })
-
+const UpdateGoodTime = (playerId,goodTime) =>{
+  console.log("playerid",playerId,goodTime)
+  return{
+  type: "UpdateGoodTime", playerId, goodTime
+}}
 const RemovePlayer = (socketId) => ({
   type: "RemovePlayer", socketId
 })
@@ -64,4 +68,8 @@ const DecreaseHealth = (socketId, strength)=> ({
   type: "DecreaseHealth", socketId, strength
 })
 
-module.exports = { reducer, AddPlayer, RemovePlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateLastFired }
+const Perp = (playerId,theta)=>({
+  type:"Perp",theta,playerId
+})
+
+module.exports = { reducer, AddPlayer, RemovePlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateGoodTime, Perp }

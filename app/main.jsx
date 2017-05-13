@@ -22,6 +22,10 @@ socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
 })
 
+socket.on('gameOver', function(data){
+  console.log("gamesoverdoeeeeee")
+})
+
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
 )(
