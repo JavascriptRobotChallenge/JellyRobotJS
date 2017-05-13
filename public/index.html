@@ -37,29 +37,6 @@
 
 		</script>
     <script src="socket.io/socket.io.js"></script>
-    
     <script defer src="bundle.js"></script>
-		<script async defer>
-    const socket = io.connect()
-		socket.on('connect', function(){
-  socket.emit('giveMeARoom')
-})
-
-socket.on('roomAssigned', function(myRoom){
-  console.log('room assigned: ', myRoom)
-  window.store.dispatch(window.AssignRoom(myRoom))
-})
-
-socket.on('serverUpdate', function(data){
-  window.store.dispatch(window.ServerUpdate(data))
-})
-
-socket.on('gameOver', function(data){
-  console.log("gamesoverdoeeeeee")
-})
-
-    </script>
-
-
-  </body>
+</body>
 </html>

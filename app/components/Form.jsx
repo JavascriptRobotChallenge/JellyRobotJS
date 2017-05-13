@@ -1,12 +1,9 @@
 import React from 'react'
-import axios from "axios"
 import store from "../store"
 import { RobotWorld } from './RobotWorld'
 import { Rotation, WalkForward, WalkBackward } from "../reducers/robot"
-import { render } from 'react-dom';
-import brace from 'brace';
 import AceEditor from 'react-ace';
-import _ from "lodash"
+import socket from '../socket';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 

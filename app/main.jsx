@@ -9,11 +9,6 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Form from "./components/Form"
-import { ServerUpdate, AssignRoom } from "./reducers/robot.js"
-
-import * as THREE from 'three';
-
-
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
