@@ -7,6 +7,10 @@ const { MoveOneForward, RemoveProjectile } = require("./reducers/projectileReduc
 let io;
 let gameLoop;
 
+function distanceBetween(arrOne,arrTwo){
+  return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
+}
+
 const MoveForward = () => {
   var projectiles = backendStore.getState().projectiles
   for(var projectile in projectiles) {
@@ -58,6 +62,10 @@ function broadcastGameState(io){
       for (var i = 0; i < playerArr.length; i++){
         let robot = state[playerArr[i]];
         ///if the robot hits the wall
+        console.log("opponent",robot.robotInstance.findOpponent(playerArr[i]))
+        console.log("robcords",[robot.x,robot.y])
+        console.log("findopponent",robot.robotInstance.findOpponent(playerArr[i]))
+        console.log(distanceBetween([robot.x,robot.z],robot.robotInstance.findOpponent(playerArr[i])))
         if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
           console.log(robot.x,robot.z)
           if (robot.x>700){robot.robotInstance.perp(playerArr[i],1.5*Math.PI)}
@@ -71,7 +79,18 @@ function broadcastGameState(io){
           robot.robotInstance.onBoxCollision(playerArr[i])
         }
 
-
+        else if (robot.robotInstance.findOpponent(playerArr[i])&&distanceBetween([robot.x,robot.z],robot.robotInstance.findOpponent(playerArr[i]))<350){
+          var closeObjects = robot.robotInstance.onClose(playerArr[i])
+          closeObjects.forEach((closeObject)=>{
+            if (userTime%closeObject.frequency===0){
+                if (closeObject.action.toString().indexOf('Fire') !== -1){
+                closeObject.action.call(robot.robotInstance, playerArr[i], closeObject.degrees, closeObject.strength)
+              } else {
+                closeObject.action.call(robot.robotInstance, playerArr[i], closeObject.degrees)
+              }
+            }
+          })
+        }
 
         else{
           var actionObjects = robot.robotInstance.onIdle(playerArr[i])

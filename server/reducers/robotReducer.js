@@ -15,7 +15,7 @@ const reducer = ( state = {}, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
       case "AddPlayer":
-        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10, goodTime:0}
+        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,goodTime:0}
         return newState
       case "RemovePlayer":
         delete newState[action.socketId]
