@@ -9,7 +9,7 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const { FireProjectile } = require("./reducers/projectileReducer")
-const { AddPlayer, Rotation, WalkForward, WalkBackward, UpdateGoodTime, Perp } = require("./reducers/robotReducer")
+const { AddPlayer, RemovePlayer, Rotation, WalkForward, WalkBackward, UpdateGoodTime, Perp } = require("./reducers/robotReducer")
 var broadcastGameState = require('./updateClientLoop.js')
 var util = require('util')
 var eventEmitter = require('events').EventEmitter;
@@ -106,9 +106,7 @@ if (module === require.main) {
 
   var counter = 0
   RobotClass.prototype.fire = function(playerId, theta, strength, reloadTime){
-    console.log("here",playerId,Date.now(),backendStore.getState().robots[playerId].goodTime)
-    if ( Date.now()>backendStore.getState().robots[playerId].goodTime){
-      console.log("gothere")
+    if ( Date.now() > backendStore.getState().robots[playerId].goodTime ) {
       backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], playerId, theta, strength))
       backendStore.dispatch(UpdateGoodTime(playerId,Date.now()+reloadTime*1000))
       counter++
@@ -119,11 +117,11 @@ if (module === require.main) {
       var ownPosition = this.getOwnPosition(id)
       var otherPlayersPosition = this.findOpponent(id)
       var radAngle;
-      if (!otherPlayersPosition){radAngle=0}
+      if (!otherPlayersPosition){radAngle = 0}
       else{
-      var xDiff = otherPlayersPosition[0]-ownPosition[0]
-      var zDiff = otherPlayersPosition[1]-ownPosition[1]
-      if (xDiff>0&&zDiff>0){
+      var xDiff = otherPlayersPosition[0] - ownPosition[0]
+      var zDiff = otherPlayersPosition[1] - ownPosition[1]
+      if ( xDiff > 0 && zDiff > 0 ){
         radAngle = Math.atan(xDiff/zDiff)
       }
       else if (xDiff>0&&zDiff<0){
@@ -136,17 +134,11 @@ if (module === require.main) {
         radAngle = Math.atan(xDiff/zDiff)
       }
     }
-    this.fire(id, radAngle, 1,5)
+    this.fire( id, radAngle, 1, 5 )
   }
 
   RobotClass.prototype.rapidFire = function(id){
-    console.log("rapidFire")
-    this.fire(id,Math.random()*2*Math.PI,1,0.1)
-  }
-
-  RobotClass.prototype.straightFire = function(id){
-    const robot = backendStore.getState().robots[id]
-    this.fire(id,robot.x * Math.sin(robot.theta), 1, 1)
+    this.fire(id, Math.random() * 2 * Math.PI, 1, 0.1)
   }
 
   RobotClass.prototype.findOpponent = function(playerId){
@@ -166,27 +158,25 @@ if (module === require.main) {
 
   RobotClass.prototype.rotation = function(playerId, degrees) {
     var theta = degrees *.0174533
-    backendStore.dispatch(Rotation(playerId, theta))
-    backendStore.dispatch(WalkForward(playerId))
-    backendStore.dispatch(WalkForward(playerId))
-    backendStore.dispatch(WalkForward(playerId))
-
+    backendStore.dispatch( Rotation(playerId, theta) )
+    backendStore.dispatch( WalkForward(playerId) )
+    backendStore.dispatch( WalkForward(playerId) )
+    backendStore.dispatch( WalkForward(playerId) )
   }
 
   RobotClass.prototype.walkForward = function(id) {
-    backendStore.dispatch(WalkForward(id))
+    backendStore.dispatch( WalkForward(id) )
   }
 
-  RobotClass.prototype.perp=function(playerId,theta){
-    console.log("perp")
-    backendStore.dispatch(Perp(playerId,theta))
-    backendStore.dispatch(WalkForward(playerId))
-    backendStore.dispatch(WalkForward(playerId))
+  RobotClass.prototype.perp = function(playerId, theta) {
+    backendStore.dispatch( Perp(playerId, theta) )
+    backendStore.dispatch( WalkForward(playerId) )
+    backendStore.dispatch( WalkForward(playerId) )
   }
 
   RobotClass.prototype.walkBackward = function(numTimes, id) {
-    backendStore.dispatch(WalkBackward(id))
-    
+    backendStore.dispatch( WalkBackward(id) )
+
   }
   RobotClass.prototype.onBoxCollision = function(id){
       this.rotation(id, 45)
@@ -194,7 +184,6 @@ if (module === require.main) {
   }
 
   util.inherits(RobotClass, eventEmitter)
-
 
   var connectCounter = 0, idleActions = {}
   var io = require('socket.io')(server)
@@ -210,6 +199,10 @@ if (module === require.main) {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
       })
       backendStore.dispatch(AddPlayer(socket.id, roboInstance))
+    })
+
+    socket.on('disconnect', function() {
+      backendStore.dispatch(RemovePlayer(socket.id))
     })
   })
   broadcastGameState(io)
