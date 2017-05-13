@@ -36,10 +36,7 @@ function checkProjectilesToRemove(){
         var robot = robotsObj[robotID]
 
         if(Math.abs(robot.x - projectile.x) < 22 && Math.abs(robot.z - projectile.z) < 22 ){
-          console.log('hit registered')
-
           backendStore.dispatch(DecreaseHealth(robotID, projectile.strength))
-
           backendStore.dispatch(RemoveProjectile(projectileId))
         }
       }
@@ -53,6 +50,7 @@ function broadcastGameState(io){
   const gameLoop = setInterval(() => {
     userTime++;
     let state = backendStore.getState().robots
+
     for(var roomName in state){
       var playerArr = Object.keys(state[roomName])
       if (playerArr.length) {
@@ -85,11 +83,22 @@ function broadcastGameState(io){
         MoveForward(roomName)
         checkProjectilesToRemove()
 
-        // with rooms, we can broadcast to only that room
-        io.emit('serverUpdate', backendStore.getState());
-        // state.robots[roomName]
-        // state.robots[roomName]
-        // get the room from the projectile part of the state, and the robot part of the state, and
+        // loop through the rooms
+        var rooms = {
+          1: 'Blueberry',
+          2: 'Cherry',
+          3: 'Strawberry',
+          4: 'Watermelon'
+        }
+
+        for(var num in rooms){
+          const room = rooms[num]
+          const storeToSend = {
+            projectiles: backendStore.getState().projectiles[room],
+            robots: backendStore.getState().robots[room]
+          }
+          io.to(room).emit('serverUpdate', storeToSend);
+        }
       }
     }
   }, SERVER_UPDATE_RATE);

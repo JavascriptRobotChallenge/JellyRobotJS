@@ -12,20 +12,13 @@ const { AddOrUpdatePlayer, RemovePlayer, AddRoom } = require("./reducers/robotRe
 const broadcastGameState = require('./updateClientLoop.js')
 const RobotClass =  require('./RobotClass')
 
-
-
 const pkg = require('APP')
-
 const app = express()
 
-if (!pkg.isProduction && !pkg.isTesting) {
-  app.use(require('volleyball'))
-}
+if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
 
 const prettyError = new PrettyError
-
 prettyError.skipNodeFiles()
-
 prettyError.skipPackage('express')
 
 module.exports = app
@@ -65,6 +58,7 @@ if (module === require.main) {
       console.log(`Listening on http://${urlSafeHost}:${port}`)
     }
   )
+
   var io = require('socket.io')(server)
   var counterPeople = 0, roomIndex  = 0;
   var rooms = {
@@ -75,32 +69,22 @@ if (module === require.main) {
   }
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
-
     socket.on('giveMeARoom', ()=>{
       var myRoom
+
       if(counterPeople % 2 === 0) {
-        console.log('socket id even', counterPeople, socket.id)
         roomIndex = Math.floor(counterPeople /2) + 1
         myRoom = rooms[roomIndex]
-        console.log(myRoom)
         backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
-
       } else {
-        console.log('socket id odd',counterPeople, socket.id)
         myRoom = rooms[roomIndex]
         backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
       }
-      console.log(myRoom)
+
+      socket.join(myRoom)
       socket.emit('roomAssigned', myRoom)
       counterPeople++;
     })
-
-
-// socket.leave ["room name"]
-  //socket.to.room number . emit
-    // socket.broadcast.to(id)
-      // emit inside this
-    //broadcast to the room
 
     socket.on('sendCode', (code)=> {
       var roboFunc = eval(code)
@@ -114,15 +98,9 @@ if (module === require.main) {
       backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, roboInstance))
     })
 
-    socket.on('room', function(room) {
-      // console.log('joined room', room)
-      socket.join(room)
-    })
-
     socket.on('disconnect', function() {
       backendStore.dispatch(RemovePlayer(rooms[roomIndex], socket.id))
     })
-
   })
 
   broadcastGameState(io);

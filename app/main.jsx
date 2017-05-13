@@ -23,6 +23,7 @@ socket.on('roomAssigned', function(myRoom){
 })
 
 socket.on('serverUpdate', function(data){
+  
   store.dispatch(ServerUpdate(data))
 })
 
