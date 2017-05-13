@@ -15,13 +15,13 @@ const reducer = ( state = {}, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
       case "AddPlayer":
-        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,lastFired:0}
+        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10, goodTime:0}
         return newState
       case "RemovePlayer":
         delete newState[action.socketId]
         return newState
       case "UpdateGoodTime":
-        newState[action.playerId].goodTime = action.goodTime
+        newState[action.socketId].goodTime = action.goodTime
         return newState
       case "Rotation":
         newState[action.socketId].theta = newState[action.socketId].theta + action.theta
@@ -35,10 +35,10 @@ const reducer = ( state = {}, action) => {
         newState[action.socketId].z = newState[action.socketId].z - Math.cos(newState[action.socketId].theta)
         return newState
       case "DecreaseHealth":
-        newState[action.playerId].health -= action.strength
+        newState[action.socketId].health -= action.strength
         return newState
       case "Perp":
-      newState[action.playerId].theta = action.theta
+      newState[action.socketId].theta = action.theta
       return newState
       default:
         return newState
@@ -48,10 +48,9 @@ const reducer = ( state = {}, action) => {
 const AddPlayer = (socketId, robotInstance) => ({
   type: "AddPlayer", socketId, robotInstance
 })
-const UpdateGoodTime = (playerId,goodTime) =>{
-  console.log("playerid",playerId,goodTime)
+const UpdateGoodTime = (socketId,goodTime) => {
   return{
-  type: "UpdateGoodTime", playerId, goodTime
+  type: "UpdateGoodTime", socketId, goodTime
 }}
 const RemovePlayer = (socketId) => ({
   type: "RemovePlayer", socketId
@@ -68,8 +67,8 @@ const DecreaseHealth = (socketId, strength)=> ({
   type: "DecreaseHealth", socketId, strength
 })
 
-const Perp = (playerId,theta)=>({
-  type:"Perp",theta,playerId
+const Perp = (socketId,theta)=>({
+  type:"Perp",theta,socketId
 })
 
 module.exports = { reducer, AddPlayer, RemovePlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateGoodTime, Perp }

@@ -108,7 +108,7 @@ if (module === require.main) {
   RobotClass.prototype.fire = function(playerId, theta, strength, reloadTime){
     if ( Date.now() > backendStore.getState().robots[playerId].goodTime ) {
       backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], playerId, theta, strength))
-      backendStore.dispatch(UpdateGoodTime(playerId,Date.now()+reloadTime*1000))
+      backendStore.dispatch(UpdateGoodTime(playerId, Date.now() + reloadTime * 1000))
       counter++
     }
   }
@@ -193,7 +193,7 @@ if (module === require.main) {
     socket.on('sendCode', (code)=>{
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
-        
+
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
