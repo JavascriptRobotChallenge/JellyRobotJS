@@ -27,6 +27,16 @@ var startingCode =
        ]
    }
 
+    SubRobot.prototype.onClose = function(id){
+       var robotInstance = backendStore.getState()[id]
+       return [
+         { frequency: 1, action: this.walkForward},
+        { frequency: 10, action: this.accurateFire, playerId: id},
+         { frequency: 400, action: this.rotation, degrees: 60}
+       ]
+   }
+
+
   
     return new SubRobot()
  })`

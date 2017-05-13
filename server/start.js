@@ -204,6 +204,7 @@ if (module === require.main) {
     socket.on('sendCode', (code)=>{
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
+        
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
