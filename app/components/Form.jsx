@@ -52,7 +52,8 @@ export default class NameForm extends React.Component {
   }
 
   onSubmit() {
-    socket.emit('sendCode', inputCode)
+
+    socket.emit('sendCode', inputCode, store.getState().gameData.room)
   }
 
   render () {

@@ -1,7 +1,7 @@
 import store from "../../store"
 import * as THREE from 'three';
 import { init, robotModel, camera, renderer, scene } from './initThree.js'
-var counterDebug =0;
+
 function buildRobot(robot){
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
@@ -12,8 +12,6 @@ function buildRobot(robot){
 }
 
 function buildProjectile(projectile){
-  if(counterDebug < 5)
-  console.log(projectile, 'this is the projectile')
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
     var mat = new THREE.MeshBasicMaterial( {color: "rgb(132, 6, 0)"} );
     var practiceSphere = new THREE.Mesh( geo, mat );
@@ -35,7 +33,6 @@ var interval = 1000/fps;
 var delta;
 
 export const animate = () => {
-    counterDebug++;
     requestAnimationFrame(animate);
     now = Date.now();
     delta = now - then;
@@ -44,11 +41,8 @@ export const animate = () => {
       var storeState = store.getState().gameData
       const roomName = store.getState().gameData.room
       then = now - (delta % interval);
-      // console.log(roomName, 'roomname')
         //ROBOTS
         if(roomName.length){
-          if(counterDebug < 5)
-          console.log('storestate', storeState)
           if (storeState.server.robots) {
           for( var individualRobot in robots){
             if(!storeState.server.robots[individualRobot]){
@@ -88,7 +82,7 @@ export const animate = () => {
       if(roomName.length){
         for(var storeProjectile in storeState.server.projectiles){
           if(!projectiles[storeProjectile]){
-            projectiles[storeProjectile] = buildProjectile(storeProjectile)
+            projectiles[storeProjectile] = buildProjectile(storeState.server.projectiles[storeProjectile])
           }
         }
       }

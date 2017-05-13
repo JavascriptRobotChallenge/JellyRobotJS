@@ -63,16 +63,13 @@ function broadcastGameState(io){
     let state = backendStore.getState().robots
 
     for(var roomName in state) {
-      console.log(state[roomName], 'this the state for that roomname')
       var playerArr = Object.keys(state[roomName])
-      console.log(playerArr, 'this the player store')
       if (playerArr.length) {
         for (var i = 0; i < playerArr.length; i++) {
           let robot = state[roomName][playerArr[i]];
           if(robot.robotInstance) {
             ///if the robot hits the wall
             if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
-              console.log(robot.x, robot.z)
               if (robot.x > 700) {
                 robot.robotInstance.perp(roomName, playerArr[i], 1.5 * Math.PI)
               }
@@ -121,6 +118,8 @@ function broadcastGameState(io){
           }
         }
       }
+      // io.to(roomName).emit('serverUpdate', backendStore.getState());
+      // console.log('ENTIRE BACKEND STORE', backendStore.getState())
     }
     // loop through the rooms
     var rooms = {
@@ -130,13 +129,16 @@ function broadcastGameState(io){
       4: 'Watermelon'
     }
     for (var num in rooms) {
-      const room = rooms[num]
-      const storeToSend = {
+      var room = rooms[num]
+
+      var storeToSend = {
         projectiles: backendStore.getState().projectiles[room],
         robots: backendStore.getState().robots[room]
       }
+      console.log('store to send', room, storeToSend)
       io.to(room).emit('serverUpdate', storeToSend);
     }
+    // console.log('BACKEND STORE', backendStore.getState())
   }, SERVER_UPDATE_RATE);
 }
 

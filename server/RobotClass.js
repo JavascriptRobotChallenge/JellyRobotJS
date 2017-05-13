@@ -1,3 +1,5 @@
+
+
 const backendStore = require('./reducers/backendStore.js')
 const { FireProjectile } = require("./reducers/projectileReducer")
 const { Rotation, WalkForward, WalkBackward, UpdateGoodTime, Perp } = require("./reducers/robotReducer")
@@ -12,7 +14,7 @@ function RobotClass() {
 var counter = 0
 RobotClass.prototype.fire = function(roomName, playerId, theta, strength, reloadTime){
   if ( Date.now() > backendStore.getState().robots[roomName][playerId].goodTime ) {
-    backendStore.dispatch(FireProjectile(roomName, backendStore.getState().robots[roomName][playerId], playerId, theta, strength))
+    backendStore.dispatch(FireProjectile(roomName, playerId, backendStore.getState().robots[roomName][playerId], theta, strength))
     backendStore.dispatch(UpdateGoodTime(roomName, playerId, Date.now() + reloadTime * 1000))
     counter++
   }
@@ -21,21 +23,22 @@ RobotClass.prototype.fire = function(roomName, playerId, theta, strength, reload
 RobotClass.prototype.accurateFire = function(roomName, id){
   var ownPosition = this.getOwnPosition(roomName, id)
   var otherPlayersPosition = this.findOpponent(roomName, id)
-  var radAngle;
+  var radAngle
+
   if (!otherPlayersPosition){radAngle = 0}
-  else{
+  else {
     var xDiff = otherPlayersPosition[0] - ownPosition[0]
     var zDiff = otherPlayersPosition[1] - ownPosition[1]
     if ( xDiff > 0 && zDiff > 0 ){
       radAngle = Math.atan(xDiff/zDiff)
     }
-    else if (xDiff>0&&zDiff<0){
-      radAngle = Math.PI+Math.atan(xDiff/zDiff)
+    else if (xDiff > 0 && zDiff < 0){
+      radAngle = Math.PI + Math.atan(xDiff/zDiff)
     }
-    else if (xDiff<0&&zDiff<0){
-      radAngle = Math.PI+Math.atan(xDiff/zDiff)
+    else if (xDiff < 0 && zDiff < 0){
+      radAngle = Math.PI + Math.atan(xDiff/zDiff)
     }
-    else if(xDiff<0&&zDiff>0){
+    else if(xDiff < 0 && zDiff > 0){
       radAngle = Math.atan(xDiff/zDiff)
     }
   }

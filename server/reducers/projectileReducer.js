@@ -27,22 +27,19 @@ const reducer = ( state = initialState, action) => {
     return newState
 }
 
-const FireProjectile = (roomName, robotId, robot, theta, strength) => {
-  return {
+const FireProjectile = (roomName, robotId, robot, theta, strength) => ({
     type: "FireProjectile",
+    roomName,
     robotId: robotId,
     position: { x: robot.x, y: robot.y, z: robot.z},
     theta: theta,
     strength,
-    roomName
-  }
-}
+})
 
 const RemoveProjectile = (roomName, projectileId) => ({
     type: "RemoveProjectile",
     roomName,
     projectileId
-
 })
 
 const MoveOneForward = (roomName, projectileId) => ({

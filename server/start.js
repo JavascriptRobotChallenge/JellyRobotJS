@@ -59,7 +59,7 @@ if (module === require.main) {
   )
 
   var io = require('socket.io')(server)
-  var counterPeople = 0, roomIndex  = 0;
+  var counterPeople = 0, roomIndex = 0;
   var rooms = {
     1: 'Blueberry',
     2: 'Cherry',
@@ -70,37 +70,38 @@ if (module === require.main) {
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
     socket.on('giveMeARoom', ()=>{
-      var myRoom
+      var myRoom;
 
       if(counterPeople % 2 === 0) {
         roomIndex = Math.floor(counterPeople /2) + 1
-        myRoom = rooms[roomIndex]
+        console.log('roomindex', roomIndex)
+        console.log('room', rooms[roomIndex])
         backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
+        myRoom = rooms[roomIndex]
       } else {
         myRoom = rooms[roomIndex]
         backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, null ))
       }
+
       socket.join(myRoom)
       socket.emit('roomAssigned', myRoom)
       counterPeople++;
     })
 
-    socket.on('sendCode', (code)=> {
+    socket.on('sendCode', (code, room)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
-      console.log(roboInstance, 'roboInstance in sendCode')
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
       })
       // update player when they have submitted code
-
-      backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex], socket.id, roboInstance))
+      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
     })
 
-    socket.on('disconnect', function() {
-      backendStore.dispatch(RemovePlayer(rooms[roomIndex], socket.id))
-    })
+    // socket.on('disconnect', function() {
+    //   backendStore.dispatch(RemovePlayer(socket.id))
+    // })
   })
 
   broadcastGameState(io);

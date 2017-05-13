@@ -19,6 +19,7 @@ socket.on('connect', function(){
 })
 
 socket.on('roomAssigned', function(myRoom){
+  console.log('room assigned: ', myRoom)
   store.dispatch(AssignRoom(myRoom))
 })
 

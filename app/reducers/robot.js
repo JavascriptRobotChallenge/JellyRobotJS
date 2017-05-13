@@ -13,7 +13,6 @@ const reducer = ( state = initialState, action) => {
     switch (action.type) {
         case "AssignRoom":
           newState.room = action.room
-          console.log(action.room)
           return newState
         case "ServerUpdate":
           newState.server = action.payload

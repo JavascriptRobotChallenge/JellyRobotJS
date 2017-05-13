@@ -20,8 +20,13 @@ const reducer = ( state = initialState, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
     case "AddOrUpdatePlayer":
-      newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: 0, robotInstance: action.robotInstance, health: 10,goodTime:0}
-      return newState
+      if(!action.roomName){
+        return newState
+      } else {
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: 0, robotInstance: action.robotInstance, health: 10, goodTime:0}
+        console.log('newState', newState)
+        return newState
+      }
     case "RemovePlayer":
       delete newState[action.roomName][action.socketId]
       return newState
@@ -61,4 +66,3 @@ const Perp = (roomName, socketId,theta)=>({type:"Perp",theta, socketId, roomName
 
 module.exports = { reducer, AddOrUpdatePlayer, RemovePlayer, WalkForward,
 WalkBackward, Rotation, DecreaseHealth, UpdateGoodTime, Perp }
-
