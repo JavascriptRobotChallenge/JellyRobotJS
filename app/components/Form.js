@@ -35,9 +35,6 @@ var startingCode =
          { frequency: 400, action: this.rotation, degrees: 60}
        ]
    }
-
-
-  
     return new SubRobot()
  })`
 var inputCode = startingCode

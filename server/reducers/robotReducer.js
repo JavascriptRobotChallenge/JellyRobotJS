@@ -15,7 +15,7 @@ const reducer = ( state = {}, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
       case "AddPlayer":
-        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,lastFired:0}
+        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,goodTime:0}
         return newState
       case "RemovePlayer":
         delete newState[action.socketId]
@@ -35,7 +35,7 @@ const reducer = ( state = {}, action) => {
         newState[action.socketId].z = newState[action.socketId].z - Math.cos(newState[action.socketId].theta)
         return newState
       case "DecreaseHealth":
-        newState[action.playerId].health -= action.strength
+        newState[action.socketId].health -= action.strength
         return newState
       case "Perp":
       newState[action.playerId].theta = action.theta

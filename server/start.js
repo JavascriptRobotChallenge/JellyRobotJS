@@ -106,6 +106,7 @@ if (module === require.main) {
 
   var counter = 0
   RobotClass.prototype.fire = function(playerId, theta, strength, reloadTime){
+    console.log("torf",Date.now()>backendStore.getState().robots[playerId].goodTime)
     if ( Date.now() > backendStore.getState().robots[playerId].goodTime ) {
       backendStore.dispatch(FireProjectile(backendStore.getState().robots[playerId], playerId, theta, strength))
       backendStore.dispatch(UpdateGoodTime(playerId,Date.now()+reloadTime*1000))
