@@ -9,6 +9,7 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Form from "./components/Form"
+import AppTest from "./components/LoginComponent"
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
@@ -29,6 +30,7 @@ render(
         <IndexRedirect to="/jokes" />
         <Route path="/jokes" component={Form} />
       </Route>
+      <Route path='/test' component={AppTest} />
       <Route path='*' component={NotFound} />
     </Router>
   </Provider>,

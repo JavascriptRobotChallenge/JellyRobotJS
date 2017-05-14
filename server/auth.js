@@ -30,6 +30,10 @@ const auth = require('express').Router()
  * When you deploy to production, you'll need to set up these environment
  * variables with your hosting provider.
  **/
+auth.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 // Facebook needs the FACEBOOK_CLIENT_ID and FACEBOOK_CLIENT_SECRET
 // environment variables.
@@ -40,6 +44,7 @@ OAuth.setupStrategy({
     clientID: env.FACEBOOK_CLIENT_ID,
     clientSecret: env.FACEBOOK_CLIENT_SECRET,
     callbackURL: `${app.baseUrl}/api/auth/login/facebook`,
+    profileFields: ['id', 'displayName', 'photos', 'email']
   },
   passport
 })
@@ -128,13 +133,14 @@ auth.post('/login/local', passport.authenticate('local', {successRedirect: '/'})
 // GET requests for OAuth login:
 // Register this route as a callback URL with OAuth provider
 auth.get('/login/:strategy', (req, res, next) =>
+{ console.log('hit login in server', req.params.strategy)
   passport.authenticate(req.params.strategy, {
     scope: 'email', // You may want to ask for additional OAuth scopes. These are
                     // provider specific, and let you access additional data (like
                     // their friends or email), or perform actions on their behalf.
     successRedirect: '/',
     // Specify other config here
-  })(req, res, next)
+  })(req, res, next) }
 )
 
 auth.post('/logout', (req, res) => {

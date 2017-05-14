@@ -29,6 +29,7 @@ module.exports = app
   .use(bodyParser.json())
   .use(passport.initialize())
   .use(passport.session())
+  .use(express.static(resolve(__dirname, '..', 'node_modules')))
   .use(express.static(resolve(__dirname, '..', 'public')))
   .use('/api', require('./api'))
   .use((req, res, next) => {
