@@ -9,22 +9,6 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Form from "./components/Form"
-import { ServerUpdate } from "./reducers/robot.jsx"
-
-import * as THREE from 'three';
-
-socket.on('connect', function(){
-  console.log('we have a connection')
-  // call BuildOurRobot
-})
-
-socket.on('serverUpdate', function(data){
-  store.dispatch(ServerUpdate(data))
-})
-
-socket.on('gameOver', function(data){
-  console.log("gamesoverdoeeeeee")
-})
 
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })

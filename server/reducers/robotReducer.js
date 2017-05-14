@@ -1,75 +1,68 @@
 const _ = require('lodash')
 
-var initialState = {}
-
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const reducer = ( state = {}, action) => {
+var initialState = {
+  'Blueberry': {},
+  'Cherry': {},
+  'Strawberry': {},
+  'Watermelon': {}
+}
+
+const reducer = ( state = initialState, action) => {
   const newState = _.merge({}, state)
   Object.freeze(state)
 
   switch (action.type) {
     //SW: these should be coming from a constant file
-      case "AddPlayer":
-        newState[action.socketId] = {x: getRandomInt(-699, 699), y: 0, z: 600, theta: 0, robotInstance: action.robotInstance, health: 10,lastFired:0}
+    case "AddOrUpdatePlayer":
+      if(!action.roomName){
         return newState
-      case "RemovePlayer":
-        delete newState[action.socketId]
+      } else {
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: 0, robotInstance: action.robotInstance, health: 10, goodTime:0}
+        // console.log('newState', newState)
         return newState
-      case "UpdateGoodTime":
-        newState[action.playerId].goodTime = action.goodTime
-        return newState
-      case "Rotation":
-        newState[action.socketId].theta = newState[action.socketId].theta + action.theta
-        return newState
-      case "WalkForward":
-        newState[action.socketId].x = newState[action.socketId].x + 5 * Math.sin(newState[action.socketId].theta)
-        newState[action.socketId].z = newState[action.socketId].z + 5 * Math.cos(newState[action.socketId].theta)
-        return newState
-      case "WalkBackward":
-        newState[action.socketId].x = newState[action.socketId].x - Math.sin(newState[action.socketId].theta)
-        newState[action.socketId].z = newState[action.socketId].z - Math.cos(newState[action.socketId].theta)
-        return newState
-      case "DecreaseHealth":
-        newState[action.playerId].health -= action.strength
-        return newState
-      case "Perp":
-      newState[action.playerId].theta = action.theta
+      }
+    case "RemovePlayer":
+      delete newState[action.roomName][action.socketId]
       return newState
-      default:
-        return newState
-    }
+    case "UpdateGoodTime":
+      newState[action.roomName][action.socketId].goodTime = action.goodTime
+      return newState
+    case "Rotation":
+      newState[action.roomName][action.socketId].theta = newState[action.roomName][action.socketId].theta + action.theta
+      return newState
+    case "WalkForward":
+      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 5 * Math.sin(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 5 * Math.cos(newState[action.roomName][action.socketId].theta)
+      return newState
+    case "WalkBackward":
+      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x - Math.sin(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z - Math.cos(newState[action.roomName][action.socketId].theta)
+      return newState
+    case "DecreaseHealth":
+      newState[action.roomName][action.socketId].health -= action.strength
+      return newState
+    case "Perp":
+      newState[action.roomName][action.socketId].theta = action.theta
+      return newState
+    default:
+      return newState
+  }
 }
 
-const AddPlayer = (socketId, robotInstance) => ({
-  type: "AddPlayer", socketId, robotInstance
-})
-const UpdateGoodTime = (playerId,goodTime) =>{
-  console.log("playerid",playerId,goodTime)
-  return{
-  type: "UpdateGoodTime", playerId, goodTime
-}}
-const RemovePlayer = (socketId) => ({
-  type: "RemovePlayer", socketId
-})
+const AddOrUpdatePlayer = (roomName, socketId, robotInstance) => ({type: "AddOrUpdatePlayer", socketId, roomName, robotInstance})
+const RemovePlayer = (roomName, socketId) => ({type: "RemovePlayer", socketId, roomName})
+const UpdateGoodTime = (roomName, socketId,goodTime) => ({type: "UpdateGoodTime", socketId, goodTime, roomName})
+const WalkForward = (roomName, socketId) => ({type: "WalkForward", socketId, roomName})
+const WalkBackward = (roomName, socketId) => ({type: "WalkBackward", socketId, roomName})
+const Rotation = (roomName, socketId, theta) =>({  type: "Rotation", socketId, theta, roomName})
+const DecreaseHealth = (roomName, socketId, strength)=> ({type: "DecreaseHealth", socketId, strength, roomName})
+const Perp = (roomName, socketId,theta)=>({type:"Perp",theta, socketId, roomName})
 
-const WalkForward = (socketId) => ({type: "WalkForward", socketId})
-const WalkBackward = (socketId) => ({type: "WalkBackward", socketId})
-
-const Rotation = (socketId, theta) =>({
-  type: "Rotation", socketId, theta
-})
-
-const DecreaseHealth = (socketId, strength)=> ({
-  type: "DecreaseHealth", socketId, strength
-})
-
-const Perp = (playerId,theta)=>({
-  type:"Perp",theta,playerId
-})
-
-module.exports = { reducer, AddPlayer, RemovePlayer, WalkForward, WalkBackward, Rotation, DecreaseHealth, UpdateGoodTime, Perp }
+module.exports = { reducer, AddOrUpdatePlayer, RemovePlayer, WalkForward,
+WalkBackward, Rotation, DecreaseHealth, UpdateGoodTime, Perp }

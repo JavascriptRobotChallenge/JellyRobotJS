@@ -31,6 +31,7 @@ var now;
 var then = Date.now();
 var interval = 1000/fps;
 var delta;
+
 export const animate = () => {
     requestAnimationFrame(animate);
     now = Date.now();
@@ -38,27 +39,30 @@ export const animate = () => {
 
     if (delta > interval) {
       var storeState = store.getState().gameData
+      const roomName = store.getState().gameData.room
       then = now - (delta % interval);
-
         //ROBOTS
-        if (storeState.robots) {
-        for( var individualRobot in robots){
-          if(!storeState.robots[individualRobot]){
-            scene.remove(robots[individualRobot])
-            delete robots[individualRobot]
+        if(roomName.length){
+          if (storeState.server.robots) {
+          for( var individualRobot in robots){
+            if(!storeState.server.robots[individualRobot]){
+              scene.remove(robots[individualRobot])
+              delete robots[individualRobot]
+            }
           }
         }
+
         //ADDS ROBOTS IF THEY ARE IN STORE.STATE
-        if (Object.keys(robots).length < Object.keys(storeState.robots).length) {
-          for(var robotKey in storeState.robots){
-            if (!robots[robotKey]) {
-              robots[robotKey] = buildRobot(storeState.robots[robotKey])
+        if (Object.keys(robots).length < Object.keys(storeState.server.robots).length) {
+          for(var robotKey in storeState.server.robots){
+            if (!robots[robotKey] && storeState.server.robots[robotKey].robotInstance) {
+              robots[robotKey] = buildRobot(storeState.server.robots[robotKey])
             }
           }
         }
         //UPDATES ROBOT POSITION W STORE.STATE POSITION
         for(var robotKey in robots) {
-          var robotState = storeState.robots
+          var robotState = storeState.server.robots
           robots && robots[robotKey] && (robots[robotKey].position.x = robotState[robotKey].x)
           robots && robots[robotKey] && (robots[robotKey].position.z = robotState[robotKey].z)
           robots && robots[robotKey] && (robots[robotKey].rotation.y = robotState[robotKey].theta)
@@ -69,22 +73,27 @@ export const animate = () => {
 
       //REMOVES PROJECTILES IF THEY ARE NOT IN STORE.STATE
       for( var individualProjectile in projectiles){
-        if(!storeState.projectiles[individualProjectile]){
+        if(!storeState.server.projectiles[individualProjectile]){
           scene.remove(projectiles[individualProjectile])
           delete projectiles[individualProjectile]
         }
       }
       //ADDS PROJECTILES IF THEY ARE IN STORE.STATE
-      for(var storeProjectile in storeState.projectiles){
-        if(!projectiles[storeProjectile]){
-          projectiles[storeProjectile] = buildProjectile(storeProjectile)
+      if(roomName.length){
+        for(var storeProjectile in storeState.server.projectiles){
+          if(!projectiles[storeProjectile]){
+            projectiles[storeProjectile] = buildProjectile(storeState.server.projectiles[storeProjectile])
+          }
         }
       }
+
       //UPDATES PROJECTILE POSITION W STORE.STATE POSITION
       for(var projKey in projectiles) {
-        var projectileState = storeState.projectiles
-        projectiles && projectiles[projKey] && (projectiles[projKey].position.x = projectileState[projKey].x)
-        projectiles && projectiles[projKey] && (projectiles[projKey].position.z = projectileState[projKey].z)
+        var projectileState = storeState.server.projectiles
+        if (projectiles && projectiles[projKey]){
+          projectiles[projKey].position.x = projectileState[projKey].x
+          projectiles[projKey].position.z = projectileState[projKey].z
+        }
       }
     }
 
