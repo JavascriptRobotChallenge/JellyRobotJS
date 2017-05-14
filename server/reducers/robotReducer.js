@@ -18,23 +18,29 @@ const reducer = ( state = initialState, action) => {
   Object.freeze(state)
 
   switch (action.type) {
-    //SW: these should be coming from a constant file
     case "AddOrUpdatePlayer":
       if(!action.roomName){
         return newState
       } else {
-        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: 0, robotInstance: action.robotInstance, health: 10, goodTime:0}
-        // console.log('newState', newState)
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: 0, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0 }
         return newState
       }
     case "RemovePlayer":
       delete newState[action.roomName][action.socketId]
       return newState
-    case "UpdateGoodTime":
-      newState[action.roomName][action.socketId].goodTime = action.goodTime
+    case "UpdateWalkTime":
+      newState[action.roomName][action.socketId].walkTime = Date.now() + 29
       return newState
-    case "Rotation":
+    case "UpdateFireTime":
+      newState[action.roomName][action.socketId].fireTime = action.fireTime
+      return newState
+    case "AddRotation":
       newState[action.roomName][action.socketId].theta = newState[action.roomName][action.socketId].theta + action.theta
+      return newState
+    case "WalkAwayFromWall":
+      console.log('inside walk away from wall')
+      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 10 * Math.sin(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 10 * Math.cos(newState[action.roomName][action.socketId].theta)
       return newState
     case "WalkForward":
       newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 5 * Math.sin(newState[action.roomName][action.socketId].theta)
@@ -47,22 +53,28 @@ const reducer = ( state = initialState, action) => {
     case "DecreaseHealth":
       newState[action.roomName][action.socketId].health -= action.strength
       return newState
-    case "Perp":
+    case "SetRotation":
       newState[action.roomName][action.socketId].theta = action.theta
       return newState
+    case "WalkFollowSpeed":
+    newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 3 * Math.sin(newState[action.roomName][action.socketId].theta)
+    newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 3 * Math.cos(newState[action.roomName][action.socketId].theta)
+    return newState
     default:
       return newState
   }
 }
-
+const WalkFollowSpeed = (roomName, socketId) => ({type: "WalkFollowSpeed", socketId, roomName})
 const AddOrUpdatePlayer = (roomName, socketId, robotInstance) => ({type: "AddOrUpdatePlayer", socketId, roomName, robotInstance})
 const RemovePlayer = (roomName, socketId) => ({type: "RemovePlayer", socketId, roomName})
-const UpdateGoodTime = (roomName, socketId,goodTime) => ({type: "UpdateGoodTime", socketId, goodTime, roomName})
+const UpdateFireTime = (roomName, socketId, fireTime) => ({type: "UpdateFireTime", socketId, fireTime, roomName})
+const UpdateWalkTime = (roomName, socketId) => ({type: "UpdateWalkTime", socketId, roomName})
+const WalkAwayFromWall = (roomName, socketId) => ({type: "WalkAwayFromWall", socketId, roomName})
 const WalkForward = (roomName, socketId) => ({type: "WalkForward", socketId, roomName})
 const WalkBackward = (roomName, socketId) => ({type: "WalkBackward", socketId, roomName})
-const Rotation = (roomName, socketId, theta) =>({  type: "Rotation", socketId, theta, roomName})
-const DecreaseHealth = (roomName, socketId, strength)=> ({type: "DecreaseHealth", socketId, strength, roomName})
-const Perp = (roomName, socketId,theta)=>({type:"Perp",theta, socketId, roomName})
+const AddRotation = (roomName, socketId, theta) => ({  type: "AddRotation", socketId, theta, roomName})
+const DecreaseHealth = (roomName, socketId, strength) => ({type: "DecreaseHealth", socketId, strength, roomName})
+const SetRotation = (roomName, socketId, theta) => ({type:"SetRotation",theta, socketId, roomName})
 
 module.exports = { reducer, AddOrUpdatePlayer, RemovePlayer, WalkForward,
-WalkBackward, Rotation, DecreaseHealth, UpdateGoodTime, Perp }
+WalkBackward, AddRotation, DecreaseHealth, UpdateFireTime, UpdateWalkTime, SetRotation, WalkAwayFromWall, WalkFollowSpeed }

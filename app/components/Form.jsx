@@ -13,27 +13,17 @@ var startingCode =
        this.color = "red"
     };
 
+
   SubRobot.prototype = Object.create(RobotClass.prototype)
+  //ToDo: call functions with roomName and PlayerId so we know
+  // which robot to move
+  SubRobot.prototype.start = function(roomName, playerId){
+    this.walkForward(roomName, playerId)
+    this.walkTowardOpponent(roomName, playerId)
+  }
 
-  SubRobot.prototype.onIdle = function(roomName, id){
-      //  var robotInstance = backendStore.getState()[roomName][id]
-       return [
-          { frequency: 1, action: this.walkForward},
-          { frequency: 10, action: this.accurateFire, playerId: id},
-          { frequency: 400, action: this.rotation, degrees: 60}
-       ]
-   }
-
-  SubRobot.prototype.onClose = function(id){
-     var robotInstance = backendStore.getState()[id]
-     return [
-       { frequency: 1, action: this.walkForward},
-      { frequency: 10, action: this.accurateFire, playerId: id},
-       { frequency: 400, action: this.rotation, degrees: 60}
-     ]
-   }
-    return new SubRobot()
- })`
+  return new SubRobot()
+})`
 var inputCode = startingCode
 
 export default class NameForm extends React.Component {

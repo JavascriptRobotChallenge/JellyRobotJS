@@ -10,7 +10,7 @@ const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const RobotClass =  require('./RobotClass')
 const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
-var broadcastGameState = require('./updateClientLoop.js')
+var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
 
