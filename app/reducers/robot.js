@@ -1,6 +1,5 @@
 const _ = require('lodash')
 
-
 var initialState = {
   room: '',
   server: {}

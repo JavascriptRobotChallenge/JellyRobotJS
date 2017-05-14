@@ -1,20 +1,19 @@
-import React from 'react'
+import React, {Component} from 'react'
 
-export const Homepage = ({ login }) => (
-  <form onSubmit={evt => {
-    evt.preventDefault()
-    login(evt.target.username.value, evt.target.password.value)
-  } }>
-    <input name="username" />
-    <input name="password" type="password" />
-    <input type="submit" value="Login" />
-  </form>
-)
+const Homepage = ({children, user}) => {
+  return (
+    <div className="jumbotron">
+      <p>
+        { user ? <a id="jumbobutton" href="/game" className="ghost-button">PLAY NOW</a> :
+          <a id="jumbobutton" href="/login" className="ghost-button">PLAY NOW</a> }</p>
+    </div>
+  )
+}
 
-import {login} from 'APP/app/reducers/auth'
-import {connect} from 'react-redux'
+/* ------ CONTAINER ------ */
+
+import { connect } from 'react-redux'
 
 export default connect(
-  state => ({}),
-  {login},
+  ({ auth }) => ({ user: auth })
 )(Homepage)
