@@ -15,20 +15,35 @@ var startingCode =
 
   SubRobot.prototype = Object.create(RobotClass.prototype)
 
-  SubRobot.prototype.onIdle = function(roomName, id){
+  SubRobot.prototype.onIdle = function(){
       //  var robotInstance = backendStore.getState()[roomName][id]
        return [
-          { frequency: 1, action: this.walkForward},
-          { frequency: 10, action: this.accurateFire, playerId: id},
+          { frequency: 1, action: this.walkTowardOpponent},
+          { frequency: 10, action: this.accurateFire},
           { frequency: 400, action: this.rotation, degrees: 60}
        ]
    }
 
-  SubRobot.prototype.onClose = function(id){
-     var robotInstance = backendStore.getState()[id]
+  SubRobot.prototype.onClose = function(){
      return [
        { frequency: 1, action: this.walkForward},
-      { frequency: 10, action: this.accurateFire, playerId: id},
+      { frequency: 10, action: this.accurateFire},
+       { frequency: 400, action: this.rotation, degrees: 60}
+     ]
+   }
+
+   SubRobot.prototype.onCloseFinisher = function(){
+     return [
+       { frequency: 1, action: this.walkForward},
+      { frequency: 10, action: this.accurateFire},
+       { frequency: 400, action: this.rotation, degrees: 60}
+     ]
+   }
+
+      SubRobot.prototype.onFarFinisher = function(){
+     return [
+       { frequency: 1, action: this.walkForward},
+      { frequency: 10, action: this.accurateFire},
        { frequency: 400, action: this.rotation, degrees: 60}
      ]
    }

@@ -20,6 +20,7 @@ const reducer = ( state = initialState, action) => {
   switch (action.type) {
     //SW: these should be coming from a constant file
     case "AddOrUpdatePlayer":
+    console.log("inst",action.robotInstance)
       if(!action.roomName){
         return newState
       } else {

@@ -11,6 +11,8 @@ function distanceBetween(arrOne, arrTwo){
   return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
 }
 
+
+
 const MoveForward = (roomName) => {
   var projectiles = backendStore.getState().projectiles[roomName]
 
@@ -46,7 +48,7 @@ function checkProjectilesToRemove() {
             backendStore.dispatch(DecreaseHealth(room, robotID, projectile.strength))
             backendStore.dispatch(RemoveProjectile(room, projectileId))
             if (robot.health < 1) {
-              io.emit("gameOver", robotID)
+              io.emit("gameOver",robotID)
             }
           }
         }
@@ -67,6 +69,7 @@ function broadcastGameState(io){
       if (playerArr.length) {
         for (var i = 0; i < playerArr.length; i++) {
           let robot = state[roomName][playerArr[i]];
+          console.log("heyyyyy",robot.robotInstance)
           if(robot.robotInstance) {
             ///if the robot hits the wall
             if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
@@ -88,7 +91,40 @@ function broadcastGameState(io){
               (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)) {
               robot.robotInstance.onBoxCollision(roomName, playerArr[i])
             }
+            //close and they have low health
+            else if (robot.robotInstance.findOpponent(roomName, playerArr[i]) && distanceBetween([robot.x, robot.z], robot.robotInstance.findOpponent(roomName, playerArr[i])) < 350
+            &&robot.robotInstance.getOpponentsHealth(roomName,playerArr[i])<3){
+              console.log("closelowhealth",robot.robotInstance.getOpponentsHealth(roomName,playerArr[i]))
+              var closeFinisherObjects = robot.robotInstance.onCloseFinisher()
+              closeFinisherObjects.forEach((closeFinisherObject)=>{
+                 if (userTime % closeFinisherObject.frequency === 0) {
+                  if (closeFinisherObject.action.toString().indexOf('Fire') !== -1) {
+                    closeFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], closeFinisherObject.degrees, closeFinisherObject.strength)
+                  } else {
+                    closeFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], closeFinisherObject.degrees)
+                  }
+                }
+              })
+            }
+
+            ///far and they have low health
+            else if (robot.robotInstance.getOpponentsHealth(roomName,playerArr[i])&&robot.robotInstance.getOpponentsHealth(roomName,playerArr[i])<3){
+              console.log("farfinish",robot.robotInstance.getOpponentsHealth(roomName,playerArr[i]))
+              var farFinisherObjects = robot.robotInstance.onFarFinisher()
+              farFinisherObjects.forEach((farFinisherObject)=>{
+                 if (userTime % farFinisherObject.frequency === 0) {
+                  if (farFinisherObject.action.toString().indexOf('Fire') !== -1) {
+                    farFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], farFinisherObject.degrees, farFinisherObject.strength)
+                  } else {
+                    farFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], farFinisherObject.degrees)
+                  }
+                }
+              })
+            }
+
+            //close
             else if (robot.robotInstance.findOpponent(roomName, playerArr[i]) && distanceBetween([robot.x, robot.z], robot.robotInstance.findOpponent(roomName, playerArr[i])) < 350) {
+               console.log("close")
               var closeObjects = robot.robotInstance.onClose(roomName, playerArr[i])
               closeObjects.forEach((closeObject) => {
                 if (userTime % closeObject.frequency === 0) {
@@ -100,12 +136,13 @@ function broadcastGameState(io){
                 }
               })
             }
+            //onidle
             else {
-              var actionObjects = robot.robotInstance.onIdle(roomName, playerArr[i])
+              var actionObjects = robot.robotInstance.onIdle()
               actionObjects.forEach((actionObject) => {
+                console.log("action",actionObject)
                 if (userTime % actionObject.frequency === 0) {
                   if (actionObject.action.toString().indexOf('Fire') !== -1) {
-                    consol.
                     actionObject.action.call(robot.robotInstance, roomName, playerArr[i], actionObject.degrees, actionObject.strength)
                   } else {
                     actionObject.action.call(robot.robotInstance, roomName, playerArr[i], actionObject.degrees)
