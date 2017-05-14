@@ -46,25 +46,42 @@ export const init = () => {
     scene.add(ambientLight);
 
     // SKYDOME
-    var vertexShader = document.getElementById('vertexShader').textContent;
-    var fragmentShader = document.getElementById('fragmentShader').textContent;
-    var uniforms = {
-        topColor: { type: "c", value: new THREE.Color(0x0077ff) },
-        bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
-        offset: { type: "f", value: 400 },
-        exponent: { type: "f", value: 0.6 }
-    };
-    uniforms.topColor.value.copy(light.color);
+    // var vertexShader = document.getElementById('vertexShader').textContent;
+    // var fragmentShader = document.getElementById('fragmentShader').textContent;
+    // var uniforms = {
+    //     topColor: { type: "c", value: new THREE.Color(0x0077ff) },
+    //     bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
+    //     offset: { type: "f", value: 400 },
+    //     exponent: { type: "f", value: 0.6 }
+    // };
+    // uniforms.topColor.value.copy(light.color);
+    //
+    // var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
+    // var skyMat = new THREE.ShaderMaterial({
+    //     uniforms: uniforms, vertexShader: vertexShader,
+    //     fragmentShader: fragmentShader, side: THREE.BackSide
+    // });
+    //
+    // var sky = new THREE.Mesh(skyGeo, skyMat);
+    // scene.add(sky);
 
-    var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
-    var skyMat = new THREE.ShaderMaterial({
-        uniforms: uniforms, vertexShader: vertexShader,
-        fragmentShader: fragmentShader, side: THREE.BackSide
+    // NEW SKY
+    var skyGeo = new THREE.SphereGeometry(3000, 60, 40);
+    var uniforms = {
+      texture: { type: 't', value: THREE.ImageUtils.loadTexture('eso0932a.jpg') }
+    };
+
+    var skyMat = new THREE.ShaderMaterial( {
+      uniforms:       uniforms,
+      vertexShader:   document.getElementById('sky-vertex').textContent,
+      fragmentShader: document.getElementById('sky-fragment').textContent
     });
 
-    var sky = new THREE.Mesh(skyGeo, skyMat);
-    scene.add(sky);
-
+    var skyBox = new THREE.Mesh(skyGeo, skyMat);
+    skyBox.scale.set(-1, 1, 1);
+    skyBox.eulerOrder = 'XZY';
+    skyBox.renderDepth = 1000.0;
+    scene.add(skyBox);
     // STATS
     var stats = new Stats();
     container.appendChild(stats.dom);
