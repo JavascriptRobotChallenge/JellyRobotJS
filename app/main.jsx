@@ -5,29 +5,22 @@ import {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 
 import store from './store'
+import App from './components/App'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
-import Form from "./components/Form"
-
-const ExampleApp = connect(
-  ({ auth }) => ({ user: auth })
-)(
-  ({ user, children }) =>
-    <div>
-      <nav>
-        {user ? <WhoAmI/> : <Login/>}
-      </nav>
-      {children}
-    </div>
-)
+import RobotGame from './components/Game/RobotGame'
+import Homepage from './components/Homepage'
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/jokes" />
-        <Route path="/jokes" component={Form} />
+      <Route path="/" component={App}>
+        <IndexRedirect to="/home" />
+        <Route path="/home" component={Homepage} />
+        <Route path="/docs" />
+        <Route path="/game" component={RobotGame} />
+        <Route path="/login" component={Login} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>

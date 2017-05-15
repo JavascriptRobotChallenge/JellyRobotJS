@@ -1,5 +1,3 @@
-
-
 const backendStore = require('./reducers/backendStore.js')
 const { FireProjectile } = require("./reducers/projectileReducer")
 const { AddRotation, WalkForward, WalkBackward, UpdateFireTime, UpdateWalkTime, SetRotation, WalkAwayFromWall, WalkFollowSpeed } = require("./reducers/robotReducer")
@@ -68,6 +66,7 @@ RobotClass.prototype.accurateFire = function(roomName, playerId){
 RobotClass.prototype.rapidFire = function(roomName, playerId){
   this.fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.1)
 }
+
 RobotClass.prototype.devastator = function(roomName,playerId){
   var ownPosition = this.getOwnPosition(roomName, playerId)
   var otherPlayersPosition = this.findOpponent(roomName, playerId)
@@ -123,7 +122,6 @@ RobotClass.prototype.slowWalkForward = function(roomName, playerId) {
 }
 
 RobotClass.prototype.leaveWall = function(roomName, playerId, theta) {
-  console.log('calling leave wall, theta: ', theta)
   backendStore.dispatch( SetRotation(roomName, playerId, theta) )
   backendStore.dispatch( WalkAwayFromWall(roomName, playerId) )
 }

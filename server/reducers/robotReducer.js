@@ -38,7 +38,6 @@ const reducer = ( state = initialState, action) => {
       newState[action.roomName][action.socketId].theta = newState[action.roomName][action.socketId].theta + action.theta
       return newState
     case "WalkAwayFromWall":
-      console.log('inside walk away from wall')
       newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 10 * Math.sin(newState[action.roomName][action.socketId].theta)
       newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 10 * Math.cos(newState[action.roomName][action.socketId].theta)
       return newState
@@ -64,6 +63,7 @@ const reducer = ( state = initialState, action) => {
       return newState
   }
 }
+
 const WalkFollowSpeed = (roomName, socketId) => ({type: "WalkFollowSpeed", socketId, roomName})
 const AddOrUpdatePlayer = (roomName, socketId, robotInstance) => ({type: "AddOrUpdatePlayer", socketId, roomName, robotInstance})
 const RemovePlayer = (roomName, socketId) => ({type: "RemovePlayer", socketId, roomName})
