@@ -36,7 +36,7 @@ export const init = () => {
     controls.enableZoom = false;
 
     //LIGHT
-    var light = new THREE.DirectionalLight(0xaabbff, 0.3);
+    var light = new THREE.DirectionalLight(0xaabbff, 1);
     light.position.x = 300;
     light.position.y = 250;
     light.position.z = -500;
@@ -44,26 +44,6 @@ export const init = () => {
 
     var ambientLight = new THREE.AmbientLight(0x111111);
     scene.add(ambientLight);
-
-    // SKYDOME
-    // var vertexShader = document.getElementById('vertexShader').textContent;
-    // var fragmentShader = document.getElementById('fragmentShader').textContent;
-    // var uniforms = {
-    //     topColor: { type: "c", value: new THREE.Color(0x0077ff) },
-    //     bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
-    //     offset: { type: "f", value: 400 },
-    //     exponent: { type: "f", value: 0.6 }
-    // };
-    // uniforms.topColor.value.copy(light.color);
-    //
-    // var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
-    // var skyMat = new THREE.ShaderMaterial({
-    //     uniforms: uniforms, vertexShader: vertexShader,
-    //     fragmentShader: fragmentShader, side: THREE.BackSide
-    // });
-    //
-    // var sky = new THREE.Mesh(skyGeo, skyMat);
-    // scene.add(sky);
 
     // NEW SKY
     var skyGeo = new THREE.SphereGeometry(3000, 60, 40);
@@ -87,12 +67,20 @@ export const init = () => {
     container.appendChild(stats.dom);
 
     // FLOOR AND BOXES MODEL
+
+    var newMaterials = []
+    newMaterials.push(new THREE.MeshPhongMaterial( {color: "rgb(255, 255, 128)" } ));
+    newMaterials.push(new THREE.MeshPhongMaterial( {color: "rgb(155, 255, 132)" } ));
+    newMaterials.push(new THREE.MeshPhongMaterial( {color: "rgb(153, 204, 255)" } ));
+
+
     loader.load("obj/lightmap/lightmap.js", function(geometry, materials) {
-        for (var i = 0; i < materials.length; i++) {
-            materials[i].lightMapIntensity = 0.1;
+        console.log(newMaterials)
+        for (var i = 0; i < newMaterials.length; i++) {
+            newMaterials[i].lightMapIntensity = 0.3;
         }
 
-        var mesh = new THREE.Mesh(geometry, materials);
+        var mesh = new THREE.Mesh(geometry, newMaterials);
         mesh.scale.multiplyScalar(100);
         scene.add(mesh);
     });
