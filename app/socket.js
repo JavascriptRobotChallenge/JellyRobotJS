@@ -1,5 +1,5 @@
 import store from './store'
-import { ServerUpdate, AssignRoom } from "./reducers/robot.js"
+import { ServerUpdate, AssignRoom } from "./reducers/frontendStore"
 
 const socket = io.connect()
 

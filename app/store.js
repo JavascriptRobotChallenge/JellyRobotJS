@@ -15,6 +15,3 @@ const store = createStore(
 )
 window.store = store
 export default store
-
-// Set the auth info at start
-// store.dispatch(whoami())

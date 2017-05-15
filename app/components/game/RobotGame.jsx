@@ -1,9 +1,9 @@
 import React from 'react'
-import store from "../store"
+import store from "../../store"
 import { RobotWorld } from './RobotWorld'
-import { Rotation, WalkForward, WalkBackward } from "../reducers/robot"
+import { Rotation, WalkForward, WalkBackward } from "../../reducers/frontendStore"
 import AceEditor from 'react-ace';
-import socket from '../socket';
+import socket from '../../socket';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
@@ -12,7 +12,6 @@ var startingCode =
    function SubRobot(){
        this.color = "red"
     };
-
 
   SubRobot.prototype = Object.create(RobotClass.prototype)
   //ToDo: call functions with roomName and PlayerId so we know
@@ -39,13 +38,12 @@ export default class NameForm extends React.Component {
   }
 
   onSubmit() {
-
     socket.emit('sendCode', inputCode, store.getState().gameData.room)
   }
 
   render () {
     return(
-      <div>
+      <div className="robot-game">
         <AceEditor
           mode="javascript"
           theme="monokai"
@@ -56,7 +54,7 @@ export default class NameForm extends React.Component {
           maxLines = {20}
           minLines = {10}
           />
-        <button onClick={this.onSubmit}>Submit</button>
+        <button class="btn btn-default btn-lg" onClick={this.onSubmit}>Submit</button>
         <RobotWorld />
       </div>
     );
