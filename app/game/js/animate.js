@@ -2,6 +2,27 @@ import store from "../../store"
 import * as THREE from 'three';
 import { init, robotModel, camera, renderer, scene } from './initThree.js'
 
+function buildRobotTexture(robot) {
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setBaseUrl('assets/');
+  mtlLoader.setPath('assets/');
+  mtlLoader.load('female-croupier-2013-03-26.mtl', function (materials) {
+
+    materials.preload();
+
+    materials.materials.default.map.magFilter = THREE.NearestFilter;
+    materials.materials.default.map.minFilter = THREE.LinearFilter;
+
+    var objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.setPath('assets/');
+    objLoader.load('female-croupier-2013-03-26.obj', function (object) {
+
+      scene.add(object);
+    });
+  });
+}
+
 function buildRobot(robot){
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
 const Homepage = ({children, user}) => {
+  console.log(user, 'here is the user')
   return (
     <div>
       <a name="about"></a>
@@ -12,17 +13,15 @@ const Homepage = ({children, user}) => {
                 <h1>JELLY ROBOTS</h1>
                 <h3>Code your robot in Javascript to fight against other robots now.</h3>
                 <hr className="intro-divider" />
-                  { user ? <a href="/game" className="btn btn-default btn-lg" className="ghost-button">PLAY NOW</a> :
-                        <a href="/login" className="btn btn-default btn-lg"className="ghost-button">PLAY NOW</a> }
+                <a href={ user ?"/game" : "/login" } className="btn btn-default btn-lg" className="ghost-button">
+                  PLAY NOW
+                </a>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
     </div>
-
   )
 }
 

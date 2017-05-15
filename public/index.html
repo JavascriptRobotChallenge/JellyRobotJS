@@ -1,19 +1,19 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
     <link rel="stylesheet" href="/assets/landing-page.css">
     <link rel="stylesheet" href="/assets/bootstrap-social.css" />
     <link rel="stylesheet" href="/assets/style.css">
-  </head>
-  <body>
-    <div id=main></div>
-    <div id="threedee"></div>
+</head>
+<body>
+<div id=main></div>
+<div id="threedee"></div>
 
-		<script src="stats.min.js"></script>
-    <script type="text/javascript" src="robotjelly5.js"></script>
+<script src="stats.min.js"></script>
+<script type="text/javascript" src="robotjelly5.js"></script>
 
-		<script type="x-shader/x-vertex" id="vertexShader">
+<script type="x-shader/x-vertex" id="vertexShader">
 			varying vec3 vWorldPosition;
 
 			void main() {
@@ -25,7 +25,7 @@
 
 		</script>
 
-		<script type="x-shader/x-fragment" id="fragmentShader">
+<script type="x-shader/x-fragment" id="fragmentShader">
 			uniform vec3 topColor;
 			uniform vec3 bottomColor;
 			uniform float offset;
@@ -41,7 +41,7 @@
 
 		</script>
 
-    <script type="application/x-glsl" id="sky-vertex">
+<script type="application/x-glsl" id="sky-vertex">
     varying vec2 vUV;
 
     void main() {
@@ -51,7 +51,7 @@
     }
     </script>
 
-    <script type="application/x-glsl" id="sky-fragment">
+<script type="application/x-glsl" id="sky-fragment">
     uniform sampler2D texture;
     varying vec2 vUV;
 
@@ -60,8 +60,8 @@
       gl_FragColor = vec4(sample.xyz, sample.w);
     }
     </script>
-    
-    <script src="socket.io/socket.io.js"></script>
-    <script defer src="bundle.js"></script>
+
+<script src="socket.io/socket.io.js"></script>
+<script defer src="bundle.js"></script>
 </body>
 </html>
