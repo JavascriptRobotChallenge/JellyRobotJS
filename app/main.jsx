@@ -14,16 +14,16 @@ import Homepage from './components/Homepage'
 
 import {whoami} from './reducers/auth'
 
-const onHomepageEnter = () => {
+const onMainEnter = () => {
   store.dispatch(whoami())
 }
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route path="/" component={App} onEnter={onMainEnter} >
         <IndexRedirect to="/home" />
-        <Route path="/home" component={Homepage} onEnter={onHomepageEnter} />
+        <Route path="/home" component={Homepage} />
         <Route path="/docs" />
         <Route path="/game" component={RobotGame} />
         <Route path="/login" component={Login} />

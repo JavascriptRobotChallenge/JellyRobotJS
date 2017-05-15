@@ -1,7 +1,6 @@
 import React from 'react'
 import store from "../../store"
 import { RobotWorld } from './RobotWorld'
-import { Rotation, WalkForward, WalkBackward } from "../../reducers/frontendStore"
 import AceEditor from 'react-ace';
 import socket from '../../socket';
 import 'brace/mode/javascript';
@@ -25,7 +24,7 @@ var startingCode =
 })`
 var inputCode = startingCode
 
-export default class Editor extends React.Component {
+class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,9 +32,18 @@ export default class Editor extends React.Component {
     }
   }
 
+  onChange = (newCode) => {
+    inputCode = newCode
+  }
+
   onSubmit() {
     $('.glyphicon-chevron-down').trigger('click');
     socket.emit('sendCode', inputCode, store.getState().gameData.room)
+  }
+
+  onSaveRobot = () => {
+    const userId = this.props.user.id
+    this.props.saveRobot('testRobot', inputCode, userId)
   }
 
   render () {
@@ -73,6 +81,10 @@ export default class Editor extends React.Component {
                                   <button className="btn btn-warning btn-sm" onClick={this.onSubmit} id="btn-chat">
                                       Submit</button>
                               </span>
+                              <span className="input-group-btn">
+                                  <button className="btn btn-warning btn-sm" onClick={this.onSaveRobot} id="btn-chat">
+                                      Save Your Robot</button>
+                              </span>
                           </div>
                       </div>
                   </div>
@@ -84,3 +96,20 @@ export default class Editor extends React.Component {
     );
   }
 }
+
+/* ------ CONTAINER ------ */
+
+import { connect } from 'react-redux'
+import { SaveRobot } from "../../reducers/frontendStore"
+
+const mapStateToProps = (state) => ({
+  user: state.auth
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  saveRobot: function(robotName, code, userId) {
+    dispatch(SaveRobot(robotName, code, userId))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editor)

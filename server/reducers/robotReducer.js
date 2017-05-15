@@ -56,9 +56,9 @@ const reducer = ( state = initialState, action) => {
       newState[action.roomName][action.socketId].theta = action.theta
       return newState
     case "WalkFollowSpeed":
-    newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 3 * Math.sin(newState[action.roomName][action.socketId].theta)
-    newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 3 * Math.cos(newState[action.roomName][action.socketId].theta)
-    return newState
+      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 3 * Math.sin(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 3 * Math.cos(newState[action.roomName][action.socketId].theta)
+      return newState
     default:
       return newState
   }
