@@ -22,7 +22,7 @@ socket.on('gameOver', function(loser){
     socket.emit("disconnect")
   }
   else{
-    alert("you are ok, far worse than jonah still though dawg")
+    alert("you are ok")
     socket.emit("disconnect")
   }
 })
