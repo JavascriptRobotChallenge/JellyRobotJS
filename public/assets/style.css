@@ -1,10 +1,14 @@
-.jumbotron {
-  background-image: url("../JellyRobot.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: contain;
-  width: 100%; /* make sure to define width to fill container */
-  height: 1000px;
+.intro-header {
+  background-image: url("../Homepage.png");
+}
+
+.buffer-oauth {
+  position: absolute;
+    top: 20%
+}
+
+.robot-game {
+  margin-top: 100px;
 }
 
 .ghost-button {
@@ -22,7 +26,7 @@
   text-decoration: none;
   border-radius: 5px;
   position: absolute;
-    top: 50%;
+    top: 35%;
     bottom: 0;
     left: 0;
     right: 0;

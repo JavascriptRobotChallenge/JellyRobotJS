@@ -1,5 +1,4 @@
 import React from 'react';
-import {loginToFacebook} from 'APP/app/reducers/auth'
 import {connect} from 'react-redux'
 
 class Login extends React.Component {
@@ -9,7 +8,7 @@ class Login extends React.Component {
 
   render() {
     return(
-      <div className="buffer oauth">
+      <div className="buffer-oauth">
         <p>
           <a
             href="/api/auth/login/google"
@@ -40,3 +39,15 @@ class Login extends React.Component {
 }
 
 export default Login;
+
+// <ul className="list-inline intro-social-buttons">
+//   <li>
+//     <a href="https://twitter.com/SBootstrap" className="btn btn-default btn-lg"><i className="fa fa-twitter fa-fw"></i> <span className="network-name">Twitter</span></a>
+//   </li>
+//   <li>
+//     <a href="https://github.com/IronSummitMedia/startbootstrap" className="btn btn-default btn-lg"><i className="fa fa-github fa-fw"></i> <span className="network-name">Github</span></a>
+//   </li>
+//   <li>
+//     <a href="#" className="btn btn-default btn-lg"><i className="fa fa-linkedin fa-fw"></i> <span className="network-name">Linkedin</span></a>
+//   </li>
+// </ul>

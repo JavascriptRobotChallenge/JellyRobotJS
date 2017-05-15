@@ -31,7 +31,7 @@ module.exports = app
   .use(passport.session())
   .use(express.static(resolve(__dirname, '..', 'node_modules')))
   .use(express.static(resolve(__dirname, '..', 'public')))
-  .use('/api', require('./api'))
+  .use('/api', require('./api/api'))
   .use((req, res, next) => {
     if (path.extname(req.path).length) {
       const err = new Error('Not found')
@@ -76,9 +76,6 @@ if (module === require.main) {
       backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex],socket.id,null))
       socket.join(rooms[roomIndex])
       socket.emit('roomAssigned', rooms[roomIndex])
-      console.log("index",roomIndex)
-      console.log("rooms",rooms)
-      console.log("myroomis",rooms[roomIndex])
     })
     socket.on('sendCode', (code, room)=> {
       var roboFunc = eval(code)

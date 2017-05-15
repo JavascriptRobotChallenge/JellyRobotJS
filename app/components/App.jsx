@@ -4,8 +4,12 @@ import NavBarMain from './NavBar'
 export default function App({ children }) {
   return (
     <div id="main" className="container-fluid">
-      <NavBarMain />
-      { children }
+      <div>
+        <NavBarMain />
+      </div>
+      <div>
+        { children }
+      </div>
     </div>
   )
 }

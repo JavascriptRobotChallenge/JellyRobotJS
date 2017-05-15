@@ -81,85 +81,21 @@ function broadcastGameState(io){
             ///if the robot hits a box
             else if ((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z > -140) || (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)) {
               if (robot.x > 134 && robot.x < 140 || robot.x > 327 && robot.x < 332 ) {
-                console.log('right')
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 0.5 * Math.PI )
               }
               else if (robot.x < -134 && robot.x > -140 || robot.x < 153 && robot.x > 148 ) {
-                console.log('left')
-
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 1.5 * Math.PI)
               }
               else if (robot.z > 134 && robot.z < 140 || robot.z > 87 && robot.z < 92 ) {
-                console.log('top')
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 0)
               }
               else if (robot.z < -134 && robot.z > -140 || robot.z > -92 && robot.z < -87) {
-                console.log('bottom')
                 robot.robotInstance.leaveWall(roomName, playerArr[i], Math.PI)
               }
             }
             else {
               robot.robotInstance.start(roomName, playerArr[i])
             }
-            //close and they have low health
-            // else if (robot.robotInstance.findOpponent(roomName, playerArr[i]) && distanceBetween([robot.x, robot.z], robot.robotInstance.findOpponent(roomName, playerArr[i])) < 350
-            // &&robot.robotInstance.getOpponentsHealth(roomName,playerArr[i])<3){
-            //   console.log("closelowhealth",robot.robotInstance.getOpponentsHealth(roomName,playerArr[i]))
-            //   var closeFinisherObjects = robot.robotInstance.onCloseFinisher()
-            //   closeFinisherObjects.forEach((closeFinisherObject)=>{
-            //      if (userTime % closeFinisherObject.frequency === 0) {
-            //       if (closeFinisherObject.action.toString().indexOf('Fire') !== -1) {
-            //         closeFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], closeFinisherObject.degrees, closeFinisherObject.strength)
-            //       } else {
-            //         closeFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], closeFinisherObject.degrees)
-            //       }
-            //     }
-            //   })
-            // }
-            //
-            // ///far and they have low health
-            // else if (robot.robotInstance.getOpponentsHealth(roomName,playerArr[i])&&robot.robotInstance.getOpponentsHealth(roomName,playerArr[i])<3){
-            //   console.log("farfinish",robot.robotInstance.getOpponentsHealth(roomName,playerArr[i]))
-            //   var farFinisherObjects = robot.robotInstance.onFarFinisher()
-            //   farFinisherObjects.forEach((farFinisherObject)=>{
-            //      if (userTime % farFinisherObject.frequency === 0) {
-            //       if (farFinisherObject.action.toString().indexOf('Fire') !== -1) {
-            //         farFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], farFinisherObject.degrees, farFinisherObject.strength)
-            //       } else {
-            //         farFinisherObject.action.call(robot.robotInstance, roomName, playerArr[i], farFinisherObject.degrees)
-            //       }
-            //     }
-            //   })
-            // }
-
-            //close
-            // else if (robot.robotInstance.findOpponent(roomName, playerArr[i]) && distanceBetween([robot.x, robot.z], robot.robotInstance.findOpponent(roomName, playerArr[i])) < 350) {
-            //    console.log("close")
-            //   var closeObjects = robot.robotInstance.onClose(roomName, playerArr[i])
-            //   closeObjects.forEach((closeObject) => {
-            //     if (userTime % closeObject.frequency === 0) {
-            //       if (closeObject.action.toString().indexOf('Fire') !== -1) {
-            //         closeObject.action.call(robot.robotInstance, roomName, playerArr[i], closeObject.degrees, closeObject.strength)
-            //       } else {
-            //         closeObject.action.call(robot.robotInstance, roomName, playerArr[i], closeObject.degrees)
-            //       }
-            //     }
-            //   })
-            // }
-            // //onidle
-            // else {
-            //   var actionObjects = robot.robotInstance.onIdle()
-            //   actionObjects.forEach((actionObject) => {
-            //     console.log("action",actionObject)
-            //     if (userTime % actionObject.frequency === 0) {
-            //       if (actionObject.action.toString().indexOf('Fire') !== -1) {
-            //         actionObject.action.call(robot.robotInstance, roomName, playerArr[i], actionObject.degrees, actionObject.strength)
-            //       } else {
-            //         actionObject.action.call(robot.robotInstance, roomName, playerArr[i], actionObject.degrees)
-            //       }
-            //     }
-            //   })
-            // }
             MoveForward(roomName)
             checkProjectilesToRemove()
           }

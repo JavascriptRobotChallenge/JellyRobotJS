@@ -64,6 +64,7 @@ const reducer = ( state = initialState, action) => {
       return newState
   }
 }
+
 const WalkFollowSpeed = (roomName, socketId) => ({type: "WalkFollowSpeed", socketId, roomName})
 const AddOrUpdatePlayer = (roomName, socketId, robotInstance) => ({type: "AddOrUpdatePlayer", socketId, roomName, robotInstance})
 const RemovePlayer = (roomName, socketId) => ({type: "RemovePlayer", socketId, roomName})

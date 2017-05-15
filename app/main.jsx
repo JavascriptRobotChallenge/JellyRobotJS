@@ -9,20 +9,8 @@ import App from './components/App'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
-import RobotGame from './components/game/RobotGame'
+import RobotGame from './components/Game/RobotGame'
 import Homepage from './components/Homepage'
-
-const ExampleApp = connect(
-  ({ auth }) => ({ user: auth })
-)(
-  ({ user, children }) =>
-    <div>
-      <nav>
-        {user ? <WhoAmI/> : <Login/>}
-      </nav>
-      {children}
-    </div>
-)
 
 render(
   <Provider store={store}>
