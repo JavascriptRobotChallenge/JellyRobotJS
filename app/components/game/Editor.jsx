@@ -41,10 +41,10 @@ export default class Editor extends React.Component {
     return(
       <div className="container">
           <div className="row">
-              <div className="col-md-5">
+              <div className="col-md-7">
                   <div className="panel panel-primary">
                       <div className="panel-heading" id="accordion">
-                          <span className="glyphicon glyphicon-comment"></span> Code Editor
+                          <span className="glyphicon glyphicon-pencil"></span> Code Editor
                           <div className="btn-group pull-right">
                               <a type="button" className="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                                   <span className="glyphicon glyphicon-chevron-down"></span>
@@ -57,11 +57,13 @@ export default class Editor extends React.Component {
                             mode="javascript"
                             theme="monokai"
                             onChange={this.onChange}
+                            height="800px"
+                            width="600px"
                             name="ace-form"
                             value={startingCode}
                             editorProps={{$blockScrolling: true}}
-                            maxLines = {20}
-                            minLines = {10}
+                            maxLines = {50}
+                            minLines = {25}
                             />
                       </div>
                       <div className="panel-footer">
