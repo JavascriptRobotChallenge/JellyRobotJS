@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="/assets/landing-page.css">
     <link rel="stylesheet" href="/assets/bootstrap-social.css" />
     <link rel="stylesheet" href="/assets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id=main></div>
@@ -40,27 +44,6 @@
 			}
 
 		</script>
-
-    <script type="application/x-glsl" id="sky-vertex">
-    varying vec2 vUV;
-
-    void main() {
-      vUV = uv;
-      vec4 pos = vec4(position, 1.0);
-      gl_Position = projectionMatrix * modelViewMatrix * pos;
-    }
-    </script>
-
-    <script type="application/x-glsl" id="sky-fragment">
-    uniform sampler2D texture;
-    varying vec2 vUV;
-
-    void main() {
-      vec4 sample = texture2D(texture, vUV);
-      gl_FragColor = vec4(sample.xyz, sample.w);
-    }
-    </script>
-    
     <script src="socket.io/socket.io.js"></script>
     <script defer src="bundle.js"></script>
 </body>

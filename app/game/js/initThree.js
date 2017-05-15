@@ -52,9 +52,9 @@ export const init = () => {
     };
 
     var skyMat = new THREE.ShaderMaterial( {
-      uniforms:       uniforms,
-      vertexShader:   document.getElementById('sky-vertex').textContent,
-      fragmentShader: document.getElementById('sky-fragment').textContent
+      uniforms:       uniforms
+      // vertexShader:   document.getElementById('sky-vertex').textContent,
+      // fragmentShader: document.getElementById('sky-fragment').textContent
     });
 
     var skyBox = new THREE.Mesh(skyGeo, skyMat);
