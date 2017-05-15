@@ -137,12 +137,14 @@ RobotClass.prototype.onBoxCollision = function(roomName, id){
 
 RobotClass.prototype.walkTowardOpponent = function(roomName,playerId){
   if (this.findOpponent(roomName, playerId)){
+    if ( Date.now() > backendStore.getState().robots[roomName][playerId].walkTime ) {
     var theta = this.angleBetween(this.getOwnPosition(roomName, playerId),this.findOpponent(roomName, playerId))
     this.setRotation(roomName,playerId,theta)
     this.slowWalkForward(roomName,playerId)
   }
   else {
     this.walkForward(roomName,playerId)
+  }
   }
 }
 
