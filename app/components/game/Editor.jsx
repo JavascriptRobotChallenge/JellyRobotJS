@@ -33,6 +33,10 @@ export default class Editor extends React.Component {
     }
   }
 
+  onChange(newCode){
+      inputCode = newCode
+  }
+
   onSubmit() {
     $('.glyphicon-chevron-down').trigger('click');
     socket.emit('sendCode', inputCode, store.getState().gameData.room)

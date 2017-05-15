@@ -1,9 +1,14 @@
 const _ = require('lodash')
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  var min = Math.ceil(min);
+  var max = Math.floor(max);
+  var rand = Math.floor(Math.random() * (max - min)) + min;
+  while (rand>-140&&rand<340){
+  rand = Math.floor(Math.random() * (max - min)) + min;
+  }
+  console.log("randomis",rand)
+  return rand
 }
 
 var initialState = {
@@ -22,11 +27,20 @@ const reducer = ( state = initialState, action) => {
       if(!action.roomName){
         return newState
       } else {
-        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: 0, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0 }
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: Math.random()*2*Math.PI, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0 }
         return newState
       }
     case "RemovePlayer":
-      delete newState[action.roomName][action.socketId]
+    console.log("action",action.socketId)
+    for (var room in newState){
+      for (var robot in newState[room]){
+        if (robot===action.socketId){
+          console.log("deleting")
+          delete newState[room][robot]
+        }
+      }
+    }
+      console.log("newstate",newState)
       return newState
     case "UpdateWalkTime":
       newState[action.roomName][action.socketId].walkTime = Date.now() + 29
@@ -63,10 +77,9 @@ const reducer = ( state = initialState, action) => {
       return newState
   }
 }
-
 const WalkFollowSpeed = (roomName, socketId) => ({type: "WalkFollowSpeed", socketId, roomName})
 const AddOrUpdatePlayer = (roomName, socketId, robotInstance) => ({type: "AddOrUpdatePlayer", socketId, roomName, robotInstance})
-const RemovePlayer = (roomName, socketId) => ({type: "RemovePlayer", socketId, roomName})
+const RemovePlayer = (socketId) => ({type: "RemovePlayer", socketId})
 const UpdateFireTime = (roomName, socketId, fireTime) => ({type: "UpdateFireTime", socketId, fireTime, roomName})
 const UpdateWalkTime = (roomName, socketId) => ({type: "UpdateWalkTime", socketId, roomName})
 const WalkAwayFromWall = (roomName, socketId) => ({type: "WalkAwayFromWall", socketId, roomName})
