@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
     <link rel="stylesheet" href="/assets/landing-page.css">
     <link rel="stylesheet" href="/assets/bootstrap-social.css" />
     <link rel="stylesheet" href="/assets/style.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -14,10 +15,11 @@
     <div id=main></div>
     <div id="threedee"></div>
 
-		<script src="stats.min.js"></script>
+
+    <script src="stats.min.js"></script>
     <script type="text/javascript" src="robotjelly5.js"></script>
 
-		<script type="x-shader/x-vertex" id="vertexShader">
+    <script type="x-shader/x-vertex" id="vertexShader">
 			varying vec3 vWorldPosition;
 
 			void main() {
@@ -29,7 +31,7 @@
 
 		</script>
 
-		<script type="x-shader/x-fragment" id="fragmentShader">
+    <script type="x-shader/x-fragment" id="fragmentShader">
 			uniform vec3 topColor;
 			uniform vec3 bottomColor;
 			uniform float offset;
@@ -46,14 +48,15 @@
 		</script>
 
     <script type="application/x-glsl" id="sky-vertex">
-    varying vec2 vUV;
+        varying vec2 vUV;
 
-    void main() {
-      vUV = uv;
-      vec4 pos = vec4(position, 1.0);
-      gl_Position = projectionMatrix * modelViewMatrix * pos;
-    }
+        void main() {
+          vUV = uv;
+          vec4 pos = vec4(position, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * pos;
+        }
     </script>
+
 
     <script type="application/x-glsl" id="sky-fragment">
         uniform sampler2D texture;
@@ -63,8 +66,9 @@
           vec4 sample = texture2D(texture, vUV);
           gl_FragColor = vec4(sample.xyz, sample.w);
         }
-        </script>
-    <script src="socket.io/socket.io.js"></script>
-    <script defer src="bundle.js"></script>
+    </script>
+<script src="socket.io/socket.io.js"></script>
+
+<script defer src="bundle.js"></script>
 </body>
 </html>

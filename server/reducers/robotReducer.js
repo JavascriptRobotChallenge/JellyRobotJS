@@ -27,7 +27,9 @@ const reducer = ( state = initialState, action) => {
       if(!action.roomName){
         return newState
       } else {
-        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: Math.random()*2*Math.PI, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0 }
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699),
+          theta: 0, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0,
+          color: (action.robotInstance) ? action.robotInstance.color : 'red' }
         return newState
       }
     case "RemovePlayer":
