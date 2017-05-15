@@ -1,11 +1,13 @@
 import store from "../../store"
-// import * as THREE from 'three';
-import { init, robotModel, camera, renderer, scene, rbtMod } from './initThree.js'
+import * as THREE from 'three';
+import { init, robotModel, camera, renderer, scene, COLORING } from './initThree.js'
 
 function buildRobot(robot){
-  // var materials = new Three.MeshPhongMaterial()
+  var color = COLORING[robot.color]
+  if(!COLORING[robot.color]) color = 'rgb(6, 0, 81)'
+  var materials = new THREE.MeshPhongMaterial({ color: color})
 
-  var ThreeRobot = new THREE.Mesh(rbtMod.geometry, rbtMod.materials)
+  var ThreeRobot = new THREE.Mesh(robotModel.geometry, materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
   scene.add(ThreeRobot);
@@ -32,15 +34,11 @@ var now;
 var then = Date.now();
 var interval = 1000/fps;
 var delta;
-var counter = 0;
+
 export const animate = () => {
     requestAnimationFrame(animate);
     now = Date.now();
     delta = now - then;
-// if(counter === 0) {
-//   buildRobotParse()
-//   counter++;
-// }
 
     if (delta > interval) {
       var storeState = store.getState().gameData

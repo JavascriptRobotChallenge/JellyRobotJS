@@ -12,7 +12,6 @@
 
 <script src="stats.min.js"></script>
 <script type="text/javascript" src="robotjelly5.js"></script>
-<script type="text/javascript" src="obj/robot.js"></script>
 
 <script type="x-shader/x-vertex" id="vertexShader">
 			varying vec3 vWorldPosition;
@@ -61,12 +60,6 @@
       gl_FragColor = vec4(sample.xyz, sample.w);
     }
     </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.js" ></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js'  ></script>
-<script type="text/javascript" src="ThreeModules/MTLLoader.js"></script>
-<script type="text/javascript" src="ThreeModules/OBJLoader.js"></script>
-<script type="text/javascript" src="ThreeModules/OBJLoader2.js"></script>
-
 <script src="socket.io/socket.io.js"></script>
 
 <script defer src="bundle.js"></script>

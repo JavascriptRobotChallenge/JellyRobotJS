@@ -1,7 +1,19 @@
-// import * as THREE from 'three';
+import * as THREE from 'three';
 export const OrbitControls = require('three-orbit-controls')(THREE)
 var SCREEN_WIDTH = window.innerWidth;
 var SCREEN_HEIGHT = window.innerHeight;
+
+export const COLORING = {
+    'red': 'rgb(181, 0 , 0)',
+    'blue': 'rgb(4, 4 , 160)',
+    'green': 'rgb(19, 124 , 21)',
+    'orange': 'rgb(249, 133 , 0)',
+    'pink': 'rgb(242, 130 , 201)',
+    'yellow': 'rgb(255, 246 , 0)',
+    'purple': 'rgb(85, 15 , 142)',
+    'black': 'rgb(33, 33, 33)',
+    'white': 'rgb(229, 229 , 229)'
+}
 
 //ATTACH TO DOM
 export var camera = new THREE.PerspectiveCamera(40, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000);
@@ -13,31 +25,6 @@ export var renderer = new THREE.WebGLRenderer({
 //LOAD ROBOTJELLY MODEL
 var loader = new THREE.JSONLoader()
 export const robotModel = loader.parse(robotjelly);
-
-function buildRobotTexture(cb) {
-  var ThreeRobot = null
-  var objLoader = new THREE.OBJLoader();
-  var mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setTexturePath('obj/');
-  mtlLoader.setPath('obj/');
-
-  mtlLoader.load(`red.mtl`, function (materials) {
-    materials.preload();
-    objLoader.setMaterials(materials);
-    objLoader.load('obj/LittleRobot.obj', function (object) {
-      object.position.set(0, 0, 0);
-      object.scale.set(40, 40, 40);
-      scene.add(object);
-      console.log(object, 'this is the object!!!')
-      cb(object)
-    });
-  });
-  return ThreeRobot;
-}
-
-let rbtMod = null
-buildRobotTexture((robotMd) => { rbtMod = robotMd})
-
 
 export const init = () => {
     var container = document.createElement('div');
