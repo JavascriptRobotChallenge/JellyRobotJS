@@ -1,33 +1,13 @@
 import store from "../../store"
-import * as THREE from 'three';
-import { init, robotModel, camera, renderer, scene } from './initThree.js'
-
-function buildRobotTexture(robot) {
-  var mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setBaseUrl('assets/');
-  mtlLoader.setPath('assets/');
-  mtlLoader.load('female-croupier-2013-03-26.mtl', function (materials) {
-
-    materials.preload();
-
-    materials.materials.default.map.magFilter = THREE.NearestFilter;
-    materials.materials.default.map.minFilter = THREE.LinearFilter;
-
-    var objLoader = new THREE.OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.setPath('assets/');
-    objLoader.load('female-croupier-2013-03-26.obj', function (object) {
-
-      scene.add(object);
-    });
-  });
-}
+// import * as THREE from 'three';
+import { init, robotModel, camera, renderer, scene, rbtMod } from './initThree.js'
 
 function buildRobot(robot){
-  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
+  // var materials = new Three.MeshPhongMaterial()
+
+  var ThreeRobot = new THREE.Mesh(rbtMod.geometry, rbtMod.materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
-  window.robot = ThreeRobot
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
@@ -52,11 +32,15 @@ var now;
 var then = Date.now();
 var interval = 1000/fps;
 var delta;
-
+var counter = 0;
 export const animate = () => {
     requestAnimationFrame(animate);
     now = Date.now();
     delta = now - then;
+// if(counter === 0) {
+//   buildRobotParse()
+//   counter++;
+// }
 
     if (delta > interval) {
       var storeState = store.getState().gameData
@@ -74,7 +58,7 @@ export const animate = () => {
         }
 
         //ADDS ROBOTS IF THEY ARE IN STORE.STATE
-        if (Object.keys(robots).length < Object.keys(storeState.server.robots).length) {
+        if (storeState.server.robots && (Object.keys(robots).length < Object.keys(storeState.server.robots).length)) {
           for(var robotKey in storeState.server.robots){
             if (!robots[robotKey] && storeState.server.robots[robotKey].robotInstance) {
               robots[robotKey] = buildRobot(storeState.server.robots[robotKey])

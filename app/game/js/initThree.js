@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+// import * as THREE from 'three';
 export const OrbitControls = require('three-orbit-controls')(THREE)
 var SCREEN_WIDTH = window.innerWidth;
 var SCREEN_HEIGHT = window.innerHeight;
@@ -13,6 +13,31 @@ export var renderer = new THREE.WebGLRenderer({
 //LOAD ROBOTJELLY MODEL
 var loader = new THREE.JSONLoader()
 export const robotModel = loader.parse(robotjelly);
+
+function buildRobotTexture(cb) {
+  var ThreeRobot = null
+  var objLoader = new THREE.OBJLoader();
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setTexturePath('obj/');
+  mtlLoader.setPath('obj/');
+
+  mtlLoader.load(`red.mtl`, function (materials) {
+    materials.preload();
+    objLoader.setMaterials(materials);
+    objLoader.load('obj/LittleRobot.obj', function (object) {
+      object.position.set(0, 0, 0);
+      object.scale.set(40, 40, 40);
+      scene.add(object);
+      console.log(object, 'this is the object!!!')
+      cb(object)
+    });
+  });
+  return ThreeRobot;
+}
+
+let rbtMod = null
+buildRobotTexture((robotMd) => { rbtMod = robotMd})
+
 
 export const init = () => {
     var container = document.createElement('div');
