@@ -122,6 +122,10 @@ RobotClass.prototype.slowWalkForward = function(roomName, playerId) {
 }
 
 RobotClass.prototype.leaveWall = function(roomName, playerId, theta) {
+<<<<<<< HEAD
+=======
+  console.log('calling leave wall, theta: ', theta)
+>>>>>>> d38b619017f264cea61dcfe23036bd78a0a0d697
   backendStore.dispatch( SetRotation(roomName, playerId, theta) )
   backendStore.dispatch( WalkAwayFromWall(roomName, playerId) )
 }
