@@ -1,4 +1,4 @@
-const {STRING, VIRTUAL} = require('sequelize')
+const {STRING, TEXT, VIRTUAL} = require('sequelize')
 
 module.exports = db => db.define('robots', {
   robotName: {
@@ -8,7 +8,7 @@ module.exports = db => db.define('robots', {
     }
   },
   code: {
-    type: STRING,
+    type: TEXT,
     validate: {
       notEmpty: true
     }
