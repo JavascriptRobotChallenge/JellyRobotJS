@@ -5,21 +5,30 @@ import store from "../../store"
 export default class Healthbar extends React.Component{
   constructor(props){
     super(props)
-    this.state = store.getState().gameData.server.robots
+    this.state ={
+      robots:store.getState().gameData.server.robots
+    } 
   }
 
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => {
-      this.setState(store.getState().gameData.server.robots)
+      // console.log("thestorestate is ",store.getState().gameData.server.robots)
+      this.setState({robots:store.getState().gameData.server.robots})
     });
   }
+
+  componentWillUnmount(){
+    this.unsubscribe()
+  }
+
   render(){
     var robots;
-    if (this.state) {
+    if (Object.keys(this.state.robots).length) {
       robots = Object.keys(this.state.robots)
+      console.log("robotsis",robots)
       var healthBars = robots.map(robotID => {
-        return ((this.state[robotID].health) ?
-        <Line percent={this.state[robotID].health*10} key={robotID} strokeWidth="1" strokeColor="#42f471"/>
+        return ((this.state.robots[robotID].health) ?
+        <Line percent={this.state.robots[robotID].health*10} key={robotID} strokeWidth="1" strokeColor="#42f471"/>
         : <div/>
         )
       })
@@ -29,3 +38,4 @@ export default class Healthbar extends React.Component{
     )
 }
 }
+

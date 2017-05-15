@@ -80,6 +80,7 @@ if (module === require.main) {
         if (Object.keys(jonahRooms[room]).length<2){
           jonahRooms[room][socket.id] = true
           robotJoined = true
+          console.log("thisisurroom",[room])
           socket.join(room)
           socket.emit("roomAssigned",room)
           backendStore.dispatch(AddOrUpdatePlayer(room,socket.id,null))
@@ -99,6 +100,12 @@ if (module === require.main) {
       // console.log("rooms",rooms)
       // console.log("myroomis",rooms[roomIndex])
     })
+
+    socket.on('test', (code, room)=> {
+      console.log("testing")
+    })
+
+
     socket.on('sendCode', (code, room)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()

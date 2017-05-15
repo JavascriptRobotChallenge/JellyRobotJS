@@ -4,7 +4,7 @@ import { ServerUpdate, AssignRoom } from "./reducers/frontendStore"
 const socket = io.connect()
 
 socket.on('connect', function(){
-  socket.emit('giveMeARoom')
+  // socket.emit('giveMeARoom')
 })
 
 socket.on('roomAssigned', function(myRoom){
