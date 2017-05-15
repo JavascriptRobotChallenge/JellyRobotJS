@@ -1,15 +1,16 @@
 import {Line} from 'rc-progress';
 import React from "react"
 import store from "../store"
+
 export default class Healthbar extends React.Component{
   constructor(props){
     super(props)
-    this.state = store.getState().gameData.robots
+    this.state = store.getState().gameData.robots.server
   }
 
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => {
-      this.setState(store.getState().gameData.robots)
+      this.setState(store.getState().gameData.robots.server)
     });
   }
 
@@ -27,5 +28,5 @@ export default class Healthbar extends React.Component{
     return(
       <div> {healthBars} </div>
     )
-}
+  }
 }

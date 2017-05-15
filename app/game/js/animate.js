@@ -13,7 +13,7 @@ function buildRobot(robot){
 
 function buildProjectile(projectile){
     var geo = new THREE.SphereGeometry( 5, 32, 32 );
-    var mat = new THREE.MeshBasicMaterial( {color: "rgb(132, 6, 0)"} );
+    var mat = new THREE.MeshPhongMaterial( {color: "rgb(132, 6, 0)"} );
     var practiceSphere = new THREE.Mesh( geo, mat );
     practiceSphere.position.set(projectile.x, 60 ,projectile.z);
     practiceSphere.scale.set(3, 3, 3);
