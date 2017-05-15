@@ -12,12 +12,18 @@ import NotFound from './components/NotFound'
 import RobotGame from './components/Game/RobotGame'
 import Homepage from './components/Homepage'
 
+import {whoami} from './reducers/auth'
+
+const onHomepageEnter = () => {
+  store.dispatch(whoami())
+}
+
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRedirect to="/home" />
-        <Route path="/home" component={Homepage} />
+        <Route path="/home" component={Homepage} onEnter={onHomepageEnter} />
         <Route path="/docs" />
         <Route path="/game" component={RobotGame} />
         <Route path="/login" component={Login} />

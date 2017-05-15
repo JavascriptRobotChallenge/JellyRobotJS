@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
 const Homepage = ({children, user}) => {
+  console.log('user', user)
   return (
     <div>
       <a name="about"></a>
