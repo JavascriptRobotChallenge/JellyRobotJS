@@ -15,7 +15,7 @@ const MoveForward = (roomName) => {
 }
 
 // positions for walls and boxes
-function checkProjectilesToRemove() {
+function checkProjectilesToRemove(io) {
   var robotsObj = backendStore.getState().robots
   var projectileObjRooms = backendStore.getState().projectiles
 
@@ -41,6 +41,7 @@ function checkProjectilesToRemove() {
             backendStore.dispatch(DecreaseHealth(room, robotID, projectile.strength))
             backendStore.dispatch(RemoveProjectile(room, projectileId))
             if (robot.health < 1) {
+              io.sockets.to(room).emit('gameOver',robotID);
               // io.emit("gameOver",robotID)
             }
           }
@@ -97,7 +98,7 @@ function broadcastGameState(io){
               robot.robotInstance.start(roomName, playerArr[i])
             }
             MoveForward(roomName)
-            checkProjectilesToRemove()
+            checkProjectilesToRemove(io)
           }
         }
       }

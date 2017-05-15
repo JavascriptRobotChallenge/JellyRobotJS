@@ -118,6 +118,7 @@ if (module === require.main) {
     })
 
     socket.on('disconnect', function() {
+      console.log("disconnecting...")
     var storeState = backendStore.getState().robots
     for (var room in jonahRooms){
       for (var robot in jonahRooms[room]){
@@ -127,11 +128,11 @@ if (module === require.main) {
       }
     }
       // var store = store.leave
-      console.log("oldrooms",rooms)
+      // console.log("oldrooms",rooms)
       backendStore.dispatch(RemovePlayer(socket.id))
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
-      console.log("newroom",rooms)
-      console.log("plz",io.sockets.adapter.rooms)
+      // console.log("newroom",rooms)
+      // console.log("plz",io.sockets.adapter.rooms)
       // users--  
     })
   })
