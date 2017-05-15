@@ -4,7 +4,7 @@ import { ServerUpdate, AssignRoom } from "./reducers/frontendStore"
 const socket = io.connect()
 
 socket.on('connect', function(){
-  socket.emit('giveMeARoom')
+  // socket.emit('giveMeARoom')
 })
 
 socket.on('roomAssigned', function(myRoom){
@@ -16,8 +16,15 @@ socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
 })
 
-socket.on('gameOver', function(data){
-  console.log("gamesoverdoeeeeee")
+socket.on('gameOver', function(loser){
+  if ((socket.id)===loser){
+    alert("You are trash")
+    socket.emit("disconnect")
+  }
+  else{
+    alert("you are ok")
+    socket.emit("disconnect")
+  }
 })
 
 export default socket;

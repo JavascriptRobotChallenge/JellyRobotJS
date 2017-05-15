@@ -32,6 +32,7 @@ class Editor extends React.Component {
     }
   }
 
+
   onChange = (newCode) => {
     inputCode = newCode
   }

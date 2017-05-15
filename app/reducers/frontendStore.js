@@ -3,7 +3,7 @@ const _ = require('lodash')
 
 var initialState = {
   room: '',
-  server: {}
+  server: {robots:{},projectiles:{}}
 }
 
 const reducer = ( state = initialState, action) => {
@@ -16,6 +16,7 @@ const reducer = ( state = initialState, action) => {
           return newState
         case "ServerUpdate":
           newState.server = action.payload
+          // console.log("newState",newState)
           return newState
         default:
           return newState
