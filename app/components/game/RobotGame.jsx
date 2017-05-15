@@ -1,6 +1,7 @@
 import React from 'react'
 import { RobotWorld } from './RobotWorld'
 import Editor from './Editor'
+import Healthbar from "./Healthbar"
 
 export default class NameForm extends React.Component {
 
@@ -8,7 +9,8 @@ export default class NameForm extends React.Component {
     return(
       <div className="robot-game">
         <Editor />
-        <RobotWorld />
+        <Healthbar/>
+        <RobotWorld/>
       </div>
     );
   }

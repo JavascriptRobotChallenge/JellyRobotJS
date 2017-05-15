@@ -10,6 +10,7 @@ const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const RobotClass =  require('./RobotClass')
 const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
+const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
@@ -121,6 +122,7 @@ if (module === require.main) {
       // var store = store.leave
       console.log("oldrooms",rooms)
       backendStore.dispatch(RemovePlayer(socket.id))
+      backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
       console.log("newroom",rooms)
       console.log("plz",io.sockets.adapter.rooms)
       // users--  
