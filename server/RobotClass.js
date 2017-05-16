@@ -68,6 +68,7 @@ RobotClass.prototype.rapidFire = function(roomName, playerId){
 }
 
 RobotClass.prototype.devastator = function(roomName,playerId){
+  console.log("devestatorunloaded")
   var ownPosition = this.getOwnPosition(roomName, playerId)
   var otherPlayersPosition = this.findOpponent(roomName, playerId)
   if (otherPlayersPosition){
@@ -152,6 +153,7 @@ RobotClass.prototype.walkAwayFromOpponent = function(roomName,playerId){
   if (this.findOpponent(roomName, playerId)){
     var theta = this.angleBetween(this.getOwnPosition(roomName, playerId),this.findOpponent(roomName, playerId)) + 0.666 * Math.PI
     this.setRotation(roomName,playerId,theta)
+    this.walkForward(roomName,playerId)
   }
   else {
     this.walkForward(roomName,playerId)

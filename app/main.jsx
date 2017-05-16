@@ -11,13 +11,12 @@ import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import RobotGame from './components/Game/RobotGame'
 import Homepage from './components/Homepage'
-
+import Loss from "./components/Loss"
+import Win from "./components/Win"
 import {whoami} from './reducers/auth'
-
 const onMainEnter = () => {
   store.dispatch(whoami())
 }
-
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -27,6 +26,8 @@ render(
         <Route path="/docs" />
         <Route path="/game" component={RobotGame} />
         <Route path="/login" component={Login} />
+        <Route path="/loss" component={Loss} />
+        <Route path="/win" component={Win} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>
