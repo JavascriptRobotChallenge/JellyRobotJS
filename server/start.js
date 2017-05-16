@@ -16,6 +16,8 @@ var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
 
+const Sandbox = require('sandbox')
+
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
 
 const prettyError = new PrettyError
@@ -94,7 +96,7 @@ if (module === require.main) {
       // users++
       // roomIndex = Math.ceil(users/2)
       // backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex],socket.id,null))
-      
+
       // socket.join(rooms[roomIndex])
       // socket.emit('roomAssigned', rooms[roomIndex])
       // console.log("index",roomIndex)
@@ -108,9 +110,40 @@ if (module === require.main) {
 
 
     socket.on('sendCode', (code, room)=> {
-      var roboFunc = eval(code)
+      var startingCode = "(function(){ function SubRobot(){ this.color = 'red'};   SubRobot.prototype = Object.create(RobotClass.prototype); "
+      var endingCode = "; return new SubRobot()})"
+      const totalCode = startingCode + code + endingCode
+
+      var s = new Sandbox();
+      let roboFunc;
+
+      s.run(totalCode, function(output) {
+        if(!output || output.result.indexOf("Error") > -1){
+          console.log('there was a dangerous error')
+        } else {
+          roboFunc = eval(totalCode)
+        }
+      });
+
+      if(!roboFunc){
+        var backupCode = `(function(){
+           function SubRobot(){
+               this.color = "red"
+            };
+          SubRobot.prototype = Object.create(RobotClass.prototype)
+
+          SubRobot.prototype.start = function(roomName, playerId){
+            this.walkForward(roomName, playerId)
+          }
+          return new SubRobot()
+        })`
+        console.log('using backup code')
+        roboFunc = eval(backupCode)
+      }
       var roboInstance = roboFunc()
-      console.log(roboInstance.color, 'here is the color!!!!!')
+
+
+      console.log(roboInstance, 'here is the color!!!!!')
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
@@ -135,7 +168,7 @@ if (module === require.main) {
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
       // console.log("newroom",rooms)
       // console.log("plz",io.sockets.adapter.rooms)
-      // users--  
+      // users--
     })
   })
 
