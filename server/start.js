@@ -9,8 +9,9 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const RobotClass =  require('./RobotClass')
-const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
-const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
+const { AddOrUpdatePlayer, RemovePlayer } = require("./reducers/robotReducer")
+const { RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
+
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
@@ -109,6 +110,7 @@ if (module === require.main) {
     socket.on('sendCode', (code, room)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
+      console.log(roboInstance.color, 'here is the color!!!!!')
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
