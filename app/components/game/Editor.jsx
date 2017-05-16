@@ -7,7 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-`// ToDo: choose a starting color from red, orange, yellow, green, blue, violet, pink, white,
+`// ToDo: choose a starting color from red, orange, yellow, green, blue, violet, pink, white
 // make sure it is a string and keep the semi-colon!
 var color = 'red';
 // the robot will turn automatically for you when it hits the wall or the boxes
