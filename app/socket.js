@@ -1,5 +1,6 @@
 import store from './store'
 import { ServerUpdate, AssignRoom } from "./reducers/frontendStore"
+import { browserHistory } from 'react-router';
 
 const socket = io.connect()
 
@@ -18,12 +19,12 @@ socket.on('serverUpdate', function(data){
 
 socket.on('gameOver', function(loser){
   if ((socket.id)===loser){
-    alert("You are trash")
-    socket.emit("disconnect")
+    socket.emit("leaveRoom")
+    browserHistory.push('/loss');
   }
   else{
-    alert("you are ok")
-    socket.emit("disconnect")
+    socket.emit("leaveRoom")
+    browserHistory.push('/win');
   }
 })
 
