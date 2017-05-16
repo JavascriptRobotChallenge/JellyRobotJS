@@ -1,12 +1,15 @@
 import store from "../../store"
 import * as THREE from 'three';
-import { init, robotModel, camera, renderer, scene } from './initThree.js'
+import { init, robotModel, camera, renderer, scene, COLORING } from './initThree.js'
 
 function buildRobot(robot){
-  var ThreeRobot = new THREE.Mesh(robotModel.geometry, robotModel.materials)
+  var color = COLORING[robot.color]
+  if(!COLORING[robot.color]) color = 'rgb(6, 0, 81)'
+  var materials = new THREE.MeshPhongMaterial({ color: color})
+
+  var ThreeRobot = new THREE.Mesh(robotModel.geometry, materials)
   ThreeRobot.position.set(robot.x, robot.y, robot.z);
   ThreeRobot.scale.set(40, 40, 40);
-  window.robot = ThreeRobot
   scene.add(ThreeRobot);
   return ThreeRobot;
 }
@@ -53,7 +56,7 @@ export const animate = () => {
         }
 
         //ADDS ROBOTS IF THEY ARE IN STORE.STATE
-        if (Object.keys(robots).length < Object.keys(storeState.server.robots).length) {
+        if (storeState.server.robots && (Object.keys(robots).length < Object.keys(storeState.server.robots).length)) {
           for(var robotKey in storeState.server.robots){
             if (!robots[robotKey] && storeState.server.robots[robotKey].robotInstance) {
               robots[robotKey] = buildRobot(storeState.server.robots[robotKey])

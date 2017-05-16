@@ -1,31 +1,22 @@
 import React from 'react'
 import store from "../../store"
 import { RobotWorld } from './RobotWorld'
-import { Rotation, WalkForward, WalkBackward } from "../../reducers/frontendStore"
 import AceEditor from 'react-ace';
 import socket from '../../socket';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-`(function(){
-   function SubRobot(){
-       this.color = "red"
-    };
-
-  SubRobot.prototype = Object.create(RobotClass.prototype)
-  //ToDo: call functions with roomName and PlayerId so we know
-  // which robot to move
-  SubRobot.prototype.start = function(roomName, playerId){
+`// ToDo: choose a starting color from red, orange, yellow, green, blue, violet, pink, white
+// make sure it is a string and keep the semi-colon!
+var color = 'red';
+// the robot will turn automatically for you when it hits the wall or the boxes
+SubRobot.prototype.start = function(roomName, playerId){
     this.walkForward(roomName, playerId)
-    this.walkTowardOpponent(roomName, playerId)
-  }
-
-  return new SubRobot()
-})`
+  }`
 var inputCode = startingCode
 
-export default class Editor extends React.Component {
+class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,13 +24,19 @@ export default class Editor extends React.Component {
     }
   }
 
-  onChange(newCode){
-      inputCode = newCode
+
+  onChange = (newCode) => {
+    inputCode = newCode
   }
 
   onSubmit() {
     $('.glyphicon-chevron-down').trigger('click');
     socket.emit('sendCode', inputCode, store.getState().gameData.room)
+  }
+
+  onSaveRobot = () => {
+    const userId = this.props.user.id
+    this.props.saveRobot('testRobot', inputCode, userId)
   }
 
   render () {
@@ -77,6 +74,10 @@ export default class Editor extends React.Component {
                                   <button className="btn btn-warning btn-sm" onClick={this.onSubmit} id="btn-chat">
                                       Submit</button>
                               </span>
+                              <span className="input-group-btn">
+                                  <button className="btn btn-warning btn-sm" onClick={this.onSaveRobot} id="btn-chat">
+                                      Save Your Robot</button>
+                              </span>
                           </div>
                       </div>
                   </div>
@@ -88,3 +89,20 @@ export default class Editor extends React.Component {
     );
   }
 }
+
+/* ------ CONTAINER ------ */
+
+import { connect } from 'react-redux'
+import { SaveRobot } from "../../reducers/frontendStore"
+
+const mapStateToProps = (state) => ({
+  user: state.auth
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  saveRobot: function(robotName, code, userId) {
+    dispatch(SaveRobot(robotName, code, userId))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editor)

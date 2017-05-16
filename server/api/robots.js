@@ -1,19 +1,39 @@
 'use strict'
 
 const db = require('APP/db')
-const Robots = db.model('robots')
+const Robot = db.model('robots')
 
 const {mustBeLoggedIn, forbidden} = require('./auth.filters')
 
-module.exports = require('express').Router()
-  .post('/',
-    (req, res, next) =>
-      Robot.create(req.body)
-      .then(user => res.status(201).json(user))
-      .catch(next))
-  // .get('/:id',
-  //   mustBeLoggedIn,
-  //   (req, res, next) =>
-  //     User.findById(req.params.id)
-  //     .then(user => res.json(user))
-  //     .catch(next))
+const router = require('express').Router()
+
+module.exports = router
+
+router.param('robotId', (req, res, next, userId) => {
+  Robot.find({where: {id: robotId}})
+  .then(robot => {
+    if (!robot) return res.sendStatus(404)
+    req.robot = robot
+    next()
+  })
+  .catch(next)
+})
+
+router.route('/')
+// .get(mustBeLoggedIn, (req, res, next) => {
+//   req.targetUser['get' + req.addressType]()
+//   .then(shippingInfos => res.json(shippingInfos))
+//   .catch(next)
+// })
+.post(mustBeLoggedIn, (req, res, next) => {
+  let robotToCreate = Object.assign({}, req.body, {user_id: req.targetUser.id})
+  Robot.create(robotToCreate)
+  .then((createdRobot) => {
+    res.json(createdRobot)})
+  .catch(next)
+})
+.delete(mustBeLoggedIn, (req, res, next) => {
+  req.targetUser['remove' + req.robot]()
+ .then(() => res.sendStatus(204))
+ .catch(next)
+})

@@ -9,11 +9,14 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const RobotClass =  require('./RobotClass')
-const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
-const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
+const { AddOrUpdatePlayer, RemovePlayer } = require("./reducers/robotReducer")
+const { RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
+
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
+
+const Sandbox = require('sandbox')
 
 
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
@@ -95,7 +98,7 @@ if (module === require.main) {
       // users++
       // roomIndex = Math.ceil(users/2)
       // backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex],socket.id,null))
-      
+
       // socket.join(rooms[roomIndex])
       // socket.emit('roomAssigned', rooms[roomIndex])
       // console.log("index",roomIndex)
@@ -110,17 +113,15 @@ if (module === require.main) {
 
     socket.on('sendCode', (code, room)=> {
 
-
-
-
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
       })
+
       // update player when they have submitted code
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
+
     })
 
     socket.on('leaveRoom', function() {
@@ -161,7 +162,7 @@ if (module === require.main) {
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
       // console.log("newroom",rooms)
       // console.log("plz",io.sockets.adapter.rooms)
-      // users--  
+      // users--
     })
   })
 
