@@ -5,9 +5,13 @@ import socket from "../socket"
 import { browserHistory } from 'react-router';
 function Countdown(props){
     console.log('gothere',Object.keys(props.robots))
-    function onComplete(){
+    const onComplete = function(){
+        console.log("gameover")
+
+        console.log("gameover")
+        console.log("gameover")
     if(Object.keys(store.getState().gameData.server.robots)===2){
-        browserHistory.push("/loss")
+        
     }
 }
 return(
@@ -15,14 +19,14 @@ return(
 <h1>heyy</h1>
 <ReactCountdownClock 
                      id="timer"
-                     seconds={90}
+                     seconds={25}
                      color="white"
                      alpha={1}
                      size={100}
                      paused ={
                          (function pause(){
                              var len = Object.keys(props.robots).length
-                            console.log(len)
+                            console.log(this)
                             if (len>=2){
                                 console.log("smalllen")
                                 return false
@@ -31,7 +35,10 @@ return(
                                 return true
                             }
                          })()}
-                     onComplete={onComplete}
+                     onComplete={()=>{
+                        browserHistory.push("/tie")
+                        socket.emit("disconnect")
+                     }}
                     />
                     </div>
 )

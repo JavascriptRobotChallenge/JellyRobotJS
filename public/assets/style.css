@@ -91,6 +91,12 @@
     width:100%;
     background-size:cover;
 }
+#headerpictie{
+    background-image: url("./happywallee.jpg");
+    height:1000px;
+    width:100%;
+    background-size:cover;
+}
 
 .resulttext{
   font-weight:800;

@@ -13,6 +13,7 @@ import RobotGame from './components/Game/RobotGame'
 import Homepage from './components/Homepage'
 import Loss from "./components/Loss"
 import Win from "./components/Win"
+import Tie from "./components/Tie"
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -24,6 +25,7 @@ render(
         <Route path="/login" component={Login} />
         <Route path="/loss" component={Loss} />
         <Route path="/win" component={Win} />
+        <Route path="/tie" component={Tie} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>

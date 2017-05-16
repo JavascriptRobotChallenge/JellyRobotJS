@@ -15,7 +15,9 @@ var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
 
+
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
+
 
 const prettyError = new PrettyError
 prettyError.skipNodeFiles()
@@ -107,6 +109,10 @@ if (module === require.main) {
 
 
     socket.on('sendCode', (code, room)=> {
+
+
+
+
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
       var robotProtos = Object.getPrototypeOf(roboInstance)
@@ -126,6 +132,7 @@ if (module === require.main) {
           delete jonahRooms[room][robot]
         }
       }
+      
     }
       // var store = store.leave
       // console.log("oldrooms",rooms)
@@ -144,6 +151,7 @@ if (module === require.main) {
       for (var robot in jonahRooms[room]){
         if (socket.id===robot){
           delete jonahRooms[room][robot]
+          io.sockets.to(room).emit("tie")
         }
       }
     }
