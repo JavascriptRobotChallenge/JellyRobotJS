@@ -16,6 +16,10 @@ socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
 })
 
+socket.on('clientCodeError', function(){
+  // something with toastr
+})
+
 socket.on('gameOver', function(loser){
   if ((socket.id)===loser){
     alert("You are trash")

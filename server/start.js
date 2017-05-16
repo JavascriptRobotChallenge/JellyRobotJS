@@ -110,46 +110,70 @@ if (module === require.main) {
 
 
     socket.on('sendCode', (code, room)=> {
-      var startingCode = "(function(){ function SubRobot(){ this.color = 'red'};   SubRobot.prototype = Object.create(RobotClass.prototype); "
+      var colors = ["'red'", "'orange'", "'yellow'", "'green'", "'blue'", "'violet'", "'pink'", "'white'"]
+      var theirColorInput = code.split(';')[0].split('=')[1].trim()[1].toLowerCase()
+
+      var realColor = "'green'"
+
+      if(theirColorInput === 'r'){
+        realColor = colors[0]
+      } else if (theirColorInput === 'o'){
+        realColor = colors[1]
+      } else if (theirColorInput === 'y'){
+        realColor = colors[2]
+      } else if (theirColorInput === 'g'){
+        realColor = colors[3]
+      } else if (theirColorInput === 'b'){
+        realColor = colors[4]
+      } else if (theirColorInput === 'v'){
+        realColor = colors[5]
+      } else if (theirColorInput === 'p'){
+        realColor = colors[6]
+      } else if (theirColorInput === 'w'){
+        realColor = colors[7]
+      }
+
+      var startingCode = "(function(){ function SubRobot(){ this.color = " + realColor + "};   SubRobot.prototype = Object.create(RobotClass.prototype); "
       var endingCode = "; return new SubRobot()})"
       const totalCode = startingCode + code + endingCode
 
       var s = new Sandbox();
-      let roboFunc;
+      let roboFunc, roboInstance;
 
       s.run(totalCode, function(output) {
-        if(!output || output.result.indexOf("Error") > -1){
-          console.log('there was a dangerous error')
+        if(!output || (output.result.indexOf("Error") > -1 && output.result.indexOf("TimeoutError")=== -1 ) ){
+          console.log('there was a dangerous error: ', output.result)
+          socket.emit('clientCodeError')
+            var backupCode = `(function(){
+               function SubRobot(){
+                   this.color = "red"
+                };
+              SubRobot.prototype = Object.create(RobotClass.prototype)
+
+              SubRobot.prototype.start = function(roomName, playerId){
+                this.walkForward(roomName, playerId)
+              }
+              return new SubRobot()
+            })`
+            console.log('using backup code')
+            roboFunc = eval(backupCode)
+            roboInstance = roboFunc()
+            backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
+
         } else {
+          console.log('using the real code')
           roboFunc = eval(totalCode)
+          roboInstance = roboFunc()
+          backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
         }
       });
 
-      if(!roboFunc){
-        var backupCode = `(function(){
-           function SubRobot(){
-               this.color = "red"
-            };
-          SubRobot.prototype = Object.create(RobotClass.prototype)
-
-          SubRobot.prototype.start = function(roomName, playerId){
-            this.walkForward(roomName, playerId)
-          }
-          return new SubRobot()
-        })`
-        console.log('using backup code')
-        roboFunc = eval(backupCode)
-      }
-      var roboInstance = roboFunc()
-
-
-      console.log(roboInstance, 'here is the color!!!!!')
-      var robotProtos = Object.getPrototypeOf(roboInstance)
-      Object.keys(robotProtos).forEach(robotProto => {
-        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
-      })
+      // var robotProtos = Object.getPrototypeOf(roboInstance)
+      // Object.keys(robotProtos).forEach(robotProto => {
+      //   RobotClass.prototype.on(robotProto, robotProtos[robotProto])
+      // })
       // update player when they have submitted code
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
+
     })
 
     socket.on('disconnect', function() {

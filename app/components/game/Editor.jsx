@@ -7,9 +7,12 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-`SubRobot.prototype.start = function(roomName, playerId){
+`// ToDo: choose a starting color from red, orange, yellow, green, blue, violet, pink, white,
+// make sure it is a string and keep the semi-colon!
+var color = 'red';
+// the robot will turn automatically for you when it hits the wall or the boxes
+SubRobot.prototype.start = function(roomName, playerId){
     this.walkForward(roomName, playerId)
-    this.walkTowardOpponent(roomName, playerId)
   }`
 var inputCode = startingCode
 
