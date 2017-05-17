@@ -10,9 +10,9 @@ export default class Loss extends React.Component {
         <div id="headerpicloss">
           <div className="headertext">
             <div className="col-xs-4">
-            <Link to={"/game"}>
+            <Link to={"/home"}>
               <h1 className="resulttext">You've been defeated!</h1>
-              <button>Try Again</button>
+              <button>Back Home</button>
               </Link>
             </div>
           </div>

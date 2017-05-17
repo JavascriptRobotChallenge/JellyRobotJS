@@ -149,7 +149,7 @@ if (module === require.main) {
 
     socket.on('leaveRoom', function() {
       //this removes players from tina/jonah rooms which is equivalent to using socket.leave
-      console.log('leaving room disconnecting...', room)
+      console.log('leaving room disconnecting...')
       for (var room in jonahRooms){
         for (var robot in jonahRooms[room]){
           if (socket.id === robot){

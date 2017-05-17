@@ -64,7 +64,7 @@ RobotClass.prototype.accurateFire = function(roomName, playerId){
 }
 
 RobotClass.prototype.rapidFire = function(roomName, playerId){
-  this.fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.1)
+  this.fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.2)
 }
 
 RobotClass.prototype.devastator = function(roomName,playerId){

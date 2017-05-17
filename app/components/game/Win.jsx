@@ -10,9 +10,9 @@ export default class Win extends React.Component {
           <div id="headerpicwin">
             <div className="headertext">
               <div className="col-xs-4">
-              <Link to={"/game"}>
+              <Link to={"/home"}>
                 <h1 className="resulttext">Congratulations, you win!</h1>
-                <button>Play Again</button>
+                <button>Back Home</button>
                 </Link>
               </div>
             </div>
