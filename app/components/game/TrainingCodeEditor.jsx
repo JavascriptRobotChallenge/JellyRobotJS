@@ -37,9 +37,12 @@ class CodeEditor extends React.Component {
   }
 
   onSubmit = () => {
+    $('.glyphicon-chevron-down').trigger('click');
+    const testRobots = this.props.testRobots
     const code = this.state.previousInput
     const room = this.props.room
-    socket.emit('sendCode', room, code)
+
+    socket.emit('sendTrainingCode', room, code, testRobots)
   }
 
   onSaveRobot = () => {
@@ -101,7 +104,8 @@ import { SaveRobot } from "../../reducers/frontendStore"
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
-  room: state.gameData.room
+  room: state.gameData.room,
+  testRobots: state.gameData.testRobots
 })
 
 const mapDispatchToProps = (dispatch) => ({

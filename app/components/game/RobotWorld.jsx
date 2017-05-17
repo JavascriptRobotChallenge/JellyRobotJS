@@ -6,6 +6,8 @@ import store from "../../store"
 export const RobotWorld = () => {
   var robotThree = init()
   animate()
-  return <div>
-  </div>
+  return (
+    <div> </div>
+  )
+
 }

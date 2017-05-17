@@ -7,6 +7,8 @@ export default function App({ children }) {
       <div>
         <NavBarMain />
       </div>
+      <hr></hr>
+      <hr></hr>
       <div>
         { children }
       </div>

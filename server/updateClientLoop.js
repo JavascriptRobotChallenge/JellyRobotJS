@@ -120,7 +120,9 @@ function broadcastGameState(io){
       1: 'Blueberry',
       2: 'Cherry',
       3: 'Strawberry',
-      4: 'Watermelon'
+      4: 'Watermelon',
+      5: 'Banana',
+      6: 'Mango'
     }
     for (var num in rooms) {
       var room = rooms[num]

@@ -1,16 +1,9 @@
+/*----HOMEPAGE----*/
 .intro-header {
   background-image: url("../Homepage.png");
 }
 
-.buffer-oauth {
-  position: absolute;
-    top: 20%
-}
-
-.robot-game {
-  margin-top: 75px;
-}
-
+/*----GHOST BUTTON ON HOMEPAGE----*/
 .ghost-button {
   margin-left: 133%;
   margin-top:130px;
@@ -33,6 +26,7 @@
     height: 45px;
     margin: auto;
 }
+
 .ghost-button:hover,
 .ghost-button:active {
   background-color: #fff;
@@ -41,7 +35,29 @@
               color 0.3s ease-in;
 }
 
-/*----GAME PAGE EDITOR & DOCS----*/
+/*----LOGIN OAUTH----*/
+.buffer-oauth {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.btn-social {
+  margin-left: 40px;
+  margin-top: 300px;
+  height: 70px;
+  width: 400px;
+}
+
+#facebook-btn {
+  font-size: 27pt;
+}
+
+/*----/GAME PAGE EDITORDOCS----*/
+.editor-docs {
+
+}
+
 .chat li .chat-body p {
     margin: 0;
     color: #777777;
@@ -100,12 +116,14 @@
     transition: color .25s ease-in-out;
 }
 
+/*----ACTUAL DOCS PAGE----*/
 .docs-container {
-  margin: 70px 400px;
+    margin-left: 400px;
+    margin-right: 400px;
 }
 
 .docs-container .header-title {
-  text-align: center
+    text-align: center
 }
 
 /*----HEADER-PIC WIN/LOSE/TIE----*/
@@ -130,40 +148,48 @@
 }
 
 .headertext button {
-  margin-left: 280px;
-  text-align: center;
+    margin-left: 280px;
+    text-align: center;
 }
 
 .resulttext{
-  font-weight:800;
-  font-size:50pt;
-  text-align:center;
-  margin-top: 380px;
-  margin-left: 40px;
-  color:#fff;
+    font-weight:800;
+    font-size:50pt;
+    text-align:center;
+    margin-top: 380px;
+    margin-left: 40px;
+    color:#fff;
 }
 
+/*----WIN/LOSE/TIE PLAY AGAIN BUTTON----*/
 .homebutton{
-  margin-top:-130px;
-  text-align: center;
-  font-size: 20px;
-  background-color: rgba(0,0,0,0);
-  width: 200px;
-  padding: 8px;
-  color: black;
-  border: 3px solid #fff;
-  text-align: center;
-  outline: none;
-  text-decoration: none;
-  border-radius: 5px;
-  position: absolute;
-    top: 35%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 45px;
-    margin: auto;
+    margin-top:-130px;
+    text-align: center;
+    font-size: 20px;
+    background-color: rgba(0,0,0,0);
+    width: 200px;
+    padding: 8px;
+    color: black;
+    border: 3px solid #fff;
+    text-align: center;
+    outline: none;
+    text-decoration: none;
+    border-radius: 5px;
+    position: absolute;
+      top: 35%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 45px;
+      margin: auto;
 }
+
+/*----TIMER----*/
 #timer{
     margin-top:90px
+}
+
+/*----TRAINING MODE----*/
+.training-header{
+    text-align: center;
 }

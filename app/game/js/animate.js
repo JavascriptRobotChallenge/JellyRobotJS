@@ -24,8 +24,6 @@ function buildProjectile(projectile){
     return practiceSphere
 }
 
-//SW: keep game loop in mind - can affect future performance
-//SW: but don't pre optimize
 var projectiles = {}
 var robots = {}
 

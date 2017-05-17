@@ -4,7 +4,9 @@ var initialState = {
   'Blueberry': {},
   'Cherry': {},
   'Strawberry': {},
-  'Watermelon': {}
+  'Watermelon': {},
+  'Banana': {},
+  'Mango': {}
 }
 
 const reducer = ( state = initialState, action) => {
