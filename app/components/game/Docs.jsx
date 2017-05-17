@@ -54,7 +54,6 @@ this.distanceBetween(robot.getOwnPosition()], robot.findOpponent())
 this.angleBetween(arrOne, arrTwo)
 // PI
 // Takes the positions of two robots, returns the angle between them, in radians.
-
 // give them accurateFire, but throttle it a lot. Give them a reward if they implement this on their own.`
 
 const Docs = (props) => (
