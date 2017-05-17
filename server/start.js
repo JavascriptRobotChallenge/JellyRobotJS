@@ -14,6 +14,7 @@ const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
+const apiExports= require('./APIexports')
 
 
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
@@ -95,7 +96,7 @@ if (module === require.main) {
       // users++
       // roomIndex = Math.ceil(users/2)
       // backendStore.dispatch(AddOrUpdatePlayer(rooms[roomIndex],socket.id,null))
-      
+
       // socket.join(rooms[roomIndex])
       // socket.emit('roomAssigned', rooms[roomIndex])
       // console.log("index",roomIndex)
@@ -108,19 +109,9 @@ if (module === require.main) {
     })
 
 
+
     socket.on('sendCode', (code, room)=> {
-
-
-
-
-      var roboFunc = eval(code)
-      var roboInstance = roboFunc()
-      var robotProtos = Object.getPrototypeOf(roboInstance)
-      Object.keys(robotProtos).forEach(robotProto => {
-        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
-      })
-      // update player when they have submitted code
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
+      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
     })
 
     socket.on('leaveRoom', function() {
@@ -132,7 +123,7 @@ if (module === require.main) {
           delete jonahRooms[room][robot]
         }
       }
-      
+
     }
       // var store = store.leave
       // console.log("oldrooms",rooms)
@@ -140,7 +131,7 @@ if (module === require.main) {
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
       // console.log("newroom",rooms)
       // console.log("plz",io.sockets.adapter.rooms)
-      // users--  
+      // users--
     })
 
 
@@ -161,7 +152,7 @@ if (module === require.main) {
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
       // console.log("newroom",rooms)
       // console.log("plz",io.sockets.adapter.rooms)
-      // users--  
+      // users--
     })
   })
 

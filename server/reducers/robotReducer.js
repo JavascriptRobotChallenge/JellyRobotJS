@@ -27,7 +27,7 @@ const reducer = ( state = initialState, action) => {
       if(!action.roomName){
         return newState
       } else {
-        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: Math.random()*2*Math.PI, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0 }
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: Math.random()*2*Math.PI, code: action.code, health: 10, fireTime:0, walkTime:0 }
         return newState
       }
     case "RemovePlayer":
@@ -56,6 +56,7 @@ const reducer = ( state = initialState, action) => {
       newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 10 * Math.cos(newState[action.roomName][action.socketId].theta)
       return newState
     case "WalkForward":
+      console.log('walking forward')
       newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 5 * Math.sin(newState[action.roomName][action.socketId].theta)
       newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 5 * Math.cos(newState[action.roomName][action.socketId].theta)
       return newState
@@ -67,6 +68,7 @@ const reducer = ( state = initialState, action) => {
       newState[action.roomName][action.socketId].health -= action.strength
       return newState
     case "SetRotation":
+      console.log('inside set rotation reducer')
       newState[action.roomName][action.socketId].theta = action.theta
       return newState
     case "WalkFollowSpeed":
@@ -78,7 +80,7 @@ const reducer = ( state = initialState, action) => {
   }
 }
 const WalkFollowSpeed = (roomName, socketId) => ({type: "WalkFollowSpeed", socketId, roomName})
-const AddOrUpdatePlayer = (roomName, socketId, robotInstance) => ({type: "AddOrUpdatePlayer", socketId, roomName, robotInstance})
+const AddOrUpdatePlayer = (roomName, socketId, code) => ({type: "AddOrUpdatePlayer", socketId, roomName, code})
 const RemovePlayer = (socketId) => ({type: "RemovePlayer", socketId})
 const UpdateFireTime = (roomName, socketId, fireTime) => ({type: "UpdateFireTime", socketId, fireTime, roomName})
 const UpdateWalkTime = (roomName, socketId) => ({type: "UpdateWalkTime", socketId, roomName})

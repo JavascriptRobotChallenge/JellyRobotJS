@@ -79,7 +79,7 @@ RobotClass.prototype.devastator = function(roomName,playerId){
 RobotClass.prototype.findOpponent = function(roomName, playerId){
   const robots = backendStore.getState().robots[roomName]
   for (var robotID in robots){
-    if (robotID!==playerId && robots[robotID].robotInstance){
+    if (robotID!==playerId && robots[robotID].code){
       return [robots[robotID].x, robots[robotID].z]
     }
   }

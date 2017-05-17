@@ -3,6 +3,10 @@ const { robotReducer } = require('./reducers/robotReducer.js');
 const SERVER_UPDATE_RATE = 33;
 const { Rotation, WalkForward, DecreaseHealth } = require("./reducers/robotReducer")
 const { MoveOneForward, RemoveProjectile } = require("./reducers/projectileReducer")
+const { leaveWall } = require("./APIexports")
+const async = require("async")
+var SandCastle = require('sandcastle').SandCastle;
+var sandcastle = new SandCastle({api: './server/APIexports.js'});
 
 let io;
 let gameLoop;
@@ -63,20 +67,20 @@ function broadcastGameState(io){
       if (playerArr.length) {
         for (var i = 0; i < playerArr.length; i++) {
           let robot = state[roomName][playerArr[i]];
-          if(robot.robotInstance) {
+          if(robot.code) {
             ///if the robot hits the wall
             if (Math.abs(robot.x) > 700 || Math.abs(robot.z) > 700) {
               if (robot.x > 700) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], 1.5 * Math.PI)
+                leaveWall(roomName, playerArr[i], 1.5 * Math.PI)
               }
               else if (robot.x < -700) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], 0.5 * Math.PI)
+                leaveWall(roomName, playerArr[i], 0.5 * Math.PI)
               }
               else if (robot.z > 700) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], Math.PI)
+                leaveWall(roomName, playerArr[i], Math.PI)
               }
               else if (robot.z < -700) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], 0)
+                leaveWall(roomName, playerArr[i], 0)
               }
             }
             ///if the robot hits a box
@@ -84,29 +88,48 @@ function broadcastGameState(io){
 
               //if hit inside of boxes just go upwards (in z direction) could be combined with upward conditional below
               if (robot.x > 134 && robot.x < 140||robot.x>148&&robot.x<153){
-                robot.robotInstance.leaveWall(roomName,playerArr[i],0)
-              } 
+                leaveWall(roomName,playerArr[i],0)
+              }
               //hit the side (x) of box and go in positive x direction
               else if (robot.x > 327 && robot.x < 332 ) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], 0.5 * Math.PI )
+                leaveWall(roomName, playerArr[i], 0.5 * Math.PI )
               }
 
               //hit the negative x side of large box and move in negative x direction
               else if (robot.x < -134 && robot.x > -140) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], 1.5 * Math.PI)
+                leaveWall(roomName, playerArr[i], 1.5 * Math.PI)
               }
 
               //hit the top (z) of either box and move in positive z direction
               else if (robot.z > 134 && robot.z < 140 || robot.z > 87 && robot.z < 92 ) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], 0)
+                leaveWall(roomName, playerArr[i], 0)
               }
               //hit the bottom(z) of either box and move in negative z direction
               else if (robot.z < -134 && robot.z > -140 || robot.z > -92 && robot.z < -87) {
-                robot.robotInstance.leaveWall(roomName, playerArr[i], Math.PI)
+                leaveWall(roomName, playerArr[i], Math.PI)
               }
             }
             else {
-              robot.robotInstance.start(roomName, playerArr[i])
+              // function(` + roomName + ',' + playerArr[i] + '){' + backendStore.getState().robots[roomName][playerArr[i]].code + `
+              var script = sandcastle.createScript(`function(` + roomName + ',' + playerArr[i] + '){' + backendStore.getState().robots[roomName][playerArr[i]].code + `exit('start called')}`);
+              script.run();
+              console.log('robot position: ', robot.x, robot.z)
+
+              script.on('exit', function(err, output, methodName) {
+                  console.log('output ', output); // Hello World!
+              });
+
+              // take note that a single script should only be
+              // executing a single method at a time.
+
+
+
+              // var cb = null;
+              // async.eachLimit(['start', 'distanceBetween', 'hello'], 1, function(item, _cb) {
+              //   cb = _cb;
+              //   script.run(item, {name: 'Ben'});
+              // });
+
             }
             MoveForward(roomName)
             checkProjectilesToRemove(io)
