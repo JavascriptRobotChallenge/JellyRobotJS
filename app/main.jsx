@@ -22,16 +22,26 @@ import {whoami} from './reducers/auth'
 import {GetTestRobots} from './reducers/frontendStore'
 
 const onMainEnter = () => {
-  store.dispatch(whoami())
   store.dispatch(GetTestRobots('EasyRobot'))
+  return store.dispatch(whoami())
 }
 
 const CanvasDelete = () => {
   const canvases = [...document.getElementsByTagName('canvas')]
   canvases.forEach(canvas => { canvas.remove() })
 }
-const onMultiEnter = () => {
+
+const requireAuth = (nextState, replaceState, callback) => {
   socket.emit('giveMeARoom')
+  onMainEnter().then(function(){
+      callback()
+      if (!Object.keys(store.getState().auth.user).length)
+        browserHistory.push('/login')
+    })
+    .catch(err => {
+      console.log(err)
+      callback()
+    })
 }
 
 const onTrainingEnter = () => {
@@ -45,7 +55,7 @@ render(
         <IndexRedirect to="/home" />
         <Route path="/home" component={Homepage} />
         <Route path="/docs" component={Docs} />
-        <Route path="/game" component={RobotGame} onEnter={onMultiEnter} />
+        <Route path="/game" component={RobotGame} onEnter={requireAuth} />
         <Route path="/training" component={Training} onEnter={onTrainingEnter} />
         <Route path="/login" component={Login} />
       </Route>
