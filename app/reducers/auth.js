@@ -1,16 +1,32 @@
 import axios from 'axios'
 
-const reducer = (state=null, action) => {
+var initialState = {
+  user: {},
+  socketID: ''
+}
+
+const reducer = (state = initialState, action) => {
+  const newState = _.merge({}, state)
+  Object.freeze(state)
+
   switch (action.type) {
-  case AUTHENTICATED:
-    return action.user
+    case AUTHENTICATED:
+      newState.user = action.user
+    case SOCKETCONNECT:
+      newState.socketID = action.socketID
   }
-  return state
+  return newState
 }
 
 const AUTHENTICATED = 'AUTHENTICATED'
+const SOCKETCONNECT = 'SOCKETCONNECT'
 export const authenticated = user => ({
   type: AUTHENTICATED, user
+})
+
+export const SocketConnection = socketID => ({
+  type: SOCKETCONNECT,
+  socketID
 })
 
 export const login = (username, password) =>

@@ -16,7 +16,6 @@ const reducer = ( state = initialState, action) => {
           return newState
         case "ServerUpdate":
           newState.server = action.payload
-          console.log("newState",newState)
           return newState
         default:
           return newState

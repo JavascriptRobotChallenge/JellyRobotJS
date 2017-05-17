@@ -10,14 +10,14 @@ export default class Loss extends React.Component {
         <div id="headerpicloss">
           <div className="headertext">
             <div className="col-xs-4">
-            <Link to={"/home"}>
-              <h1 className="resulttext">Loss Please Play Again</h1>
-              <button>Back Home</button>
+            <Link to={"/game"}>
+              <h1 className="resulttext">You've been defeated!</h1>
+              <button>Try Again</button>
               </Link>
             </div>
           </div>
           </div>
-  
+
         </div>
           )
   }
