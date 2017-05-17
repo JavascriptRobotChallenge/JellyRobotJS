@@ -13,6 +13,22 @@ module.exports = db => db.define('robots', {
       notEmpty: true
     }
   }
+//   },
+//   wins:{
+//     type:NUMBER
+//   },
+//   losses:{
+//     type:NUMBER
+//   },
+//   ties:{
+//     type:NUMBER
+//   },
+// },{
+  // getterMethods:{
+  //   winningPercentage(){
+  //     return wins/losses
+  //   } 
+  // }
 })
 
 module.exports.associations = (Robot, {User}) => {

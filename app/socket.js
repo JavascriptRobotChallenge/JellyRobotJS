@@ -28,4 +28,10 @@ socket.on('gameOver', function(loser){
   }
 })
 
+socket.on("tie",function(){
+  console.log("gotemit")
+  socket.emit("leaveRoom")
+  browserHistory.push('/tie');
+})
+
 export default socket;
