@@ -6,7 +6,10 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 const documentation =
-`//WALKING FUNCTIONS
+`//POSSIBLE COLORS TO SET this.color - will default to red otherwise:
+red, blue, green, orange, pink, yellow, purple, black, white
+
+//WALKING FUNCTIONS
 //addRotation
 this.addRotation(roomName, playerId, degrees)
 

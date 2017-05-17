@@ -74,6 +74,13 @@ const Docs = (props) => (
       An important thing to remember is that many of our methods require you to pass in your room name and your robotId.
     </p>
     <hr/>
+      <h5> Robot Colors </h5>
+      <p>
+        You can choose from the following colors and set your (this.color = "whatever-color") otherwise it will default to 'red'.
+        <br />
+        COLORS: red, blue, green, orange, pink, yellow, purple, black, white
+      </p>
+    <hr/>
       <h5> Walking Functions </h5>
       <p>
         You can implement various walking functions that behave differently.<br/>
