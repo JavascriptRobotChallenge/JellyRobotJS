@@ -79,20 +79,20 @@
 
 
 #headerpicloss{
-    background-image: url("./wallee.jpg");
+    background-image: url("./sadWallee.jpg");
     height:1000px;
     width:100%;
     background-size:cover;
 }
 
 #headerpicwin{
-    background-image: url("./happywallee.jpg");
+    background-image: url("./happyWallee.jpg");
     height:1000px;
     width:100%;
     background-size:cover;
 }
 #headerpictie{
-    background-image: url("./happywallee.jpg");
+    background-image: url("./tiedWallee.jpg");
     height:1000px;
     width:100%;
     background-size:cover;
@@ -107,6 +107,7 @@
   text-align:center;
   color:#fff;
 }
+
 .homebutton{
   margin-top:-130px;
   text-align: center;
