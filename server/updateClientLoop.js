@@ -36,7 +36,7 @@ function checkProjectilesToRemove(io) {
       for (var robotID in robotsObj[room]) {
         var robot = robotsObj[room][robotID]
 
-        if (robotID !== projectile.id) {
+        if (robotID !== projectile.id && robot.robotInstance) {
           if (Math.sqrt(Math.pow(robot.x - projectile.x, 2) + Math.pow(robot.z - projectile.z, 2)) < 20) {
             backendStore.dispatch(DecreaseHealth(room, robotID, projectile.strength))
             backendStore.dispatch(RemoveProjectile(room, projectileId))
@@ -85,7 +85,7 @@ function broadcastGameState(io){
               //if hit inside of boxes just go upwards (in z direction) could be combined with upward conditional below
               if (robot.x > 134 && robot.x < 140||robot.x>148&&robot.x<153){
                 robot.robotInstance.leaveWall(roomName,playerArr[i],0)
-              } 
+              }
               //hit the side (x) of box and go in positive x direction
               else if (robot.x > 327 && robot.x < 332 ) {
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 0.5 * Math.PI )

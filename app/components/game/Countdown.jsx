@@ -1,7 +1,7 @@
 import ReactCountdownClock from "react-countdown-clock"
 import React from "react"
-import store from "../store"
-import socket from "../socket"
+import store from "../../store"
+import socket from "../../socket"
 import { browserHistory } from 'react-router';
 function Countdown(props){
     console.log('gothere',Object.keys(props.robots))
@@ -11,13 +11,13 @@ function Countdown(props){
         console.log("gameover")
         console.log("gameover")
     if(Object.keys(store.getState().gameData.server.robots)===2){
-        
+
     }
 }
 return(
 <div>
 <h1>heyy</h1>
-<ReactCountdownClock 
+<ReactCountdownClock
                      id="timer"
                      seconds={25}
                      color="white"
@@ -49,7 +49,7 @@ import { connect } from 'react-redux'
 const mapStateToProps = (state) => {
     return {
         robots:state.gameData.server.robots
-    }   
+    }
 }
 
 

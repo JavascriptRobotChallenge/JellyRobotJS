@@ -7,7 +7,7 @@ export default class Healthbar extends React.Component{
     super(props)
     this.state ={
       robots:store.getState().gameData.server.robots
-    } 
+    }
   }
 
   componentDidMount() {
@@ -25,7 +25,6 @@ export default class Healthbar extends React.Component{
     var robots;
     if (Object.keys(this.state.robots).length) {
       robots = Object.keys(this.state.robots)
-      console.log("robotsis",robots)
       var healthBars = robots.map(robotID => {
         return ((this.state.robots[robotID].health) ?
         <Line percent={this.state.robots[robotID].health*10} key={robotID} strokeWidth="1" strokeColor="#42f471"/>
@@ -38,4 +37,3 @@ export default class Healthbar extends React.Component{
     )
 }
 }
-

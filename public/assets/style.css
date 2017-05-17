@@ -41,43 +41,74 @@
               color 0.3s ease-in;
 }
 
-.chat li .chat-body p
-{
+/*----GAME PAGE EDITOR & DOCS----*/
+.chat li .chat-body p {
     margin: 0;
     color: #777777;
 }
 
-.panel .slidedown .glyphicon, .chat .glyphicon
-{
+.panel .slidedown .glyphicon, .chat .glyphicon {
     margin-right: 5px;
     color: #253663
 }
 
-.panel-body
-{
-    overflow-y: scroll;
+.panel-body {
+    overflow-y: hidden;
+    overflow-x: hidden;
     height: 400px;
 }
 
-::-webkit-scrollbar-track
-{
+.vertical-space {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
 
-::-webkit-scrollbar
-{
+::-webkit-scrollbar {
     width: 12px;
     background-color: #F5F5F5;
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
 }
 
+.percentage {
+    width: 99%;
+    margin: 0 auto;
+    background: olive;
 
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.color {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: color .25s ease-in-out;
+}
+
+.docs-container {
+  margin: 70px 400px;
+}
+
+.docs-container .header-title {
+  text-align: center
+}
+
+/*----HEADER-PIC WIN/LOSE/TIE----*/
 #headerpicloss{
     background-image: url("./sadWallee.jpg");
     height:1000px;
@@ -98,13 +129,17 @@
     background-size:cover;
 }
 
+.headertext button {
+  margin-left: 280px;
+  text-align: center;
+}
+
 .resulttext{
   font-weight:800;
   font-size:50pt;
-  padding-left:25px;
-  padding-right:25px;
-  padding-top: 25px;
   text-align:center;
+  margin-top: 380px;
+  margin-left: 40px;
   color:#fff;
 }
 

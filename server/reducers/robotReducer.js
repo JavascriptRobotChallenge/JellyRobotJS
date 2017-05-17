@@ -4,10 +4,9 @@ function getRandomInt(min, max) {
   var min = Math.ceil(min);
   var max = Math.floor(max);
   var rand = Math.floor(Math.random() * (max - min)) + min;
-  while (rand>-140&&rand<340){
-  rand = Math.floor(Math.random() * (max - min)) + min;
+  while (rand > -140 && rand < 340) {
+    rand = Math.floor(Math.random() * (max - min)) + min;
   }
-  console.log("randomis",rand)
   return rand
 }
 
@@ -33,16 +32,13 @@ const reducer = ( state = initialState, action) => {
         return newState
       }
     case "RemovePlayer":
-    console.log("action",action.socketId)
-    for (var room in newState){
-      for (var robot in newState[room]){
-        if (robot===action.socketId){
-          console.log("deleting")
-          delete newState[room][robot]
+      for (var room in newState){
+        for (var robot in newState[room]){
+          if (robot === action.socketId){
+            delete newState[room][robot]
+          }
         }
       }
-    }
-      console.log("newstate",newState)
       return newState
     case "UpdateWalkTime":
       newState[action.roomName][action.socketId].walkTime = Date.now() + 29
