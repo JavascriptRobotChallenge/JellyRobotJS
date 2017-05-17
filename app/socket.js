@@ -13,6 +13,16 @@ socket.on('roomAssigned', function(myRoom){
   store.dispatch(AssignRoom(myRoom))
 })
 
+socket.on('trainingRoomAssigned', function(myRoom) {
+  store.dispatch(AssignRoom(myRoom))
+  const testRobots = store.getState().gameData.testRobots
+  const room = store.getState().gameData.room
+  console.log('testrobots on client', testRobots)
+
+  socket.emit('setTestRobot', room, testRobots)
+})
+
+
 socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
 })

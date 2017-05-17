@@ -1,16 +1,9 @@
+/*----HOMEPAGE----*/
 .intro-header {
   background-image: url("../Homepage.png");
 }
 
-.buffer-oauth {
-  position: absolute;
-    top: 20%
-}
-
-.robot-game {
-  margin-top: 75px;
-}
-
+/*----GHOST BUTTON ON HOMEPAGE----*/
 .ghost-button {
   margin-left: 133%;
   margin-top:130px;
@@ -33,6 +26,7 @@
     height: 45px;
     margin: auto;
 }
+
 .ghost-button:hover,
 .ghost-button:active {
   background-color: #fff;
@@ -41,7 +35,13 @@
               color 0.3s ease-in;
 }
 
-/*----GAME PAGE EDITOR & DOCS----*/
+/*----LOGIN OAUTH----*/
+.buffer-oauth {
+  position: absolute;
+    top: 20%
+}
+
+/*----/GAME PAGE EDITORDOCS----*/
 .chat li .chat-body p {
     margin: 0;
     color: #777777;
@@ -100,6 +100,7 @@
     transition: color .25s ease-in-out;
 }
 
+/*----ACTUAL DOCS PAGE----*/
 .docs-container {
   margin: 70px 400px;
 }
@@ -143,6 +144,7 @@
   color:#fff;
 }
 
+/*----WIN/LOSE/TIE PLAY AGAIN BUTTON----*/
 .homebutton{
   margin-top:-130px;
   text-align: center;
@@ -164,6 +166,14 @@
     height: 45px;
     margin: auto;
 }
+
+/*----TIMER----*/
 #timer{
     margin-top:90px
+}
+
+/*----TRAINING MODE----*/
+.training-header{
+  margin-top: 70px;
+  text-align: center;
 }

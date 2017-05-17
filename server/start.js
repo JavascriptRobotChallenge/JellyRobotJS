@@ -67,10 +67,13 @@ if (module === require.main) {
     1: 'Blueberry',
     2: 'Cherry',
     3: 'Strawberry',
-    4: 'Watermelon'
+    4: 'Watermelon',
+    5: 'Banana',
+    6: 'Mango'
   }
 
-  var jonahRooms = {Blueberry:{}, Cherry:{}, Strawberry:{}, Watermelon:{}}
+  var jonahRooms = { Blueberry:{}, Cherry:{}, Strawberry:{}, Watermelon:{} }
+  var tinaRooms = { Banana:{}, Mango:{} }
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
     socket.on('giveMeARoom', ()=>{
@@ -90,8 +93,46 @@ if (module === require.main) {
       }
     })
 
+    socket.on('singleTrainingRoom', ()=>{
+      var robotJoined = false
+      for (var room in tinaRooms){
+        if (Object.keys(tinaRooms[room]).length < 2){
+          tinaRooms[room][socket.id] = true
+          robotJoined = true
+          socket.join(room)
+          socket.emit("trainingRoomAssigned", room)
+          backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, null))
+          break;
+        }
+      }
+      if (!robotJoined){
+        console.log("too many players")
+      }
+    })
+
     socket.on('test', (code, room)=> {
       console.log("testing")
+    })
+
+    socket.on('setTestRobot', (roomName, testRobots) => {
+      //need a different submit button for training mode
+      // console.log('test robot', testRobots)
+      backendStore.dispatch(AddOrUpdatePlayer(roomName, testRobots.id, null))
+    })
+
+    socket.on('sendTrainingCode', (code, room, userName, testRobots)=> {
+      var testRoboFunc = eval(testRobots.code)
+      var testRoboInstance = testRoboFunc()
+
+      var roboFunc = eval(code)
+      var roboInstance = roboFunc()
+      var robotProtos = Object.getPrototypeOf(roboInstance)
+      Object.keys(robotProtos).forEach(robotProto => {
+        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
+      })
+      // update player when they have submitted code
+      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance, userName))
+      backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRoboInstance))
     })
 
     socket.on('sendCode', (code, room)=> {

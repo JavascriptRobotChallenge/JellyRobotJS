@@ -20,11 +20,11 @@ router.param('robotId', (req, res, next, userId) => {
 })
 
 router.route('/')
-// .get(mustBeLoggedIn, (req, res, next) => {
-//   req.targetUser['get' + req.addressType]()
-//   .then(shippingInfos => res.json(shippingInfos))
-//   .catch(next)
-// })
+.get(mustBeLoggedIn, (req, res, next) => {
+  Robot.findOne({ where: {robotName: req.query.robotName} })
+  .then(testRobot => res.json(testRobot))
+  .catch(next)
+})
 .post(mustBeLoggedIn, (req, res, next) => {
   let robotToCreate = Object.assign({}, req.body, {user_id: req.targetUser.id})
   Robot.create(robotToCreate)
