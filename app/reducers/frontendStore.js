@@ -1,5 +1,6 @@
 import axios from 'axios'
 const _ = require('lodash')
+import socket from '../socket'
 
 var initialState = {
   room: '',
@@ -40,6 +41,7 @@ export const GetTestRobots = () => dispatch => {
   axios.get(`/api/robots/testRobots`)
   .then(response => {
     var robots = response.data
+    socket.emit('setTestRobot', robots)
     dispatch(GotTestRobots(robots))
   })
   .catch(err => console.error(`Getting test robot was unsuccessful`, err))

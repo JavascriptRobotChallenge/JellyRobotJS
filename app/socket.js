@@ -15,11 +15,8 @@ socket.on('roomAssigned', function(myRoom){
 
 socket.on('trainingRoomAssigned', function(myRoom) {
   store.dispatch(AssignRoom(myRoom))
-  const testRobots = store.getState().gameData.testRobots
   const room = store.getState().gameData.room
   console.log('trainingRoomAssigned', myRoom)
-
-  socket.emit('setTestRobot', room, testRobots)
 })
 
 
@@ -29,13 +26,10 @@ socket.on('serverUpdate', function(data){
 
 socket.on('gameOver', function(loser){
   if ((socket.id)===loser){
-    const room = store.getState().gameData.room
-    console.log('room', room)
-    socket.emit('leaveRoom', room)
+    socket.emit('leaveRoom')
     browserHistory.push('/loss');
   } else {
-    const room = store.getState().gameData.room
-    socket.emit('leaveRoom', room)
+    socket.emit('leaveRoom')
     browserHistory.push('/win');
   }
 })

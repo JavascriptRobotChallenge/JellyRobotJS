@@ -31,6 +31,7 @@ const reducer = ( state = initialState, action) => {
         newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699),
           theta: 0, robotInstance: action.robotInstance, health: 10, fireTime:0, walkTime:0,
           color: (action.robotInstance) ? action.robotInstance.color : 'red' }
+          // console.log('newstate in adding player', newState)
         return newState
       }
     case "RemovePlayer":
@@ -41,6 +42,7 @@ const reducer = ( state = initialState, action) => {
           }
         }
       }
+      // console.log('newstate after delete', newState)
       return newState
     case "UpdateWalkTime":
       newState[action.roomName][action.socketId].walkTime = Date.now() + 29

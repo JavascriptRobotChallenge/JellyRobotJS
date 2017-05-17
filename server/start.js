@@ -93,11 +93,12 @@ if (module === require.main) {
       }
     })
 
-    socket.on('singleTrainingRoom', ()=>{
+    socket.on('singleTrainingRoom', () => {
       var robotJoined = false
+      // console.log('tina rooms backend', backendStore.getState())
       for (var room in tinaRooms){
-        console.log('object keys in tina rooms', room, (Object.keys(tinaRooms[room])))
-        if (Object.keys(tinaRooms[room]).length < 1){
+        // console.log('object keys in tina rooms', room, (Object.keys(tinaRooms[room])))
+        if (Object.keys(tinaRooms[room]).length < 2){
           tinaRooms[room][socket.id] = true
           robotJoined = true
           socket.join(room)
@@ -111,12 +112,12 @@ if (module === require.main) {
       }
     })
 
-    socket.on('test', (code, room)=> {
-      console.log("testing")
-    })
-
-    socket.on('setTestRobot', (roomName, testRobots) => {
-      backendStore.dispatch(AddOrUpdatePlayer(roomName, testRobots.id, null))
+    socket.on('setTestRobot', (testRobots) => {
+      for (var room in tinaRooms){
+          tinaRooms[room][testRobots.id] = true;
+          backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, null))
+      }
+      console.log('tina rooms', tinaRooms)
     })
 
     socket.on('sendTrainingCode', (room, code, testRobots)=> {
@@ -137,7 +138,6 @@ if (module === require.main) {
     socket.on('sendCode', (room, code)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
-      console.log(roboInstance.color, 'here is the color!!!!!')
       var robotProtos = Object.getPrototypeOf(roboInstance)
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
@@ -147,21 +147,43 @@ if (module === require.main) {
     })
 
 
-    socket.on('leaveRoom', function(room) {
-      console.log('disconnecting...', room)
-      socket.leave(room)
+    socket.on('leaveRoom', function() {
+      //this removes players from tina/jonah rooms which is equivalent to using socket.leave
+      console.log('leaving room disconnecting...', room)
+      for (var room in jonahRooms){
+        for (var robot in jonahRooms[room]){
+          if (socket.id === robot){
+            delete jonahRooms[room][robot]
+          }
+        }
+      }
+      for (var tinaRoom in tinaRooms){
+        for (var tinaRobot in tinaRooms[tinaRoom]){
+          if (socket.id === tinaRobot){
+            delete tinaRooms[tinaRoom][tinaRobot]
+          }
+        }
+      }
       backendStore.dispatch(RemovePlayer(socket.id))
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
     })
 
 
     socket.on('disconnect', function() {
+      //this does the same as leave room but for players who disconnect
       var storeState = backendStore.getState().robots
       for (var room in jonahRooms){
         for (var robot in jonahRooms[room]){
-          if (socket.id===robot){
+          if (socket.id === robot){
             delete jonahRooms[room][robot]
-            io.sockets.to(room).emit("tie")
+            io.sockets.to(room).emit('tie')
+          }
+        }
+      }
+      for (var tinaRoom in tinaRooms){
+        for (var tinaRobot in tinaRooms[tinaRoom]){
+          if (socket.id === tinaRobot){
+            delete tinaRooms[tinaRoom][tinaRobot]
           }
         }
       }
