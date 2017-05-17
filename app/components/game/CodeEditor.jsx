@@ -41,7 +41,6 @@ class CodeEditor extends React.Component {
     const code = this.state.previousInput
     const userName = this.props.user.name
     const room = this.props.room
-    $('.glyphicon-chevron-down').trigger('click');
     socket.emit('sendCode', code, room, userName)
   }
 

@@ -42,6 +42,10 @@
 }
 
 /*----/GAME PAGE EDITORDOCS----*/
+.editor-docs {
+
+}
+
 .chat li .chat-body p {
     margin: 0;
     color: #777777;
@@ -102,7 +106,8 @@
 
 /*----ACTUAL DOCS PAGE----*/
 .docs-container {
-  margin: 70px 400px;
+  margin-left: 400px;
+  margin-right: 400px;
 }
 
 .docs-container .header-title {
@@ -174,6 +179,5 @@
 
 /*----TRAINING MODE----*/
 .training-header{
-  margin-top: 70px;
   text-align: center;
 }
