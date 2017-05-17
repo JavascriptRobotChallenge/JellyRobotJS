@@ -15,9 +15,14 @@ var startingCode =
   SubRobot.prototype = Object.create(RobotClass.prototype)
   //ToDo: call functions with roomName and PlayerId so we know
   // which robot to move
+  var i = 0;
   SubRobot.prototype.start = function(roomName, playerId){
     this.walkForward(roomName, playerId)
     this.walkTowardOpponent(roomName, playerId)
+    if(i % 15 === 0){
+        this.addRotation(roomName, playerId, 15)
+    }
+    i++;
   }
 
   return new SubRobot()
