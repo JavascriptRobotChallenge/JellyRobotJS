@@ -56,7 +56,6 @@ router.route('/:userId')
   .catch(next)
 })
 
-router.use('/:userId/robots', require('./robots'))
 
 // module.exports = require('express').Router()
 //   .get('/',

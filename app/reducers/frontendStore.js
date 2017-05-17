@@ -36,10 +36,8 @@ export const SaveRobot = (robotName, code, userId) => dispatch => {
   .catch(err => console.error(`Saving robot unsuccesful`, err))
 }
 
-export const GetTestRobots = (robotName) => dispatch => {
-  axios.get(`/api/users/1/robots/`, {
-    params: { robotName: robotName }
-  })
+export const GetTestRobots = () => dispatch => {
+  axios.get(`/api/robots/testRobots`)
   .then(response => {
     var robots = response.data
     dispatch(GotTestRobots(robots))

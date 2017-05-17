@@ -22,7 +22,7 @@ import {whoami} from './reducers/auth'
 import {GetTestRobots} from './reducers/frontendStore'
 
 const onMainEnter = () => {
-  store.dispatch(GetTestRobots('EasyRobot'))
+  store.dispatch(GetTestRobots())
   return store.dispatch(whoami())
 }
 

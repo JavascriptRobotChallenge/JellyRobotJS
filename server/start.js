@@ -83,30 +83,31 @@ if (module === require.main) {
           jonahRooms[room][socket.id] = true
           robotJoined = true
           socket.join(room)
-          socket.emit("roomAssigned", room)
+          socket.emit('roomAssigned', room)
           backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, null))
           break;
         }
       }
       if (!robotJoined){
-        console.log("toomany players")
+        console.log('too many players in multiplayer')
       }
     })
 
     socket.on('singleTrainingRoom', ()=>{
       var robotJoined = false
       for (var room in tinaRooms){
-        if (Object.keys(tinaRooms[room]).length < 2){
+        console.log('object keys in tina rooms', room, (Object.keys(tinaRooms[room])))
+        if (Object.keys(tinaRooms[room]).length < 1){
           tinaRooms[room][socket.id] = true
           robotJoined = true
           socket.join(room)
-          socket.emit("trainingRoomAssigned", room)
+          socket.emit('trainingRoomAssigned', room)
           backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, null))
           break;
         }
       }
       if (!robotJoined){
-        console.log("too many players")
+        console.log('too many training room players')
       }
     })
 
@@ -115,12 +116,10 @@ if (module === require.main) {
     })
 
     socket.on('setTestRobot', (roomName, testRobots) => {
-      //need a different submit button for training mode
-      // console.log('test robot', testRobots)
       backendStore.dispatch(AddOrUpdatePlayer(roomName, testRobots.id, null))
     })
 
-    socket.on('sendTrainingCode', (code, room, userName, testRobots)=> {
+    socket.on('sendTrainingCode', (room, code, testRobots)=> {
       var testRoboFunc = eval(testRobots.code)
       var testRoboInstance = testRoboFunc()
 
@@ -130,12 +129,12 @@ if (module === require.main) {
       Object.keys(robotProtos).forEach(robotProto => {
         RobotClass.prototype.on(robotProto, robotProtos[robotProto])
       })
-      // update player when they have submitted code
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance, userName))
+      //evaluates both test robot and player code
+      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
       backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRoboInstance))
     })
 
-    socket.on('sendCode', (code, room)=> {
+    socket.on('sendCode', (room, code)=> {
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
       console.log(roboInstance.color, 'here is the color!!!!!')
@@ -148,16 +147,9 @@ if (module === require.main) {
     })
 
 
-    socket.on('leaveRoom', function() {
-      console.log("disconnecting...")
-      var storeState = backendStore.getState().robots
-      for (var room in jonahRooms){
-        for (var robot in jonahRooms[room]){
-          if (socket.id === robot){
-            delete jonahRooms[room][robot]
-        }
-      }
-    }
+    socket.on('leaveRoom', function(room) {
+      console.log('disconnecting...', room)
+      socket.leave(room)
       backendStore.dispatch(RemovePlayer(socket.id))
       backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
     })

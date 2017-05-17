@@ -19,12 +19,32 @@ router.param('robotId', (req, res, next, userId) => {
   .catch(next)
 })
 
-router.route('/')
-.get(mustBeLoggedIn, (req, res, next) => {
-  Robot.findOne({ where: {robotName: req.query.robotName} })
-  .then(testRobot => res.json(testRobot))
-  .catch(next)
+const EasyRobot = {id: 1, robotName: 'EasyRobot', code: `(function(){
+   function SubRobot(){
+       this.color = "red"
+    };
+
+  SubRobot.prototype = Object.create(RobotClass.prototype)
+  //ToDo: call functions with roomName and PlayerId so we know
+  // which robot to move
+  SubRobot.prototype.start = function(roomName, playerId){
+    this.rapidFire(roomName, playerId)
+    this.walkTowardOpponent(roomName, playerId)
+  }
+
+  return new SubRobot()
+})`, user_id: 1}
+
+router.get('/testRobots', (req, res, next) => {
+  res.send(EasyRobot)
 })
+
+router.route('/')
+// .get(mustBeLoggedIn, (req, res, next) => {
+//   // Robot.findOne({ where: {robotName: req.query.robotName} })
+//   // .then(testRobot => res.json(testRobot))
+//   res.send(EasyRobot)
+// })
 .post(mustBeLoggedIn, (req, res, next) => {
   let robotToCreate = Object.assign({}, req.body, {user_id: req.targetUser.id})
   Robot.create(robotToCreate)

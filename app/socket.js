@@ -17,7 +17,7 @@ socket.on('trainingRoomAssigned', function(myRoom) {
   store.dispatch(AssignRoom(myRoom))
   const testRobots = store.getState().gameData.testRobots
   const room = store.getState().gameData.room
-  console.log('testrobots on client', testRobots)
+  console.log('trainingRoomAssigned', myRoom)
 
   socket.emit('setTestRobot', room, testRobots)
 })
@@ -29,18 +29,20 @@ socket.on('serverUpdate', function(data){
 
 socket.on('gameOver', function(loser){
   if ((socket.id)===loser){
-    socket.emit("leaveRoom")
+    const room = store.getState().gameData.room
+    console.log('room', room)
+    socket.emit('leaveRoom', room)
     browserHistory.push('/loss');
-  }
-  else{
-    socket.emit("leaveRoom")
+  } else {
+    const room = store.getState().gameData.room
+    socket.emit('leaveRoom', room)
     browserHistory.push('/win');
   }
 })
 
-socket.on("tie",function(){
-  console.log("gotemit")
-  socket.emit("leaveRoom")
+socket.on('tie',function(){
+  const room = store.getState().gameData.room
+  socket.emit('leaveRoom', room)
   browserHistory.push('/tie');
 })
 

@@ -37,11 +37,9 @@ class CodeEditor extends React.Component {
   }
 
   onSubmit = () => {
-    console.log('hitting submit')
     const code = this.state.previousInput
-    const userName = this.props.user.name
     const room = this.props.room
-    socket.emit('sendCode', code, room, userName)
+    socket.emit('sendCode', room, code)
   }
 
   onSaveRobot = () => {

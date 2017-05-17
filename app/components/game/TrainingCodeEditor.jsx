@@ -40,9 +40,9 @@ class CodeEditor extends React.Component {
     $('.glyphicon-chevron-down').trigger('click');
     const testRobots = this.props.testRobots
     const code = this.state.previousInput
-    const userName = this.props.user.name
     const room = this.props.room
-    socket.emit('sendTrainingCode', code, room, userName, testRobots)
+
+    socket.emit('sendTrainingCode', room, code, testRobots)
   }
 
   onSaveRobot = () => {
