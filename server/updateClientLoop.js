@@ -120,20 +120,28 @@ function broadcastGameState(io){
             else {
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
               // var script = sandcastle.createScript(`exports = {\
-              //     start: function(){exit(roomName)}\
+              //     start: function(){exit(getActionQueue)}\
               //   }`);
 
 // exit('Hey ' + code + playerId + roomName + 'Hello world!')
         var SandCastle = require('sandcastle').SandCastle;
         var sandcastle = new SandCastle({api: './server/APIexports.js'});
-              var script = sandcastle.createScript(`exports = {\
-                  start: function(){walkForward(roomName,playerId); exit(code) }\
+              var script = sandcastle.createScript(`exports = {
+                  start: function(){ setup(initialState) ; walkForward(roomName, playerId) ; exit(getActionQueue()) }
                 }`);
-              script.run("start", {code: code, playerId:playerArr[i],roomName:roomName});
+              script.run("start", {
+                code: code,
+                playerId:playerArr[i],
+                roomName:roomName,
+                initialState: backendStore.getState(),
+              });
             console.log('robot position: ', robot.x, robot.z)
 
               script.on('exit', function(err, output, methodName) {
-                  console.log('output ', output, err); // Hello World!
+                  console.log('output ', output, typeof output, 'err', err); // Hello World!
+                  output.forEach(action => {
+                    backendStore.dispatch(action)
+                  })
               });
 
               // take note that a single script should only be

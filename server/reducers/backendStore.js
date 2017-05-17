@@ -1,8 +1,8 @@
-const {createStore} = require('redux')
+const redux = require('redux')
 
 const rootReducer  = require('./indexReducer.js')
 
-const backendStore = createStore(
+const backendStore = redux.createStore(
   rootReducer
 );
 

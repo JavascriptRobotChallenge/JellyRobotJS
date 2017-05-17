@@ -14,8 +14,9 @@ const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
-const apiExports= require('./APIexports')
 
+
+backendStore.dispatch(AddOrUpdatePlayer('Blueberry', 5, "walkForward()"))
 
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
 
