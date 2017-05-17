@@ -15,7 +15,7 @@ const MoveForward = (roomName) => {
 }
 
 // positions for walls and boxes
-function checkProjectilesToRemove() {
+function checkProjectilesToRemove(io) {
   var robotsObj = backendStore.getState().robots
   var projectileObjRooms = backendStore.getState().projectiles
 
@@ -41,6 +41,7 @@ function checkProjectilesToRemove() {
             backendStore.dispatch(DecreaseHealth(room, robotID, projectile.strength))
             backendStore.dispatch(RemoveProjectile(room, projectileId))
             if (robot.health < 1) {
+              io.sockets.to(room).emit('gameOver',robotID);
               // io.emit("gameOver",robotID)
             }
           }
@@ -80,15 +81,26 @@ function broadcastGameState(io){
             }
             ///if the robot hits a box
             else if ((robot.x < 140 && robot.x > -140 && robot.z < 140 && robot.z > -140) || (robot.x > 148 && robot.x < 332 && robot.z < 92 && robot.z > -92)) {
-              if (robot.x > 134 && robot.x < 140 || robot.x > 327 && robot.x < 332 ) {
+
+              //if hit inside of boxes just go upwards (in z direction) could be combined with upward conditional below
+              if (robot.x > 134 && robot.x < 140||robot.x>148&&robot.x<153){
+                robot.robotInstance.leaveWall(roomName,playerArr[i],0)
+              } 
+              //hit the side (x) of box and go in positive x direction
+              else if (robot.x > 327 && robot.x < 332 ) {
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 0.5 * Math.PI )
               }
-              else if (robot.x < -134 && robot.x > -140 || robot.x < 153 && robot.x > 148 ) {
+
+              //hit the negative x side of large box and move in negative x direction
+              else if (robot.x < -134 && robot.x > -140) {
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 1.5 * Math.PI)
               }
+
+              //hit the top (z) of either box and move in positive z direction
               else if (robot.z > 134 && robot.z < 140 || robot.z > 87 && robot.z < 92 ) {
                 robot.robotInstance.leaveWall(roomName, playerArr[i], 0)
               }
+              //hit the bottom(z) of either box and move in negative z direction
               else if (robot.z < -134 && robot.z > -140 || robot.z > -92 && robot.z < -87) {
                 robot.robotInstance.leaveWall(roomName, playerArr[i], Math.PI)
               }
@@ -97,7 +109,7 @@ function broadcastGameState(io){
               robot.robotInstance.start(roomName, playerArr[i])
             }
             MoveForward(roomName)
-            checkProjectilesToRemove()
+            checkProjectilesToRemove(io)
           }
         }
       }

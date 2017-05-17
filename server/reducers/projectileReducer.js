@@ -23,6 +23,16 @@ const reducer = ( state = initialState, action) => {
       case "RemoveProjectile":
         delete newState[action.roomName][action.projectileId]
         return newState
+      case "RemoveProjectilesOnLeave":
+      for (var room in newState){
+        for (var projectile in newState[room]){
+          ///this checks if the robot associated with the projectile matches the socket of the user that just left the room
+          if (newState[room][projectile].id===action.id){
+            delete newState[room][projectile]
+          }
+        }
+      }
+      return newState
     }
     return newState
 }
@@ -48,4 +58,9 @@ const MoveOneForward = (roomName, projectileId) => ({
   projectileId
 })
 
-module.exports = { reducer, FireProjectile, MoveOneForward, RemoveProjectile }
+const RemoveProjectilesOnLeave= (socketId) =>({
+  type:"RemoveProjectilesOnLeave",
+  id:socketId
+})
+
+module.exports = { reducer, FireProjectile, MoveOneForward, RemoveProjectile, RemoveProjectilesOnLeave }

@@ -1,10 +1,11 @@
 import store from './store'
 import { ServerUpdate, AssignRoom } from "./reducers/frontendStore"
+import { browserHistory } from 'react-router';
 
 const socket = io.connect()
 
 socket.on('connect', function(){
-  socket.emit('giveMeARoom')
+  // socket.emit('giveMeARoom')
 })
 
 socket.on('roomAssigned', function(myRoom){
@@ -16,8 +17,21 @@ socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))
 })
 
-socket.on('gameOver', function(data){
-  console.log("gamesoverdoeeeeee")
+socket.on('gameOver', function(loser){
+  if ((socket.id)===loser){
+    socket.emit("leaveRoom")
+    browserHistory.push('/loss');
+  }
+  else{
+    socket.emit("leaveRoom")
+    browserHistory.push('/win');
+  }
+})
+
+socket.on("tie",function(){
+  console.log("gotemit")
+  socket.emit("leaveRoom")
+  browserHistory.push('/tie');
 })
 
 export default socket;

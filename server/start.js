@@ -10,11 +10,14 @@ const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const RobotClass =  require('./RobotClass')
 const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
+const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
 
+
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
+
 
 const prettyError = new PrettyError
 prettyError.skipNodeFiles()
@@ -79,6 +82,7 @@ if (module === require.main) {
         if (Object.keys(jonahRooms[room]).length<2){
           jonahRooms[room][socket.id] = true
           robotJoined = true
+          console.log("thisisurroom",[room])
           socket.join(room)
           socket.emit("roomAssigned",room)
           backendStore.dispatch(AddOrUpdatePlayer(room,socket.id,null))
@@ -98,7 +102,17 @@ if (module === require.main) {
       // console.log("rooms",rooms)
       // console.log("myroomis",rooms[roomIndex])
     })
+
+    socket.on('test', (code, room)=> {
+      console.log("testing")
+    })
+
+
     socket.on('sendCode', (code, room)=> {
+
+
+
+
       var roboFunc = eval(code)
       var roboInstance = roboFunc()
       var robotProtos = Object.getPrototypeOf(roboInstance)
@@ -109,7 +123,8 @@ if (module === require.main) {
       backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
     })
 
-    socket.on('disconnect', function() {
+    socket.on('leaveRoom', function() {
+      console.log("disconnecting...")
     var storeState = backendStore.getState().robots
     for (var room in jonahRooms){
       for (var robot in jonahRooms[room]){
@@ -117,12 +132,35 @@ if (module === require.main) {
           delete jonahRooms[room][robot]
         }
       }
+      
     }
       // var store = store.leave
-      console.log("oldrooms",rooms)
+      // console.log("oldrooms",rooms)
       backendStore.dispatch(RemovePlayer(socket.id))
-      console.log("newroom",rooms)
-      console.log("plz",io.sockets.adapter.rooms)
+      backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
+      // console.log("newroom",rooms)
+      // console.log("plz",io.sockets.adapter.rooms)
+      // users--  
+    })
+
+
+    socket.on('disconnect', function() {
+      console.log("disconnecting...")
+    var storeState = backendStore.getState().robots
+    for (var room in jonahRooms){
+      for (var robot in jonahRooms[room]){
+        if (socket.id===robot){
+          delete jonahRooms[room][robot]
+          io.sockets.to(room).emit("tie")
+        }
+      }
+    }
+      // var store = store.leave
+      // console.log("oldrooms",rooms)
+      backendStore.dispatch(RemovePlayer(socket.id))
+      backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
+      // console.log("newroom",rooms)
+      // console.log("plz",io.sockets.adapter.rooms)
       // users--  
     })
   })
