@@ -1,12 +1,20 @@
-const backendStore = require('./reducers/backendStore.js');
+const backendStore = require('./reducers/backendStore')
 const { robotReducer } = require('./reducers/robotReducer.js');
 const SERVER_UPDATE_RATE = 33;
 const { Rotation, WalkForward, DecreaseHealth } = require("./reducers/robotReducer")
 const { MoveOneForward, RemoveProjectile } = require("./reducers/projectileReducer")
-const { leaveWall } = require("./APIexports")
 const async = require("async")
-var SandCastle = require('sandcastle').SandCastle;
-var sandcastle = new SandCastle({api: './server/APIexports.js'});
+
+const leaveWall = function(roomName, playerId, theta) {
+  backendStore.dispatch( SetRotation(roomName, playerId, theta) )
+  backendStore.dispatch( WalkAwayFromWall(roomName, playerId) )
+}
+const fire = function(roomName, playerId, theta, strength, reloadTime){
+  if ( Date.now() > backendStore.getState().robots[roomName][playerId].fireTime ) {
+    backendStore.dispatch(FireProjectile(roomName, playerId, backendStore.getState().robots[roomName][playerId], theta, strength))
+    backendStore.dispatch(UpdateFireTime(roomName, playerId, Date.now() + reloadTime * 1000))
+  }
+}
 
 let io;
 let gameLoop;
@@ -110,13 +118,22 @@ function broadcastGameState(io){
               }
             }
             else {
-              // function(` + roomName + ',' + playerArr[i] + '){' + backendStore.getState().robots[roomName][playerArr[i]].code + `
-              var script = sandcastle.createScript(`function(` + roomName + ',' + playerArr[i] + '){' + backendStore.getState().robots[roomName][playerArr[i]].code + `exit('start called')}`);
-              script.run();
-              console.log('robot position: ', robot.x, robot.z)
+              var code = backendStore.getState().robots[roomName][playerArr[i]].code;
+              // var script = sandcastle.createScript(`exports = {\
+              //     start: function(){exit(roomName)}\
+              //   }`);
+
+// exit('Hey ' + code + playerId + roomName + 'Hello world!')
+        var SandCastle = require('sandcastle').SandCastle;
+        var sandcastle = new SandCastle({api: './server/APIexports.js'});
+              var script = sandcastle.createScript(`exports = {\
+                  start: function(){walkForward(roomName,playerId); exit(code) }\
+                }`);
+              script.run("start", {code: code, playerId:playerArr[i],roomName:roomName});
+            console.log('robot position: ', robot.x, robot.z)
 
               script.on('exit', function(err, output, methodName) {
-                  console.log('output ', output); // Hello World!
+                  console.log('output ', output, err); // Hello World!
               });
 
               // take note that a single script should only be

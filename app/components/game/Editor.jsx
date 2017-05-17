@@ -7,7 +7,7 @@ import socket from '../../socket';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
-var startingCode =`walkForward(roomName, playerId)`
+var startingCode =`walkForward(roomName, playerId);`
 var inputCode = startingCode
 
 export default class Editor extends React.Component {

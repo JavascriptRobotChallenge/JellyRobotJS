@@ -1,14 +1,4 @@
-const leaveWall = function(roomName, playerId, theta) {
-  backendStore.dispatch( SetRotation(roomName, playerId, theta) )
-  backendStore.dispatch( WalkAwayFromWall(roomName, playerId) )
-}
-const fire = function(roomName, playerId, theta, strength, reloadTime){
-  if ( Date.now() > backendStore.getState().robots[roomName][playerId].fireTime ) {
-    backendStore.dispatch(FireProjectile(roomName, playerId, backendStore.getState().robots[roomName][playerId], theta, strength))
-    backendStore.dispatch(UpdateFireTime(roomName, playerId, Date.now() + reloadTime * 1000))
-  }
-}
-
+var backendStore = require("./reducers/backendStore")
 exports.api = {
   distanceBetween: function(arrOne, arrTwo){
     return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
@@ -136,5 +126,3 @@ exports.api = {
     }
   }
 }
-
-module.exports = leaveWall
