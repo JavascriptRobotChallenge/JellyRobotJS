@@ -1,8 +1,9 @@
 const backendStore = require('./reducers/backendStore')
 const { robotReducer } = require('./reducers/robotReducer.js');
 const SERVER_UPDATE_RATE = 33;
-const { Rotation, WalkForward, DecreaseHealth } = require("./reducers/robotReducer")
-const { MoveOneForward, RemoveProjectile } = require("./reducers/projectileReducer")
+var { FireProjectile, RemoveProjectile, MoveOneForward, RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
+var { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("./reducers/robotReducer")
+
 const async = require("async")
 
 const leaveWall = function(roomName, playerId, theta) {
@@ -119,23 +120,22 @@ function broadcastGameState(io){
             }
             else {
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
-              // var script = sandcastle.createScript(`exports = {\
-              //     start: function(){exit(getActionQueue)}\
-              //   }`);
 
-// exit('Hey ' + code + playerId + roomName + 'Hello world!')
-        var SandCastle = require('sandcastle').SandCastle;
-        var sandcastle = new SandCastle({api: './server/APIexports.js'});
+              var SandCastle = require('sandcastle').SandCastle;
+              var sandcastle = new SandCastle({api: './server/APIexports.js'});
+
               var script = sandcastle.createScript(`exports = {
                   start: function(){ setup(initialState) ; walkForward(roomName, playerId) ; exit(getActionQueue()) }
-                }`);
+              }`);
+
               script.run("start", {
                 code: code,
                 playerId:playerArr[i],
                 roomName:roomName,
                 initialState: backendStore.getState(),
               });
-            console.log('robot position: ', robot.x, robot.z)
+
+              console.log('robot position: ', robot.x, robot.z)
 
               script.on('exit', function(err, output, methodName) {
                   console.log('output ', output, typeof output, 'err', err); // Hello World!
