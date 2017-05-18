@@ -13,21 +13,14 @@ exports.api = {
     sandboxStore = redux.createStore(
       require("../../../server/reducers/indexReducer"),
       initialState,
-      redux.applyMiddleware(function(store){
-        return function(next){
-          return function(action){
-            actionQueue.push(action)
-            return next(action)
-          }
-        }
-      }))
+      null)
   },
   distanceBetween: function(arrOne, arrTwo){
     return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
   },
   setRotation: function(roomName, playerId, theta) {
     console.log('inside set rotation')
-    sandboxStore.dispatch( SetRotation(roomName, playerId, theta) )
+    actionQueue.push( SetRotation(roomName, playerId, theta) )
   },
   angleBetween: function(arrOne,arrTwo){
     var xDiff = arrTwo[0] - arrOne[0]
@@ -105,19 +98,19 @@ exports.api = {
   },
   addRotation: function(roomName, playerId, degrees) {
     var theta = degrees *.0174533
-    sandboxStore.dispatch( AddRotation(roomName, playerId, theta) )
-    sandboxStore.dispatch( WalkForward(roomName, playerId) )
+    actionQueue.push( AddRotation(roomName, playerId, theta) )
+    actionQueue.push( WalkForward(roomName, playerId) )
   },
   walkForward: function(roomName, playerId) {
     if ( Date.now() > sandboxStore.getState().robots[roomName][playerId].walkTime ) {
-      sandboxStore.dispatch( WalkForward(roomName, playerId) )
-      sandboxStore.dispatch( UpdateWalkTime(roomName, playerId) )
+      actionQueue.push( WalkForward(roomName, playerId) )
+      actionQueue.push( UpdateWalkTime(roomName, playerId) )
     }
   },
   slowWalkForward:function(roomName, playerId) {
     if ( Date.now() > sandboxStore.getState().robots[roomName][playerId].walkTime ) {
-      sandboxStore.dispatch( WalkFollowSpeed(roomName, playerId) )
-      sandboxStore.dispatch( UpdateWalkTime(roomName, playerId) )
+      actionQueue.push( WalkFollowSpeed(roomName, playerId) )
+      actionQueue.push( UpdateWalkTime(roomName, playerId) )
     }
   },
   onBoxCollision:function(roomName, id){

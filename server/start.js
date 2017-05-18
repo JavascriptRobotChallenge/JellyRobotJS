@@ -157,6 +157,8 @@ if (module === require.main) {
   broadcastGameState(io);
 }
 
+module.exports = { app, scripts }
+
 // This check on line 64 is only starting the server if this file is being run directly by Node, and not required by another file.
 // Bones does this for testing reasons. If we're running our app in development or production, we've run it directly from Node using 'npm start'.
 // If we're testing, then we don't actually want to start the server; 'module === require.main' will luckily be false in that case, because we would be requiring in this file in our tests rather than running it directly.

@@ -125,13 +125,11 @@ function broadcastGameState(io){
               var sandcastle = new SandCastle({api: './server/APIexports.js'});
 
               var script = sandcastle.createScript(`exports = {
-                  start: function(){ setup(initialState) ; walkForward(roomName, playerId) ; exit(getActionQueue()) }
+                  start: function(){ setup(initialState) ; ${code}; exit(getActionQueue()) }
               }`);
 
               script.run("start", {
                 code: code,
-                playerId:playerArr[i],
-                roomName:roomName,
                 initialState: backendStore.getState(),
               });
 
