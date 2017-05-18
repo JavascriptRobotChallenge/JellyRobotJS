@@ -89,7 +89,7 @@ if (module === require.main) {
         }
       }
       if (!robotJoined){
-        console.log('too many players in multiplayer')
+        socket.emit('tooManyPlayers', 'Sorry, all the rooms are full! Please come back later.')
       }
     })
 
@@ -108,7 +108,7 @@ if (module === require.main) {
         }
       }
       if (!robotJoined){
-        console.log('too many training room players')
+        socket.emit('tooManyPlayers', 'Sorry, all the rooms are full! Please come back later.')
       }
     })
 
@@ -117,7 +117,6 @@ if (module === require.main) {
           tinaRooms[room][testRobots.id] = true;
           backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, null))
       }
-      console.log('tina rooms', tinaRooms)
     })
 
     socket.on('sendTrainingCode', (room, code, testRobots)=> {
