@@ -7,26 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-`(function(){
-   function SubRobot(){
-       this.color = "red"
-    };
-
-  SubRobot.prototype = Object.create(RobotClass.prototype)
-  //ToDo: call functions with roomName and PlayerId so we know
-  // which robot to move
-  var i = 0;
-  SubRobot.prototype.start = function(roomName, playerId){
-    this.walkForward(roomName, playerId)
-    this.walkTowardOpponent(roomName, playerId)
-    if(i % 15 === 0){
-        this.addRotation(roomName, playerId, 15)
-    }
-    i++;
-  }
-
-  return new SubRobot()
-})`
+`walkForward(roomName, playerId)`
 var inputCode = startingCode
 
 class CodeEditor extends React.Component {
