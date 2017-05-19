@@ -3,6 +3,7 @@ var { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWa
 
 let sandboxStore
 let actionQueue = []
+var counter = 0;
 
 function fire(roomName, playerId, theta, strength, reloadTime){
   if ( Date.now() > sandboxStore.robots[playerId].fireTime ) {
@@ -12,6 +13,12 @@ function fire(roomName, playerId, theta, strength, reloadTime){
 }
 
 exports.api = {
+  getCounter:function(roomName,playerId){
+    return sandboxStore.robots[playerId].counter
+  },
+  incrementCounter: function(roomName,playerId){
+    actionQueue.push({type:"IncrementCounter", roomName: roomName, socketId: playerId })
+  },
   getActionQueue: function(){
     return actionQueue
   },
@@ -19,7 +26,7 @@ exports.api = {
     sandboxStore = initialState
   },
   distanceBetween: function(arrOne, arrTwo){
-    return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
+    return Math.sqrt(Math.pow(arrTwo[0] - arrOne[0],2)+(Math.pow(arrTwo[1] - arrOne[1]),2))
   },
   setRotation: function(roomName, playerId, theta) {
     actionQueue.push( SetRotation(roomName, playerId, theta) )
@@ -67,7 +74,7 @@ exports.api = {
     fire(roomName, playerId, radAngle, 1, 5 )
   },
   rapidFire: function(roomName, playerId){
-    fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.1)
+    fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.2)
   },
   devastator: function(roomName,playerId){
     // console.log("devestatorunloaded")

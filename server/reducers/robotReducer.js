@@ -20,14 +20,13 @@ var initialState = {
 }
 
 const reducer = ( state = initialState, action) => {
-  const newState = _.merge({}, state)
-  Object.freeze(state)
+  const newState = state
   switch (action.type) {
     case "AddOrUpdatePlayer":
       if(!action.roomName){
         return newState
       } else {
-        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: Math.random() * 2 * Math.PI, code: action.code, health: 10, fireTime:0, walkTime:0 }
+        newState[action.roomName][action.socketId] = { x: getRandomInt(-699, 699), y: 0, z: getRandomInt(-699, 699), theta: Math.random() * 2 * Math.PI, code: action.code, health: 10, fireTime:0, walkTime:0, counter:0 }
         return newState
       }
     case "RemovePlayer":
@@ -38,6 +37,9 @@ const reducer = ( state = initialState, action) => {
           }
         }
       }
+      return newState
+    case "IncrementCounter":
+      newState[action.roomName][action.socketId].counter = ++newState[action.roomName][action.socketId].counter
       return newState
     case "UpdateWalkTime":
       newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].walkTime = Date.now() + 29)
