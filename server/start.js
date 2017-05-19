@@ -9,7 +9,7 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const { FireProjectile, RemoveProjectile, MoveOneForward, RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
-const { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("./reducers/robotReducer")
+const { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, SetUserName, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("./reducers/robotReducer")
 const scripts = require('./scripts')
 
 const SandCastle = require('sandcastle').SandCastle
@@ -79,7 +79,8 @@ if (module === require.main) {
   var singlePlayerRooms = { Banana:{}, Mango:{} }
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
-    socket.on('giveMeARoom', ()=>{
+    socket.on('giveMeARoom', (user)=>{
+      console.log(user, 'here is the user if he exists')
       var robotJoined = false
       for (var room in multiPlayerRooms){
         if (Object.keys(multiPlayerRooms[room]).length<2){
@@ -88,6 +89,7 @@ if (module === require.main) {
           socket.join(room)
           socket.emit('roomAssigned', room)
           backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, null))
+          backendStore.dispatch(SetUserName(room, socket.id, user))
           break;
         }
       }

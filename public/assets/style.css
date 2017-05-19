@@ -193,3 +193,114 @@
 .training-header{
     text-align: center;
 }
+
+.healthbar {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+
+    padding: 10px;
+    /*background: deepskyblue;*/
+}
+
+.chart-wrapper{
+    position: relative;
+}
+
+.pulse{
+    animation-iteration-count: infinite;
+}
+
+.icon-wrapper{
+    position: absolute;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+    background: orange;
+    padding-top: 13px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+}
+
+.health-bar{
+    position: absolute;
+    z-index: 0;
+    top: 11px;
+    left: 35px;
+
+    width: 250px;
+    height: 40px;
+    border: 2px solid #fff;
+    border-radius: 20px;
+
+    padding: 7px;
+
+    background: #ffa500;
+    background: -moz-linear-gradient(-45deg,  #ffa500 47%, #ff4500 47%);
+    background: -webkit-linear-gradient(-45deg,  #ffa500 47%,#ff4500 47%);
+    background: linear-gradient(135deg,  #ffa500 47%,#ff4500 47%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa500', endColorstr='#ff4500',GradientType=1 );
+}
+
+.percentage{
+    width: 99%;
+    margin: 0 auto;
+    background: olive;
+
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 15px;
+}
+
+/********************************scoreboard*******************/
+.score-board {
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+#scoreboard {
+    max-width: 640px;
+    margin: auto;
+    padding: 1em 2em;
+    background: transparent;
+    text-transform: uppercase;
+    color: black;
+    border-radius: 0 0 10px 10px;
+}
+#scoreboard h1 {
+    display: inline-block;
+}
+#scoreboard .score {
+    float: left;
+    margin-top: 1em;
+    border: 2px solid #000000;
+    padding: 20px;
+    background: lightsteelblue;
+}
+#scoreboard .score:last-of-type {
+    float: right;
+}
+#scoreboard .score div {
+    padding: 0;
+    font-size: 3em;
+    margin-bottom: 10px;
+    overflow: hidden;
+    font-size: 3em;
+    background: #000;
+    border: solid thick #fff;
+    font-family: 'Share Tech Mono', monospace;
+    color: orange;
+}
+#scoreboard .score div span {
+    display: inline-block;
+    padding: .25em .5em;
+}
+#scoreboard::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+

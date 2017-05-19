@@ -5,8 +5,8 @@ import store from "../../store"
 export default class Healthbar extends React.Component{
   constructor(props){
     super(props)
-    this.state ={
-      robots:store.getState().gameData.server.robots
+    this.state = {
+      robots: store.getState().gameData.server.robots
     }
   }
 
@@ -20,20 +20,39 @@ export default class Healthbar extends React.Component{
   componentWillUnmount(){
     this.unsubscribe()
   }
+// <Line percent={this.state.robots[robotID].health*10} key={robotID} strokeWidth="1" strokeColor="#42f471"/>
 
   render(){
+    console.log('this is the store right now', store.getState().gameData)
     var robots;
-    if (Object.keys(this.state.robots).length) {
+    // if (Object.keys(this.state.robots).length) {
       robots = Object.keys(this.state.robots)
-      var healthBars = robots.map(robotID => {
-        return ((this.state.robots[robotID].health) ?
-        <Line percent={this.state.robots[robotID].health*10} key={robotID} strokeWidth="1" strokeColor="#42f471"/>
-        : <div/>
-        )
-      })
-    }
+      // var healthBars = robots.map(robotID => {
+      //   return ((this.state.robots[robotID].health) ?
+      //       <div/>
+      //   : <div/>
+      //   )
+      // })
+    // }
     return(
-      <div> {healthBars} </div>
+        <div className="score-board">
+        <div id="scoreboard">
+          {
+             robots && robots.map(robotID => {
+              return ((this.state.robots[robotID].health) ?
+                  <div className="score" key={robotID}>
+                    <div id="user-score"><span className="animated">
+                      {this.state.robots[robotID].health * 10}
+                    </span></div>
+                    <h4>{ this.state.robots[robotID].userName &&
+                    this.state.robots[robotID].userName.name}</h4>
+                  </div>
+                  : <div/>
+              )
+            })
+          }
+        </div>
+        </div>
     )
 }
 }

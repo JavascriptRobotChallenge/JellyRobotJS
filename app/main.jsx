@@ -21,9 +21,20 @@ import Tie from './components/game/Tie'
 import {whoami} from './reducers/auth'
 import {GetTestRobots} from './reducers/frontendStore'
 
-const onMainEnter = () => {
+const onMainEnter = (nextState, replaceState, callback) => {
+  console.log(callback)
+  // console.log('room assigned: ', myRoom, ' with user:', user)
   store.dispatch(GetTestRobots())
-  return store.dispatch(whoami())
+  const who = store.dispatch(whoami())
+    return who.then(function(){
+      callback && callback()
+      const user = store.getState().auth.user
+      socket.emit('giveMeARoom', user)
+    })
+      .catch(err => {
+        console.log(err)
+        callback && callback()
+      })
 }
 
 const CanvasDelete = () => {
@@ -32,8 +43,7 @@ const CanvasDelete = () => {
 }
 
 const requireAuth = (nextState, replaceState, callback) => {
-  socket.emit('giveMeARoom')
-  onMainEnter().then(function(){
+  store.dispatch(whoami()).then(function(){
       callback()
       if (!Object.keys(store.getState().auth.user).length)
         browserHistory.push('/login')
@@ -43,6 +53,24 @@ const requireAuth = (nextState, replaceState, callback) => {
       callback()
     })
 }
+
+// const setUserName = (nextState, replaceState, callback) => {
+//
+//   onMainEnter().then(function(){
+//     callback()
+//     const user = store.getState().auth.user
+//     const room = store.getState().gameData.room
+//     socket.emit('sendUserName', room, user)
+//
+//     console.log('room assigned: ', room)
+//     console.log('socket on', room, user)
+//   })
+//     .catch(err => {
+//       console.log(err)
+//       callback()
+//     })
+//
+// }
 
 const onTrainingEnter = () => {
   socket.emit('singleTrainingRoom')
