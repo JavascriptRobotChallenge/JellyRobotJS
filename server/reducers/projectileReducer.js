@@ -10,9 +10,7 @@ var initialState = {
 }
 
 const reducer = ( state = initialState, action) => {
-  const newState = _.merge({}, state)
-  Object.freeze(state)
-
+  var newState = state
     switch (action.type) {
       case "FireProjectile":
         projectileId = Math.floor(Math.random()*98643785).toString(),

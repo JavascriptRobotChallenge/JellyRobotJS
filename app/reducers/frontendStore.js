@@ -9,9 +9,7 @@ var initialState = {
 }
 
 const reducer = ( state = initialState, action) => {
-  var newState = _.merge({}, state)
-  Object.freeze(state)
-
+  var newState = state
     switch (action.type) {
         case "AssignRoom":
           newState.room = action.room

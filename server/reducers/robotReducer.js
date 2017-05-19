@@ -20,8 +20,7 @@ var initialState = {
 }
 
 const reducer = ( state = initialState, action) => {
-  const newState = _.merge({}, state)
-  Object.freeze(state)
+  const newState = state
   switch (action.type) {
     case "AddOrUpdatePlayer":
       if(!action.roomName){
@@ -40,7 +39,6 @@ const reducer = ( state = initialState, action) => {
       }
       return newState
     case "IncrementCounter":
-      console.log('incrementing')
       newState[action.roomName][action.socketId].counter = ++newState[action.roomName][action.socketId].counter
       return newState
     case "UpdateWalkTime":

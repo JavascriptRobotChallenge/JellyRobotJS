@@ -74,7 +74,7 @@ exports.api = {
     fire(roomName, playerId, radAngle, 1, 5 )
   },
   rapidFire: function(roomName, playerId){
-    fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.1)
+    fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.2)
   },
   devastator: function(roomName,playerId){
     // console.log("devestatorunloaded")
