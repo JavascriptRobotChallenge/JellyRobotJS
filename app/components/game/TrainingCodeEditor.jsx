@@ -56,8 +56,9 @@ class CodeEditor extends React.Component {
                           mode="javascript"
                           theme="monokai"
                           onChange={this.onChange}
+                          fontSize={20}
                           height="800px"
-                          width="540px"
+                          width="700px"
                           name="ace-form"
                           value={this.state.previousInput}
                           defaultValue={startingCode}
