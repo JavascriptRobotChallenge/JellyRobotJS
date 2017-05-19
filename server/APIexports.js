@@ -22,7 +22,6 @@ exports.api = {
     return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
   },
   setRotation: function(roomName, playerId, theta) {
-    console.log('inside set rotation')
     actionQueue.push( SetRotation(roomName, playerId, theta) )
   },
   angleBetween: function(arrOne,arrTwo){
@@ -71,7 +70,7 @@ exports.api = {
     fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.1)
   },
   devastator: function(roomName,playerId){
-    console.log("devestatorunloaded")
+    // console.log("devestatorunloaded")
     var ownPosition = exports.api.getOwnPosition(roomName, playerId)
     var otherPlayersPosition = exports.api.findOpponent(roomName, playerId)
     if (otherPlayersPosition){

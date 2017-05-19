@@ -123,18 +123,53 @@ if (module === require.main) {
     })
 
     socket.on('sendTrainingCode', (room, code, testRobots)=> {
-      // var testRoboFunc = eval(testRobots.code)
-      // var testRoboInstance = testRoboFunc()
-      //
-      // var roboFunc = eval(code)
-      // var roboInstance = roboFunc()
-      // var robotProtos = Object.getPrototypeOf(roboInstance)
-      // Object.keys(robotProtos).forEach(robotProto => {
-      //   RobotClass.prototype.on(robotProto, robotProtos[robotProto])
-      // })
-      // //evaluates both test robot and player code
-      // backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
-      // backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRoboInstance))
+      scripts[socket.id] = sandcastle.createScript(`exports = {
+          start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
+      }`);
+      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+      // unsubscribe
+      scripts[socket.id].on('exit', function(err, output, methodName) {
+          // console.log('output ', output, typeof output, 'err', err); // Hello World!
+          if(err){
+            socket.emit('badCode')
+            backendStore.dispatch(WalkForward(room, socket.id))
+          } else {
+            // console.log(Date.now() - scripts.time[socket.id])
+            output && output.forEach(action => {
+              backendStore.dispatch(action)
+            })
+          }
+      });
+      scripts[socket.id].on('timeout', function(methodName) {
+        console.log('everyone is timing out')
+        backendStore.dispatch(WalkForward(room, socket.id))
+      })
+      console.log('GOOD PERSON CODE', code)
+      console.log('ROBOTS CODE', testRobots.code)
+
+      scripts[testRobots.id] = sandcastle.createScript(`exports = {
+      //     start: function(){ setup(initialState); ${testRobots.code}; exit(getActionQueue()) }
+      // }`);
+      backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRobots.code))
+      // unsubscribe
+      scripts[testRobots.id].on('exit', function(err, output, methodName) {
+          console.log('output ', output, typeof output, 'err', err); // Hello World!
+          if(err){
+            socket.emit('badCode')
+            // console.log('test robot bad code')
+            backendStore.dispatch(WalkForward(room, testRobots.id))
+          } else {
+            console.log(Date.now() - scripts.time[testRobots.id])
+            output && output.forEach(action => {
+              console.log('action in hur', action)
+              backendStore.dispatch(action)
+            })
+          }
+      });
+      scripts[testRobots.id].on('timeout', function(methodName) {
+        console.log('everyone is timing out')
+          backendStore.dispatch(WalkForward(room, testRobots.id))
+      });
     })
 
     socket.on('sendCode', (room, code)=> {

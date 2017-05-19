@@ -115,12 +115,12 @@ function broadcastGameState(io){
               let roomState = Object.assign({}, {robots: currRobots}, {projectiles: currProjectiles})
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
               scripts.time[playerArr[i]] = Date.now()
-              scripts[playerArr[i]].run("start", {
-                code: code,
-                initialState: roomState,
-                roomName: roomName,
-                playerId: playerArr[i]
-              });
+                scripts[playerArr[i]].run("start", {
+                  code: code,
+                  initialState: roomState,
+                  roomName: roomName,
+                  playerId: playerArr[i]
+                })
             }
             MoveForward(roomName)
             checkProjectilesToRemove(io)
