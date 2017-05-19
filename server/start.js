@@ -9,11 +9,15 @@ const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
 const RobotClass =  require('./RobotClass')
-const {AddOrUpdatePlayer, RemovePlayer} = require("./reducers/robotReducer")
-const {RemoveProjectilesOnLeave} = require("./reducers/projectileReducer")
+var { FireProjectile, RemoveProjectile, MoveOneForward, RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
+var { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("./reducers/robotReducer")
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
 const app = express()
+const scripts = require('./scripts')
+
+var SandCastle = require('sandcastle').SandCastle;
+var sandcastle = new SandCastle({api: './server/APIexports.js'});
 
 if (!pkg.isProduction && !pkg.isTesting) {  app.use(require('volleyball')) }
 
@@ -109,24 +113,52 @@ if (module === require.main) {
 
 
     socket.on('sendCode', (code, room)=> {
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
-    })
+          scripts[socket.id] = sandcastle.createScript(`exports = {
+              start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
+          }`);
+
+          backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+          // unsubscribe
+          scripts[socket.id].on('exit', function(err, output, methodName) {
+              console.log('output ', output, typeof output, 'err', err); // Hello World!
+              if(err){
+                socket.emit('badCode')
+                backendStore.dispatch(WalkForward(room, socket.id))
+              } else {
+                console.log(Date.now() - scripts.time[socket.id])
+
+                output && output.forEach(action => {
+                  backendStore.dispatch(action)
+                })
+              }
+          });
+
+          scripts[socket.id].on('timeout', function(methodName) {
+            console.log('everyone is timing out')
+              backendStore.dispatch(WalkForward(room, socket.id))
+          });
+        })
+
 
     socket.on('leaveRoom', function() {
       console.log("disconnecting...")
-    var storeState = backendStore.getState().robots
-    for (var room in jonahRooms){
-      for (var robot in jonahRooms[room]){
-        if (socket.id===robot){
-          delete jonahRooms[room][robot]
-        }
-      }
+      setTimeout(function(){
+        var storeState = backendStore.getState().robots
+        for (var room in jonahRooms){
+          for (var robot in jonahRooms[room]){
+            if (socket.id===robot){
+              delete jonahRooms[room][robot]
+            }
+          }
 
-    }
+        }
+        backendStore.dispatch(RemovePlayer(socket.id))
+        backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
+      }, 500)
+
       // var store = store.leave
       // console.log("oldrooms",rooms)
-      backendStore.dispatch(RemovePlayer(socket.id))
-      backendStore.dispatch(RemoveProjectilesOnLeave(socket.id))
+
       // console.log("newroom",rooms)
       // console.log("plz",io.sockets.adapter.rooms)
       // users--

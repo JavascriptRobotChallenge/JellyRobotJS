@@ -43,37 +43,37 @@ const reducer = ( state = initialState, action) => {
       console.log("newstate",newState)
       return newState
     case "UpdateWalkTime":
-      newState[action.roomName][action.socketId].walkTime = Date.now() + 29
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].walkTime = Date.now() + 29)
       return newState
     case "UpdateFireTime":
-      newState[action.roomName][action.socketId].fireTime = action.fireTime
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].fireTime = action.fireTime)
       return newState
     case "AddRotation":
-      newState[action.roomName][action.socketId].theta = newState[action.roomName][action.socketId].theta + action.theta
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].theta = newState[action.roomName][action.socketId].theta + action.theta)
       return newState
     case "WalkAwayFromWall":
-      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 10 * Math.sin(newState[action.roomName][action.socketId].theta)
-      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 10 * Math.cos(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 10 * Math.sin(newState[action.roomName][action.socketId].theta))
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 10 * Math.cos(newState[action.roomName][action.socketId].theta))
       return newState
     case "WalkForward":
       console.log('walking forward')
-      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 5 * Math.sin(newState[action.roomName][action.socketId].theta)
-      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 5 * Math.cos(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 5 * Math.sin(newState[action.roomName][action.socketId].theta)))
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 5 * Math.cos(newState[action.roomName][action.socketId].theta)))
       return newState
     case "WalkBackward":
-      newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x - Math.sin(newState[action.roomName][action.socketId].theta)
-      newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z - Math.cos(newState[action.roomName][action.socketId].theta)
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x - Math.sin(newState[action.roomName][action.socketId].theta))
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z - Math.cos(newState[action.roomName][action.socketId].theta))
       return newState
     case "DecreaseHealth":
-      newState[action.roomName][action.socketId].health -= action.strength
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].health -= action.strength)
       return newState
     case "SetRotation":
       console.log('inside set rotation reducer')
-      newState[action.roomName][action.socketId].theta = action.theta
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].theta = action.theta)
       return newState
     case "WalkFollowSpeed":
-    newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 3 * Math.sin(newState[action.roomName][action.socketId].theta)
-    newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 3 * Math.cos(newState[action.roomName][action.socketId].theta)
+    newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].x = newState[action.roomName][action.socketId].x + 3 * Math.sin(newState[action.roomName][action.socketId].theta))
+    newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 3 * Math.cos(newState[action.roomName][action.socketId].theta))
     return newState
     default:
       return newState

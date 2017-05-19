@@ -11,7 +11,7 @@ function Countdown(props){
         console.log("gameover")
         console.log("gameover")
     if(Object.keys(store.getState().gameData.server.robots)===2){
-        
+
     }
 }
 return(
@@ -19,7 +19,7 @@ return(
 <h1>heyy</h1>
 <ReactCountdownClock 
                      id="timer"
-                     seconds={25}
+                     seconds={200}
                      color="white"
                      alpha={1}
                      size={100}
@@ -49,7 +49,7 @@ import { connect } from 'react-redux'
 const mapStateToProps = (state) => {
     return {
         robots:state.gameData.server.robots
-    }   
+    }
 }
 
 

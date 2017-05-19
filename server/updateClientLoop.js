@@ -3,23 +3,18 @@ const { robotReducer } = require('./reducers/robotReducer.js');
 const SERVER_UPDATE_RATE = 33;
 var { FireProjectile, RemoveProjectile, MoveOneForward, RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
 var { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("./reducers/robotReducer")
-
+const scripts = require('./scripts')
 const async = require("async")
+
+
+
+let io;
+let gameLoop;
 
 const leaveWall = function(roomName, playerId, theta) {
   backendStore.dispatch( SetRotation(roomName, playerId, theta) )
   backendStore.dispatch( WalkAwayFromWall(roomName, playerId) )
 }
-const fire = function(roomName, playerId, theta, strength, reloadTime){
-  if ( Date.now() > backendStore.getState().robots[roomName][playerId].fireTime ) {
-    backendStore.dispatch(FireProjectile(roomName, playerId, backendStore.getState().robots[roomName][playerId], theta, strength))
-    backendStore.dispatch(UpdateFireTime(roomName, playerId, Date.now() + reloadTime * 1000))
-  }
-}
-
-let io;
-let gameLoop;
-
 const MoveForward = (roomName) => {
   var projectiles = backendStore.getState().projectiles[roomName]
   for(var projectile in projectiles) {
@@ -119,39 +114,18 @@ function broadcastGameState(io){
               }
             }
             else {
+              let currState = backendStore.getState()
+              let currRobots = currState.robots[roomName]
+              let currProjectiles = currState.projectiles[roomName]
+              let roomState = Object.assign({}, {robots: currRobots}, {projectiles: currProjectiles})
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
-
-              var SandCastle = require('sandcastle').SandCastle;
-              var sandcastle = new SandCastle({api: './server/APIexports.js'});
-
-              var script = sandcastle.createScript(`exports = {
-                  start: function(){ setup(initialState) ; ${code}; exit(getActionQueue()) }
-              }`);
-
-              script.run("start", {
+              scripts.time[playerArr[i]] = Date.now()
+              scripts[playerArr[i]].run("start", {
                 code: code,
-                initialState: backendStore.getState(),
+                initialState: roomState,
+                roomName: roomName,
+                playerId: playerArr[i]
               });
-
-              console.log('robot position: ', robot.x, robot.z)
-
-              script.on('exit', function(err, output, methodName) {
-                  console.log('output ', output, typeof output, 'err', err); // Hello World!
-                  output.forEach(action => {
-                    backendStore.dispatch(action)
-                  })
-              });
-
-              // take note that a single script should only be
-              // executing a single method at a time.
-
-
-
-              // var cb = null;
-              // async.eachLimit(['start', 'distanceBetween', 'hello'], 1, function(item, _cb) {
-              //   cb = _cb;
-              //   script.run(item, {name: 'Ben'});
-              // });
 
             }
             MoveForward(roomName)
