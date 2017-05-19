@@ -129,8 +129,9 @@ if (module === require.main) {
       backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
       // unsubscribe
       scripts[socket.id].on('exit', function(err, output, methodName) {
-          // console.log('output ', output, typeof output, 'err', err); // Hello World!
+          console.log('output ', output, typeof output, 'err', err); // Hello World!
           if(err){
+            console.log("badcode")
             socket.emit('badCode')
             backendStore.dispatch(WalkForward(room, socket.id))
           } else {
@@ -181,6 +182,7 @@ if (module === require.main) {
           } else {
             console.log(Date.now() - scripts.time[socket.id])
             output && output.forEach(action => {
+              console.log(' ACTIONNNN ', action)
               backendStore.dispatch(action)
             })
           }

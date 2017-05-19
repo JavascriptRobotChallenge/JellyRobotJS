@@ -3,6 +3,7 @@ var { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWa
 
 let sandboxStore
 let actionQueue = []
+var counter = 0;
 
 function fire(roomName, playerId, theta, strength, reloadTime){
   if ( Date.now() > sandboxStore.robots[playerId].fireTime ) {
@@ -12,6 +13,12 @@ function fire(roomName, playerId, theta, strength, reloadTime){
 }
 
 exports.api = {
+  getCounter:function(roomName,playerId){
+    return sandboxStore.robots[playerId].counter
+  },
+  incrementCounter: function(roomName,playerId){
+    actionQueue.push({type:"IncrementCounter", roomName:roomName,socketId:playerId })
+  },
   getActionQueue: function(){
     return actionQueue
   },
