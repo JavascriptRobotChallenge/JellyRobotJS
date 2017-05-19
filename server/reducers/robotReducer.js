@@ -64,7 +64,6 @@ const reducer = ( state = initialState, action) => {
       newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].health -= action.strength)
       return newState
     case "SetRotation":
-      console.log('inside set rotation reducer')
       newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].theta = action.theta)
       return newState
     case "WalkFollowSpeed":

@@ -42,7 +42,7 @@ function checkProjectilesToRemove(io) {
       for (var robotID in robotsObj[room]) {
         var robot = robotsObj[room][robotID]
 
-        if (robotID !== projectile.id && robot.robotInstance) {
+        if (robotID !== projectile.id && robot.code) {
           if (Math.sqrt(Math.pow(robot.x - projectile.x, 2) + Math.pow(robot.z - projectile.z, 2)) < 20) {
             backendStore.dispatch(DecreaseHealth(room, robotID, projectile.strength))
             backendStore.dispatch(RemoveProjectile(room, projectileId))
@@ -115,12 +115,12 @@ function broadcastGameState(io){
               let roomState = Object.assign({}, {robots: currRobots}, {projectiles: currProjectiles})
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
               scripts.time[playerArr[i]] = Date.now()
-              scripts[playerArr[i]].run("start", {
-                code: code,
-                initialState: roomState,
-                roomName: roomName,
-                playerId: playerArr[i]
-              });
+                scripts[playerArr[i]].run("start", {
+                  code: code,
+                  initialState: roomState,
+                  roomName: roomName,
+                  playerId: playerArr[i]
+                })
             }
             MoveForward(roomName)
             checkProjectilesToRemove(io)

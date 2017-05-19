@@ -19,10 +19,7 @@ router.param('robotId', (req, res, next, userId) => {
   .catch(next)
 })
 
-const EasyRobot = {id: 1, robotName: 'EasyRobot', code: `
-  walkForward(roomName, playerId);
-  rapidFire(roomName, playerId);
-  `, user_id: 1}
+const EasyRobot = {id: 1, robotName: 'EasyRobot', code: `rapidFire(roomName, playerId)`, user_id: 1}
 
 router.get('/testRobots', (req, res, next) => {
   res.send(EasyRobot)
