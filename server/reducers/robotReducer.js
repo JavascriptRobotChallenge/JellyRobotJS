@@ -39,7 +39,7 @@ const reducer = ( state = initialState, action) => {
       }
       return newState
     case "IncrementCounter":
-      newState[action.roomName][action.socketId].counter = ++newState[action.roomName][action.socketId].counter
+      newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].counter = ++newState[action.roomName][action.socketId].counter)
       return newState
     case "UpdateWalkTime":
       newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].walkTime = Date.now() + 29)
