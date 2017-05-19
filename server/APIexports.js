@@ -17,7 +17,7 @@ exports.api = {
     return sandboxStore.robots[playerId].counter
   },
   incrementCounter: function(roomName,playerId){
-    actionQueue.push({type:"IncrementCounter", roomName:roomName,socketId:playerId })
+    actionQueue.push({type:"IncrementCounter", roomName: roomName, socketId: playerId })
   },
   getActionQueue: function(){
     return actionQueue
@@ -26,7 +26,7 @@ exports.api = {
     sandboxStore = initialState
   },
   distanceBetween: function(arrOne, arrTwo){
-    return Math.sqrt(Math.pow(arrTwo[0]-arrOne[0],2)+(Math.pow(arrTwo[1]-arrOne[1]),2))
+    return Math.sqrt(Math.pow(arrTwo[0] - arrOne[0],2)+(Math.pow(arrTwo[1] - arrOne[1]),2))
   },
   setRotation: function(roomName, playerId, theta) {
     actionQueue.push( SetRotation(roomName, playerId, theta) )
