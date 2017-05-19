@@ -28,7 +28,8 @@ class CodeEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      previousInput: startingCode
+      previousInput: startingCode,
+      isButtonDisabled: false
     }
   }
 
@@ -37,6 +38,7 @@ class CodeEditor extends React.Component {
   }
 
   onSubmit = () => {
+    this.setState({isButtonDisabled: true})
     $('.glyphicon-chevron-down').trigger('click');
     const testRobots = this.props.testRobots
     const code = this.state.previousInput
@@ -81,8 +83,11 @@ class CodeEditor extends React.Component {
                     <div className="panel-footer">
                         <div className="input-group">
                             <span className="input-group-btn">
-                                <button className="btn btn-warning btn-sm" onClick={this.onSubmit} id="btn-chat">
-                                    Submit</button>
+                                <button
+                                  className="btn btn-warning btn-sm"
+                                  onClick={this.onSubmit} id="btn-chat"
+                                  disabled={this.state.isButtonDisabled}
+                                  >Submit</button>
                             </span>
                             <span className="input-group-btn">
                                 <button className="btn btn-warning btn-sm" onClick={this.onSaveRobot} id="btn-chat">

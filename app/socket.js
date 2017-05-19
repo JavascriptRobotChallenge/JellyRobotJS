@@ -19,6 +19,12 @@ socket.on('trainingRoomAssigned', function(myRoom) {
   console.log('trainingRoomAssigned', myRoom)
 })
 
+socket.on('tooManyPlayers', function(alertMsg) {
+  const canvases = [...document.getElementsByTagName('canvas')]
+  canvases.forEach(canvas => { canvas.remove() })
+  browserHistory.push('/home')
+  alert(alertMsg)
+})
 
 socket.on('serverUpdate', function(data){
   store.dispatch(ServerUpdate(data))

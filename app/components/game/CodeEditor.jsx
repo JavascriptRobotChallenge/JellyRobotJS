@@ -33,7 +33,8 @@ class CodeEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      previousInput: startingCode
+      previousInput: startingCode,
+      isButtonDisabled: false
     }
   }
 
@@ -42,6 +43,8 @@ class CodeEditor extends React.Component {
   }
 
   onSubmit = () => {
+    this.setState({isButtonDisabled: true})
+
     const code = this.state.previousInput
     const room = this.props.room
     socket.emit('sendCode', room, code)
@@ -83,8 +86,11 @@ class CodeEditor extends React.Component {
                     <div className="panel-footer">
                         <div className="input-group">
                             <span className="input-group-btn">
-                                <button className="btn btn-warning btn-sm" onClick={this.onSubmit} id="btn-chat">
-                                    Submit</button>
+                                <button
+                                  className="btn btn-warning btn-sm"
+                                  onClick={this.onSubmit} id="btn-chat"
+                                  disabled={this.state.isButtonDisabled}
+                                  >Submit</button>
                             </span>
                             <span className="input-group-btn">
                                 <button className="btn btn-warning btn-sm" onClick={this.onSaveRobot} id="btn-chat">
