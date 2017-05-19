@@ -8,9 +8,12 @@ const passport = require('passport')
 const PrettyError = require('pretty-error')
 const finalHandler = require('finalhandler')
 const backendStore = require('./reducers/backendStore.js')
-const RobotClass =  require('./RobotClass')
-const { AddOrUpdatePlayer, RemovePlayer } = require("./reducers/robotReducer")
-const { RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
+const { FireProjectile, RemoveProjectile, MoveOneForward, RemoveProjectilesOnLeave } = require("./reducers/projectileReducer")
+const { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("./reducers/robotReducer")
+const scripts = require('./scripts')
+
+const SandCastle = require('sandcastle').SandCastle
+var sandcastle = new SandCastle({api: './server/APIexports.js'})
 
 var { broadcastGameState } = require('./updateClientLoop.js')
 const pkg = require('APP')
@@ -120,29 +123,42 @@ if (module === require.main) {
     })
 
     socket.on('sendTrainingCode', (room, code, testRobots)=> {
-      var testRoboFunc = eval(testRobots.code)
-      var testRoboInstance = testRoboFunc()
-
-      var roboFunc = eval(code)
-      var roboInstance = roboFunc()
-      var robotProtos = Object.getPrototypeOf(roboInstance)
-      Object.keys(robotProtos).forEach(robotProto => {
-        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
-      })
-      //evaluates both test robot and player code
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
-      backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRoboInstance))
+      // var testRoboFunc = eval(testRobots.code)
+      // var testRoboInstance = testRoboFunc()
+      //
+      // var roboFunc = eval(code)
+      // var roboInstance = roboFunc()
+      // var robotProtos = Object.getPrototypeOf(roboInstance)
+      // Object.keys(robotProtos).forEach(robotProto => {
+      //   RobotClass.prototype.on(robotProto, robotProtos[robotProto])
+      // })
+      // //evaluates both test robot and player code
+      // backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
+      // backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRoboInstance))
     })
 
     socket.on('sendCode', (room, code)=> {
-      var roboFunc = eval(code)
-      var roboInstance = roboFunc()
-      var robotProtos = Object.getPrototypeOf(roboInstance)
-      Object.keys(robotProtos).forEach(robotProto => {
-        RobotClass.prototype.on(robotProto, robotProtos[robotProto])
-      })
-      // update player when they have submitted code
-      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, roboInstance))
+      scripts[socket.id] = sandcastle.createScript(`exports = {
+          start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
+      }`);
+      backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+      // unsubscribe
+      scripts[socket.id].on('exit', function(err, output, methodName) {
+          console.log('output ', output, typeof output, 'err', err); // Hello World!
+          if(err){
+            socket.emit('badCode')
+            backendStore.dispatch(WalkForward(room, socket.id))
+          } else {
+            console.log(Date.now() - scripts.time[socket.id])
+            output && output.forEach(action => {
+              backendStore.dispatch(action)
+            })
+          }
+      });
+      scripts[socket.id].on('timeout', function(methodName) {
+        console.log('everyone is timing out')
+          backendStore.dispatch(WalkForward(room, socket.id))
+      });
     })
 
 

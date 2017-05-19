@@ -19,21 +19,10 @@ router.param('robotId', (req, res, next, userId) => {
   .catch(next)
 })
 
-const EasyRobot = {id: 1, robotName: 'EasyRobot', code: `(function(){
-   function SubRobot(){
-       this.color = "red"
-    };
-
-  SubRobot.prototype = Object.create(RobotClass.prototype)
-  //ToDo: call functions with roomName and PlayerId so we know
-  // which robot to move
-  SubRobot.prototype.start = function(roomName, playerId){
-    this.rapidFire(roomName, playerId)
-    this.walkTowardOpponent(roomName, playerId)
-  }
-
-  return new SubRobot()
-})`, user_id: 1}
+const EasyRobot = {id: 1, robotName: 'EasyRobot', code: `
+  walkForward(roomName, playerId);
+  rapidFire(roomName, playerId);
+  `, user_id: 1}
 
 router.get('/testRobots', (req, res, next) => {
   res.send(EasyRobot)
