@@ -126,6 +126,7 @@ if (module === require.main) {
       scripts[socket.id] = sandcastle.createScript(`exports = {
           start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
       }`);
+      console.log("scriptsis",Object.keys(scripts))
       backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
       // unsubscribe
       scripts[socket.id].on('exit', function(err, output, methodName) {
@@ -180,7 +181,7 @@ if (module === require.main) {
             socket.emit('badCode')
             backendStore.dispatch(WalkForward(room, socket.id))
           } else {
-            console.log(Date.now() - scripts.time[socket.id])
+            // console.log(Date.now() - scripts.time[socket.id])
             output && output.forEach(action => {
               console.log(' ACTIONNNN ', action)
               backendStore.dispatch(action)
@@ -218,6 +219,8 @@ if (module === require.main) {
 
     socket.on('disconnect', function() {
       //this does the same as leave room but for players who disconnect
+      console.log("deleteing")
+      delete scripts[socket.id]
       var storeState = backendStore.getState().robots
       for (var room in multiPlayerRooms){
         for (var robot in multiPlayerRooms[room]){
