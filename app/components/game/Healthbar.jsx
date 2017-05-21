@@ -42,7 +42,7 @@ export default class Healthbar extends React.Component{
                       {this.state.robots[robotID].health * 10}
                     </span></div>
                     <h4>{ this.state.robots[robotID].userName &&
-                    this.state.robots[robotID].userName.name}</h4>
+                    this.state.robots[robotID].userName.name || this.state.robots[robotID].userName}</h4>
                   </div>
                   : <div/>
               )

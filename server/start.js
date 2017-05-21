@@ -80,7 +80,6 @@ if (module === require.main) {
   io.on('connection', function(socket) {
     //a new player joined and he is an even number => new room has to be created
     socket.on('giveMeARoom', (user)=>{
-      console.log(user, 'here is the user if he exists')
       var robotJoined = false
       for (var room in multiPlayerRooms){
         if (Object.keys(multiPlayerRooms[room]).length<2){
@@ -109,6 +108,7 @@ if (module === require.main) {
           socket.join(room)
           socket.emit('trainingRoomAssigned', room)
           backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, null))
+          backendStore.dispatch(SetUserName(room, socket.id, 'User'))
           break;
         }
       }
@@ -121,6 +121,7 @@ if (module === require.main) {
       for (var room in singlePlayerRooms){
         singlePlayerRooms[room][testRobots.id] = true;
         backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, null))
+        backendStore.dispatch(SetUserName(room, socket.id, 'Test Robot'))
       }
     })
 
@@ -129,6 +130,7 @@ if (module === require.main) {
           start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
       }`);
       backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+      backendStore.dispatch(SetUserName(room, socket.id, 'User'))
       // unsubscribe
       scripts[socket.id].on('exit', function(err, output, methodName) {
           // console.log('output ', output, typeof output, 'esrr', err); // Hello World!
@@ -152,13 +154,14 @@ if (module === require.main) {
          start: function(){ setup(initialState); ${testRobots.code}; exit(getActionQueue()) }
       }`);
       backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRobots.code))
+      backendStore.dispatch(SetUserName(room, testRobots.id, 'Test Robot'))
       // unsubscribe
       scripts[testRobots.id].on('exit', function(err, output, methodName) {
           if (err) {
             socket.emit('badCode')
             backendStore.dispatch(WalkForward(room, testRobots.id))
           } else {
-            console.log(Date.now() - scripts.time[testRobots.id])
+            // console.log(Date.now() - scripts.time[testRobots.id])
             output && output.forEach(action => {
               backendStore.dispatch(action)
             })

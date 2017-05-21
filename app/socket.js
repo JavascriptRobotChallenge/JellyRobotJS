@@ -16,7 +16,7 @@ socket.on('roomAssigned', function(myRoom){
 socket.on('trainingRoomAssigned', function(myRoom) {
   store.dispatch(AssignRoom(myRoom))
   const room = store.getState().gameData.room
-  console.log('trainingRoomAssigned', myRoom)
+  console.log('trainingRoomAssigned', room)
 })
 
 socket.on('tooManyPlayers', function(alertMsg) {

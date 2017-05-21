@@ -18,7 +18,6 @@ export default class Training extends React.Component {
         <div className="robot-game">
           <TrainingCodeEditor />
           <RobotWorld />
-          <Healthbar />
         </div>
       </div>
     );

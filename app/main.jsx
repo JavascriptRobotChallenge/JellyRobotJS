@@ -21,20 +21,9 @@ import Tie from './components/game/Tie'
 import {whoami} from './reducers/auth'
 import {GetTestRobots} from './reducers/frontendStore'
 
-const onMainEnter = (nextState, replaceState, callback) => {
-  console.log(callback)
-  // console.log('room assigned: ', myRoom, ' with user:', user)
+const onMainEnter = () => {
   store.dispatch(GetTestRobots())
-  const who = store.dispatch(whoami())
-    return who.then(function(){
-      callback && callback()
-      const user = store.getState().auth.user
-      socket.emit('giveMeARoom', user)
-    })
-      .catch(err => {
-        console.log(err)
-        callback && callback()
-      })
+  store.dispatch(whoami())
 }
 
 const CanvasDelete = () => {
@@ -42,11 +31,16 @@ const CanvasDelete = () => {
   canvases.forEach(canvas => { canvas.remove() })
 }
 
-const requireAuth = (nextState, replaceState, callback) => {
+const onGameEnter = (nextState, replaceState, callback) => {
   store.dispatch(whoami()).then(function(){
       callback()
-      if (!Object.keys(store.getState().auth.user).length)
+      if (!Object.keys(store.getState().auth.user).length){
         browserHistory.push('/login')
+      }
+      else {
+        const user = store.getState().auth.user
+        socket.emit('giveMeARoom', user)
+      }
     })
     .catch(err => {
       console.log(err)
@@ -54,26 +48,8 @@ const requireAuth = (nextState, replaceState, callback) => {
     })
 }
 
-// const setUserName = (nextState, replaceState, callback) => {
-//
-//   onMainEnter().then(function(){
-//     callback()
-//     const user = store.getState().auth.user
-//     const room = store.getState().gameData.room
-//     socket.emit('sendUserName', room, user)
-//
-//     console.log('room assigned: ', room)
-//     console.log('socket on', room, user)
-//   })
-//     .catch(err => {
-//       console.log(err)
-//       callback()
-//     })
-//
-// }
-
 const onTrainingEnter = () => {
-  socket.emit('singleTrainingRoom')
+ socket.emit('singleTrainingRoom')
 }
 
 render(
@@ -83,7 +59,7 @@ render(
         <IndexRedirect to="/home" />
         <Route path="/home" component={Homepage} />
         <Route path="/docs" component={Docs} />
-        <Route path="/game" component={RobotGame} onEnter={requireAuth} />
+        <Route path="/game" component={RobotGame} onEnter={onGameEnter} />
         <Route path="/training" component={Training} onEnter={onTrainingEnter} />
         <Route path="/login" component={Login} />
       </Route>
