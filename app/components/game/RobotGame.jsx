@@ -9,8 +9,8 @@ export default class RobotGame extends React.Component {
     return(
       <div className="robot-game">
         <EditorDocs />
-        <RobotWorld />
         <Healthbar />
+        <RobotWorld />
       </div>
     );
   }

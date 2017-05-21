@@ -28,7 +28,8 @@ class CodeEditor extends React.Component {
 
     const code = this.state.previousInput
     const room = this.props.room
-    socket.emit('sendCode', room, code)
+    const user = this.props.user
+    socket.emit('sendCode', room, code, user)
   }
 
   onSaveRobot = () => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import store from "../../store"
 import { RobotWorld } from './RobotWorld'
+import Healthbar from './Healthbar'
 import AceEditor from 'react-ace';
 import socket from '../../socket';
 import 'brace/mode/javascript';
@@ -15,7 +16,8 @@ class CodeEditor extends React.Component {
     super(props);
     this.state = {
       previousInput: startingCode,
-      isButtonDisabled: false
+      isButtonDisabled: false,
+      codeSubmitted: false
     }
   }
 
@@ -29,7 +31,7 @@ class CodeEditor extends React.Component {
     const testRobots = this.props.testRobots
     const code = this.state.previousInput
     const room = this.props.room
-
+    this.state.codeSubmitted = true
     socket.emit('sendTrainingCode', room, code, testRobots)
   }
 
@@ -82,9 +84,11 @@ class CodeEditor extends React.Component {
                             </span>
                         </div>
                     </div>
+                  }
                 </div>
               </div>
-          </div>
+            {this.state.codeSubmitted ? <Healthbar/> : false}
+       </div>
     );
   }
 }

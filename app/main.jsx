@@ -23,7 +23,7 @@ import {GetTestRobots} from './reducers/frontendStore'
 
 const onMainEnter = () => {
   store.dispatch(GetTestRobots())
-  return store.dispatch(whoami())
+  store.dispatch(whoami())
 }
 
 const CanvasDelete = () => {
@@ -31,12 +31,16 @@ const CanvasDelete = () => {
   canvases.forEach(canvas => { canvas.remove() })
 }
 
-const requireAuth = (nextState, replaceState, callback) => {
-  socket.emit('giveMeARoom')
-  onMainEnter().then(function(){
+const onGameEnter = (nextState, replaceState, callback) => {
+  store.dispatch(whoami()).then(function(){
       callback()
-      if (!Object.keys(store.getState().auth.user).length)
+      if (!Object.keys(store.getState().auth.user).length){
         browserHistory.push('/login')
+      }
+      else {
+        const user = store.getState().auth.user
+        socket.emit('giveMeARoom', user)
+      }
     })
     .catch(err => {
       console.log(err)
@@ -45,7 +49,7 @@ const requireAuth = (nextState, replaceState, callback) => {
 }
 
 const onTrainingEnter = () => {
-  socket.emit('singleTrainingRoom')
+ socket.emit('singleTrainingRoom')
 }
 
 render(
@@ -55,7 +59,7 @@ render(
         <IndexRedirect to="/home" />
         <Route path="/home" component={Homepage} />
         <Route path="/docs" component={Docs} />
-        <Route path="/game" component={RobotGame} onEnter={requireAuth} />
+        <Route path="/game" component={RobotGame} onEnter={onGameEnter} />
         <Route path="/training" component={Training} onEnter={onTrainingEnter} />
         <Route path="/login" component={Login} />
       </Route>
