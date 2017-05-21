@@ -27,7 +27,7 @@ var loader = new THREE.JSONLoader()
 export const robotModel = loader.parse(robotjelly);
 
 export const init = () => {
-    var container = document.createElement('div');
+    var container = document.getElementById('main');
     document.body.appendChild(container);
     container.appendChild(renderer.domElement);
     window.addEventListener('resize', onWindowResize, false);

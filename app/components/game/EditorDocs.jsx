@@ -6,63 +6,52 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 const documentation =
-`//POSSIBLE COLORS TO SET this.color - will default to red otherwise:
-red, blue, green, orange, pink, yellow, purple, black, white
-
-//WALKING FUNCTIONS
-//addRotation
-this.addRotation(roomName, playerId, degrees)
-
-//walkForward
-this.walkForward(roomName, playerId)
-
-//walkBackward
-this.walkBackward(roomName, numTimes, id)
-
-//walkTowardOpponent
-this.walkTowardOpponent(roomName, playerId)
-
-//walkAwayFromOpponent
-this.walkAwayFromOpponent(roomName, playerId)
-
-//setRotation
-this.setRotation(roomName, playerId, theta)
-
-
-//FIRING FUNCTIONS
-//accurateFire
-this.accurateFire(roomName, playerId)
-// This function aims at your opponent but it is heavily throttled.
-// If you find your own way of implementing aiming,
-// you can enjoy the benefits of accurate aiming but without the throttling.
-might need to fix this - not accurate
-
-//rapidFire
-this.rapidFire(roomName, playerId)
-
-//devastator
-this.devastator(roomName, playerId)
-// Devastator is a very powerful fire, but there is a longer time where you cannot call it again.
-
-
-//HELPER FUNCTIONS
-//distanceBetween
-this.distanceBetween([robot1.x, robot1.z], [robot2.x, robot2.z])
-this.distanceBetween([20, 42], [23, 46])
-// 5
-
-this.distanceBetween(robot.getOwnPosition()], robot.findOpponent())
-
-// Takes the positions of two robots as arguments ([robot1.x, robot1.z], [robot2.x, robot2.z]).
-// Y positions are not modified in this game because our robots cannot jump.
-// Returns the distance between two robots, using the Pythagorean Theorem.
-
-//angleBetween
-this.angleBetween(arrOne, arrTwo)
-// PI
-// Takes the positions of two robots, returns the angle between them, in radians.
-
-// give them accurateFire, but throttle it a lot. Give them a reward if they implement this on their own.`
+`
+  /************* Functions to be invoked: *************/
+   
+  // incrementCounter and getCounter- increments or gets a counter that is stored for your robot.
+  // These can be used to implement modulo math and change the behaviour of your robot over time.
+  getCounter(roomName, playerId); incrementCounter(roomName, playerId)
+  
+  //distanceBetween - returns the distance between you and your opponent / accepts two arrays as inputs
+   distanceBetween(arrOne, arrTwo)
+  
+  // set rotation - set the angle(theta) of rotation
+  setRotation(roomName, playerId, theta)
+  
+  //angleBetween - returns the angle of a line between the first array and the second array
+  angleBetween(arrOne, arrTwo)
+  
+  // Accurate Fire- An more accurate shot
+  accurateFire(roomName, playerId)
+  
+  // Rapid Fire - A quick, weak shot that fires in a random direction
+  rapidFire(roomName, playerId)
+  
+  // devastator - A powerful, accurate shot with a very long reload time
+  devastator(roomName, playerId)
+  
+  //findOpponent - returns the location of your opponent as an array
+  findOpponent(roomName, playerId)
+  
+  //getOpponentsHealth - returns the health of your opponent
+  getOpponentsHealth(roomName,playerId)
+  
+  // addRotation- Sets the direction of your robot
+  addRotation(roomName, playerId, degrees)
+  
+  // walkForward - Moves in whatever direction the current angle of your robot is set to
+  walkForward(roomName, playerId)
+  
+  // walkTowardOpponent - This function will automatically follow your opponent
+  // though you may have to add your own logic if you want it to effectively navigate boxes/walls
+  // This function is also 40% slower than other walking functions
+  walkTowardOpponent(roomName, playerId)
+  
+  / walkAwayFromOpponent - This function will automatically run away from your opponent
+  // though you may have to add your own logic if you want it to effectively navigate boxes/walls
+  walkAwayFromOpponent(roomName, playerId)
+`
 
 const EditorDocs = (props) => (
   <div>
@@ -87,7 +76,6 @@ const EditorDocs = (props) => (
                         theme="monokai"
                         readOnly={true}
                         wrapEnabled={true}
-                        width="540px"
                         value={documentation}
                         editorProps={{$blockScrolling: true}}
                         />

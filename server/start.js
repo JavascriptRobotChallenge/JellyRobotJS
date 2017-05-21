@@ -170,11 +170,12 @@ if (module === require.main) {
       });
     })
 
-    socket.on('sendCode', (room, code)=> {
+    socket.on('sendCode', (room, code, user)=> {
       scripts[socket.id] = sandcastle.createScript(`exports = {
           start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
       }`);
       backendStore.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+      backendStore.dispatch(SetUserName(room, socket.id, user))
       // unsubscribe
       scripts[socket.id].on('exit', function(err, output, methodName) {
           // console.log('output ', output, typeof output, 'err', err); // Hello World!
