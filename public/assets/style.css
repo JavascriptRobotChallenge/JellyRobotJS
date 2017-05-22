@@ -118,8 +118,8 @@
 
 /*----ACTUAL DOCS PAGE----*/
 .docs-container {
-    margin-left: 400px;
-    margin-right: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .docs-container .header-title {
@@ -242,5 +242,3 @@
     display: block;
     clear: both;
 }
-
-
