@@ -39,7 +39,7 @@ export default class Healthbar extends React.Component{
               return ((this.state.robots[robotID].health) ?
                   <div className="score" key={robotID} style={(this.checkIndexIsEven(idx + 1)) ? rightStyle : leftStyle }>
                     <div id="user-score"><span className="animated">
-                      {this.state.robots[robotID].health * 10}
+                      {this.state.robots[robotID].health}
                     </span></div>
                     <h4>{ this.state.robots[robotID].userName &&
                     this.state.robots[robotID].userName.name || this.state.robots[robotID].userName}</h4>
@@ -53,4 +53,3 @@ export default class Healthbar extends React.Component{
     )
 }
 }
-
