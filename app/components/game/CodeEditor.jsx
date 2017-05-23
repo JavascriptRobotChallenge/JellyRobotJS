@@ -2,6 +2,7 @@ import React from 'react'
 import store from "../../store"
 import { RobotWorld } from './RobotWorld'
 import AceEditor from 'react-ace';
+import Healthbar from './Healthbar'
 import socket from '../../socket';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
@@ -15,7 +16,8 @@ class CodeEditor extends React.Component {
     super(props);
     this.state = {
       previousInput: startingCode,
-      isButtonDisabled: false
+      isButtonDisabled: false,
+      codeSubmitted: false
     }
   }
 
@@ -30,6 +32,8 @@ class CodeEditor extends React.Component {
     const room = this.props.room
     const user = this.props.user
     socket.emit('sendCode', room, code, user)
+
+    this.state.codeSubmitted = true
   }
 
   onSaveRobot = () => {
@@ -56,10 +60,11 @@ class CodeEditor extends React.Component {
                           theme="monokai"
                           onChange={this.onChange}
                           fontSize={15}
-                          height="800px"
-                          width="1000px"
+                          height="400px"
+                          width="800px"
                           name="ace-form"
                           value={this.state.previousInput}
+                          wrapEnabled={true}
                           defaultValue={startingCode}
                           editorProps={{$blockScrolling: true}}
                           maxLines = {50}
@@ -83,6 +88,7 @@ class CodeEditor extends React.Component {
                     </div>
                 </div>
               </div>
+              {this.state.codeSubmitted ? <Healthbar/> : false}
           </div>
     );
   }

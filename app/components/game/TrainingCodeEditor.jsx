@@ -59,10 +59,11 @@ class CodeEditor extends React.Component {
                           theme="monokai"
                           onChange={this.onChange}
                           fontSize={15}
-                          height="800px"
-                          width="1000px"
+                          height="400px"
+                          width="800px"
                           name="ace-form"
                           value={this.state.previousInput}
+                          wrapEnabled={true}
                           defaultValue={startingCode}
                           editorProps={{$blockScrolling: true}}
                           maxLines = {50}
