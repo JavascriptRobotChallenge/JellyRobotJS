@@ -58,15 +58,16 @@ class CodeEditor extends React.Component {
                           mode="javascript"
                           theme="monokai"
                           onChange={this.onChange}
-                          fontSize={20}
-                          height="800px"
-                          width="700px"
+                          fontSize={15}
+                          height="400px"
+                          width="800px"
                           name="ace-form"
                           value={this.state.previousInput}
+                          wrapEnabled={true}
                           defaultValue={startingCode}
                           editorProps={{$blockScrolling: true}}
-                          maxLines = {10}
-                          minLines = {23}
+                          maxLines = {15}
+                          minLines = {15}
                           />
                     </div>
                     <div className="panel-footer">

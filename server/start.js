@@ -194,7 +194,6 @@ if (module === require.main) {
           } else {
             console.log(Date.now() - scripts.time[socket.id])
             output && output.forEach(action => {
-              console.log(' ACTIONNNN ', action)
               backendStore.dispatch(action)
             })
           }

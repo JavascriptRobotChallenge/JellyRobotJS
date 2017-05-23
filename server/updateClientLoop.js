@@ -49,7 +49,6 @@ function checkProjectilesToRemove(io) {
             backendStore.dispatch(RemoveProjectile(room, projectileId))
             if (robot.health < 1) {
               io.sockets.to(room).emit('gameOver',robotID);
-              // io.emit("gameOver",robotID)
             }
           }
         }

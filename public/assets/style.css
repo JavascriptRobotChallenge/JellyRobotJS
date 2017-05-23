@@ -194,7 +194,12 @@
     text-align: center;
 }
 
-/********************************scoreboard*******************/
+/*----MULTI PLAYER MODE----*/
+.multiplayer-header{
+    text-align: center;
+}
+
+/*----SCORE BOARD----*/
 .score-board {
     text-align: center;
     font-family: 'Roboto Condensed', sans-serif;
@@ -242,5 +247,3 @@
     display: block;
     clear: both;
 }
-
-
