@@ -1,5 +1,4 @@
 import React from 'react'
-import RobotGame from './RobotGame'
 import TrainingCodeEditor from './TrainingCodeEditor'
 import {RobotWorld} from './RobotWorld'
 import Healthbar from './Healthbar'

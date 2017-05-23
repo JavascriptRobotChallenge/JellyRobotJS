@@ -1,7 +1,8 @@
 import React from 'react'
 import { RobotWorld } from './RobotWorld'
 // import CountdownReduxContainer from "./Countdown"
-import EditorDocs from './EditorDocs'
+import CodeEditor from './CodeEditor'
+import TipsTricks from './TipsTricks'
 
 export default class RobotGame extends React.Component {
   render () {
@@ -15,7 +16,12 @@ export default class RobotGame extends React.Component {
           <hr></hr>
         </div>
         <div className="robot-game">
-          <EditorDocs />
+          <div className="col-md-6">
+            <CodeEditor />
+          </div>
+          <div className="col-md-6">
+            <TipsTricks />
+          </div>
           <RobotWorld />
         </div>
       </div>
