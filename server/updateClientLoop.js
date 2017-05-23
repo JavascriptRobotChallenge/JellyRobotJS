@@ -7,6 +7,8 @@ const scripts = require('./scripts')
 
 let io;
 let gameLoop;
+let playerId;
+
 
 const MoveForward = (roomName) => {
   var projectiles = backendStore.getState().projectiles[roomName]
@@ -24,8 +26,7 @@ const leaveWall = function(roomName, playerId, theta) {
 function checkProjectilesToRemove(io) {
   var robotsObj = backendStore.getState().robots
   var projectileObjRooms = backendStore.getState().projectiles
-
-  for (var room in projectileObjRooms) {
+  for (let room in projectileObjRooms) {
     let projectileObj = projectileObjRooms[room]
     for (var projectileId in projectileObj) {
       var projectile = projectileObj[projectileId]
@@ -67,6 +68,7 @@ function broadcastGameState(io){
       var playerArr = Object.keys(state[roomName])
       if (playerArr.length) {
         for (var i = 0; i < playerArr.length; i++) {
+          console.log(roomName, 'here is the roomname')
           let robot = state[roomName][playerArr[i]];
           if(robot.code) {
             ///if the robot hits the wall
@@ -108,20 +110,24 @@ function broadcastGameState(io){
               }
             }
             else {
+              console.log("testingdenise",roomName)
               let currState = backendStore.getState()
               let currRobots = currState.robots[roomName]
+              let playerId = playerArr[i]
+              // let roomName = roomName
               let currProjectiles = currState.projectiles[roomName]
               let roomState = Object.assign({}, {robots: currRobots}, {projectiles: currProjectiles})
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
               scripts.time[playerArr[i]] = Date.now()
+              console.log("hcaim",roomName)
                 scripts[playerArr[i]].run("start", {
                   code: code,
                   initialState: roomState,
                   roomName: roomName,
-                  playerId: playerArr[i]
+                  playerId: playerId
                 })
             }
-            MoveForward(roomName)
+            MoveForward(roomName) 
             checkProjectilesToRemove(io)
           }
         }
