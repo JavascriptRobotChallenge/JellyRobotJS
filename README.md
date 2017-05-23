@@ -26,7 +26,7 @@ When the game state is broadcasted down to all clients using socket IO, their lo
 
 This is then used to re-render the appearance of the Three.JS scene which we used as our 3D graphics library.
 Now we have a robot who can move and fire projectiles, and who will be continually updated as the server’s game loop sends down updated data.
-![]('public/assets/architecture.png')
+![](public/assets/architecture.png)
 
 
 ## My anatomy
