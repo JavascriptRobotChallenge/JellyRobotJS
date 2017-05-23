@@ -126,9 +126,22 @@
   font-size: 27pt;
 }
 
-/*----/GAME PAGE EDITORDOCS----*/
-.editor-docs {
+/*----NAVBAR----*/
+#jellyrobots {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
 
+/*----/GAME PAGE EDITORDOCS----*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
 }
 
 .chat li .chat-body p {
