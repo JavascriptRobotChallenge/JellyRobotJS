@@ -37,7 +37,7 @@ Now we have a robot who can move and fire projectiles, and who will be continual
 * You have the ability to get your opponent's position and health - use this to your advantage!
 * Map coordinates of the walls and boxes are provided - this can be helpful in setting your robot's path.
 
-## Conventions
+## Installation
 
 If you want to play locally or modify our game we encourage it!
 
