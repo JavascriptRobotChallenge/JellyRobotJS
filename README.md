@@ -10,30 +10,7 @@ If you don't have it, I'll complain and tell you how to install it.
 
 ## 1. Make me into something!
 
-We recommend that you **clone**, not fork, this repo – unless your intention is
-to develop Bones proper instead of using Bones as the starting point for your
-own application.
-
-Start by doing either of the following:
-
-* Create a GitHub repo and clone it, or
-* `git init` in an empty directory on your machine.
-
-After you have a repo on your machine:
-
-```sh
-git remote add bones https://github.com/FullstackAcademy/bones.git
-git fetch bones
-git merge bones/master
-```
-
-And then you'll have me! If I change – which I probably will – you can get the most recent
-version by doing this again:
-
-```sh
-git fetch bones
-git merge bones/master
-```
+![](https://media.giphy.com/media/o9WlcuZkLDw4g/giphy.gif)
 
 ## 2. I need a name.
 
