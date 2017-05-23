@@ -1,9 +1,11 @@
 var { FireProjectile, RemoveProjectile, MoveOneForward, RemoveProjectilesOnLeave } = require("../../../server/reducers/projectileReducer")
 var { WalkFollowSpeed, AddOrUpdatePlayer, RemovePlayer, UpdateFireTime, UpdateWalkTime, WalkAwayFromWall, WalkForward, WalkBackward, AddRotation, DecreaseHealth, SetRotation } = require("../../../server/reducers/robotReducer")
 
-let sandboxStore
+let sandboxStore ={}
 let actionQueue = []
 var counter = 0;
+var roomName = ""
+var playerId = "" 
 
 function fire(roomName, playerId, theta, strength, reloadTime){
   if ( Date.now() > sandboxStore.robots[playerId].fireTime ) {
@@ -22,8 +24,13 @@ exports.api = {
   getActionQueue: function(){
     return actionQueue
   },
-  setup: function(initialState){
+  test: function(){
+    return [sandboxStore.robots[playerId],playerId,sandboxStore];
+  },
+  setup: function(initialState, roomName, inplayerId){
     sandboxStore = initialState
+    playerId = inplayerId
+    roomName = roomName
   },
   distanceBetween: function(arrOne, arrTwo){
     return Math.sqrt(Math.pow(arrTwo[0] - arrOne[0],2)+(Math.pow(arrTwo[1] - arrOne[1]),2))
@@ -111,7 +118,7 @@ exports.api = {
     actionQueue.push( AddRotation(roomName, playerId, theta) )
     actionQueue.push( WalkForward(roomName, playerId) )
   },
-  walkForward: function(roomName, playerId) {
+  walkForward: function() {
     if ( Date.now() > sandboxStore.robots[playerId].walkTime ) {
       actionQueue.push( WalkForward(roomName, playerId) )
       actionQueue.push( UpdateWalkTime(roomName, playerId) )

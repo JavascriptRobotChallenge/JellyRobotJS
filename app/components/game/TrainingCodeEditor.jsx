@@ -65,7 +65,7 @@ class CodeEditor extends React.Component {
                           value={this.state.previousInput}
                           defaultValue={startingCode}
                           editorProps={{$blockScrolling: true}}
-                          maxLines = {50}
+                          maxLines = {10}
                           minLines = {23}
                           />
                     </div>
