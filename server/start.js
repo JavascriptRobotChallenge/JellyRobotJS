@@ -117,8 +117,9 @@ if (module === require.main) {
         Banana: {},
         Mango: {}
     }
+
     io.on('connection', function(socket) {
-        //a new player joined and he is an even number => new room has to be created
+        //A new player joined and he is an even number => new room has to be created
         socket.on('giveMeARoom', (user) => {
             var robotJoined = false
             for (var room in multiPlayerRooms) {
@@ -139,9 +140,7 @@ if (module === require.main) {
 
         socket.on('singleTrainingRoom', () => {
             var robotJoined = false
-            // console.log('singlePlayer rooms backend', store.getState())
             for (var room in singlePlayerRooms) {
-                // console.log('object keys in singlePlayer rooms', room, (Object.keys(singlePlayerRooms[room])))
                 if (Object.keys(singlePlayerRooms[room]).length < 2) {
                     singlePlayerRooms[room][socket.id] = true
                     robotJoined = true
@@ -161,52 +160,45 @@ if (module === require.main) {
           scripts[socket.id] = sandcastle.createScript(`exports = {
               start: function(){ setup(initialState,roomName,playerId); ${code}; exit(getActionQueue()) }
           }`);
-          store.dispatch(AddOrUpdatePlayer(room, socket.id, code))
-          store.dispatch(SetUserName(room, socket.id, 'User'))
-          // unsubscribe
+
+          store.dispatch(addOrUpdatePlayer(room, socket.id, code))
+          store.dispatch(setUserName(room, socket.id, 'User'))
           scripts[socket.id].on('exit', function(err, output, methodName) {
               // console.log('output ', output, typeof output, 'esrr', err); // Hello World!
-              if(err){
-                console.log("badcodeone",err)
+              if (err) {
+                console.log("error", err)
                 socket.emit('badCode')
-                store.dispatch(WalkForward(room, socket.id))
+                store.dispatch(walkForward(room, socket.id))
               } else {
-                console.log("outputoneis",output)
-                // console.log(Date.now() - scripts.time[socket.id])
-                if (typeof output==="object"){
-                output && output.forEach(action => {
-                  store.dispatch(action)
-                })
-                }
+                  if (typeof output === "object") {
+                    output && output.forEach(action => { store.dispatch(action) })
+                  }
               }
           });
           scripts[socket.id].on('timeout', function(methodName) {
             console.log('everyone is timing out')
-            store.dispatch(WalkForward(room, socket.id))
+            store.dispatch(walkForward(room, socket.id))
           })
 
           scripts[testRobots.id] = sandcastle.createScript(`exports = {
              start: function(){ setup(initialState,roomName,playerId); ${testRobots.code}; exit(getActionQueue()) }
           }`);
-          store.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRobots.code))
-          store.dispatch(SetUserName(room, testRobots.id, 'Test Robot'))
-          // unsubscribe
+          store.dispatch(addOrUpdatePlayer(room, testRobots.id, testRobots.code))
+          store.dispatch(setUserName(room, testRobots.id, 'Test Robot'))
+
           scripts[testRobots.id].on('exit', function(err, output, methodName) {
               if (err) {
                 socket.emit('badCode',err)
-                store.dispatch(WalkForward(room, testRobots.id))
+                store.dispatch(walkForward(room, testRobots.id))
               } else {
-                // console.log(Date.now() - scripts.time[testRobots.id])
-                if (typeof output==="object"){
-                output && output.forEach(action => {
-                  store.dispatch(action)
-                })
-              }
+                  if (typeof output === "object") {
+                    output && output.forEach(action => { store.dispatch(action) })
+                  }
               }
           });
           scripts[testRobots.id].on('timeout', function(methodName) {
             console.log('test robot is timing out')
-            store.dispatch(WalkForward(room, testRobots.id))
+            store.dispatch(walkForward(room, testRobots.id))
           });
         })
 
@@ -215,24 +207,20 @@ if (module === require.main) {
               start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
             }`);
 
-            store.dispatch(AddOrUpdatePlayer(room, socket.id, code))
-            store.dispatch(SetUserName(room, socket.id, user))
-            // unsubscribe
+            store.dispatch(addOrUpdatePlayer(room, socket.id, code))
+            store.dispatch(setUserName(room, socket.id, user))
+
             scripts[socket.id].on('exit', function(err, output, methodName) {
-                // console.log('output ', output, typeof output, 'err', err); // Hello World!
-                if(err){
+                if (err) {
                   socket.emit('badCode',err)
-                  store.dispatch(WalkForward(room, socket.id))
+                  store.dispatch(walkForward(room, socket.id))
                 } else {
-                  console.log(Date.now() - scripts.time[socket.id])
-                  output && output.forEach(action => {
-                    store.dispatch(action)
-                  })
+                    output && output.forEach(action => { store.dispatch(action) })
                 }
             });
             scripts[socket.id].on('timeout', function(methodName) {
               console.log('everyone is timing out')
-              store.dispatch(WalkForward(room, socket.id))
+              store.dispatch(walkForward(room, socket.id))
             });
         })
 

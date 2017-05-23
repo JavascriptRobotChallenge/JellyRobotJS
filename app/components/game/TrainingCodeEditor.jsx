@@ -8,7 +8,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 var startingCode =
-`walkForward(roomName, playerId)`
+`walkForward()`
 var inputCode = startingCode
 
 class CodeEditor extends React.Component {
