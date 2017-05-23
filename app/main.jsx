@@ -11,7 +11,7 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Homepage from './components/Homepage'
-import RobotGame from './components/game/RobotGame'
+import Multiplayer from './components/game/Multiplayer'
 import Training from './components/game/Training'
 import Loss from './components/game/Loss'
 import Win from './components/game/Win'
@@ -58,7 +58,7 @@ render(
       <Route path="/home" component={Homepage} />
       <Route path="/" component={App} onEnter={onMainEnter} >
         <Route path="/docs" component={Docs} />
-        <Route path="/game" component={RobotGame} onEnter={onGameEnter} />
+        <Route path="/game" component={Multiplayer} onEnter={onGameEnter} />
         <Route path="/training" component={Training} onEnter={onTrainingEnter} />
         <Route path="/login" component={Login} />
         <IndexRedirect to="/home" />

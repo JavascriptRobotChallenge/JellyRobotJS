@@ -16,10 +16,10 @@ export default class RobotGame extends React.Component {
           <hr></hr>
         </div>
         <div className="robot-game">
-          <div className="col-md-6">
+          <div className="col-md-8">
             <CodeEditor />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <TipsTricks />
           </div>
           <RobotWorld />

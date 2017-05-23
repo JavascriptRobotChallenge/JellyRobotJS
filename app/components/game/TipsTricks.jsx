@@ -31,9 +31,9 @@ export default class TipsTricks extends React.Component {
               <div>
                 <ul>
                   <li><strong>THE DOCS WILL BE YOUR BEST FRIEND!</strong></li>
-                  <li>Make sure each 'function' is called with <code>`(roomName, playerId)`</code> because these are variables defined on our server.</li>
-                  <li>If you write <strong>bad code</strong> (incorrect syntax or improper functions), your robot will only <code>`walkForward(roomName, playerId)`</code>.</li>
-                  <li>Use <strong>modulo math</strong> along with <code>`incrementCounter(roomName, playerId)`</code> and <code>`getCounter(roomName, playerId)`</code> to set patterns for walking or firing.</li>
+                  <li>Make sure each 'function' is called with <code>`()`</code> because these are variables defined on our server.</li>
+                  <li>If you write <strong>bad code</strong> (incorrect syntax or improper functions), your robot will only <code>`walkForward()`</code>.</li>
+                  <li>Use <strong>modulo math</strong> along with <code>`incrementCounter()`</code> and <code>`getCounter()`</code> to set patterns for walking or firing.</li>
                   <li>You have the ability to get your <strong>opponent's position and health </strong>- use this to your advantage!</li>
                   <li>Map coordinates of the walls and boxes are provided - this can be helpful in setting your robot's path.</li>
                 </ul>
