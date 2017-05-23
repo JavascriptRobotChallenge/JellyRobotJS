@@ -4,7 +4,8 @@
 
 JellyRobots is a 3D-multiplayer browser-based game where players can code robots in Javascript with the help of an API that we've written and provided.
 Battle your robots in either multiplayer mode or training mode against one of our default robots.
-![](https://media.giphy.com/media/o9WlcuZkLDw4g/giphy.gif)
+![]
+(https://media.giphy.com/media/o9WlcuZkLDw4g/giphy.gif)
 
 ## Watch an overview of our game here.
 
@@ -28,41 +29,31 @@ This is then used to re-render the appearance of the Three.JS scene which we use
 Now we have a robot who can move and fire projectiles, and who will be continually updated as the server’s game loop sends down updated data.
 ![](public/assets/architecture.png)
 
-
-## My anatomy
-
-`/app` has the React/Redux setup. `main.jsx` is the entry point.
-
-`/db` has the Sequelize models and database setup. It'll create the database for you if it doesn't exist,
-assuming you're using postgres.
-
-`/server` has the Express server and routes. `start.js` is the entry point.
-
-`/bin` has scripts. (Right now it has *one* script that creates a useful symlink.)
+## Tips & Tricks
+* THE DOCS WILL BE YOUR BEST FRIEND!
+* For now, you need to make sure each function is called with `(roomName, playerId)` because these are variables defined on our server.
+* If you write bad code (incorrect syntax or improper functions), your robot will only `walkForward(roomName, playerId)`.
+* Use modulo math along with `incrementCounter(roomName, playerId)` and `getCounter(roomName, playerId)` to set patterns for walking or firing.
+* You have the ability to get your opponent's position and health - use this to your advantage!
+* Map coordinates of the walls and boxes are provided - this can be helpful in setting your robot's path.
 
 ## Conventions
 
-I use `require` and `module.exports` in `.js` files.
+If you want to play locally or modify our game we encourage it!
 
-I use `import` and `export` in `.jsx` files, unless `require` makes for cleaner code.
+Fork and clone this repository.
 
-I use two spaces, no semi-colons, and trailing commas where possible. I'll
-have a linter someday soon.
+Then install the dependencies
 
-## Quick Heroku deployment
+`npm install`
+Start webpack
 
-1. Set up the [Heroku command line tools](https://devcenter.heroku.com/articles/heroku-cli) and install [Yarn](https://yarnpkg.com/en/) if you haven't already (`npm install -g yarn`)
-2. `heroku login`
-3. Add a git remote for heroku:
-  - **If you're creating a new app...**
-    1. `heroku create` or `heroku create your-app-name` if you have a name in mind.
-    2. `heroku addons:create heroku-postgresql:hobby-dev` to add postgres
-    3. `npm run deploy-heroku`. This will create a new branch and compile and commit your frontend JS to it, then push that branch to Heroku.
-    4. `heroku run npm run seed` to seed the database
+`npm run build-watch`
+To start the server
 
-  - **If you already have a Heroku app...**
-    1.  `heroku git:remote your-app-name` You'll need to be a collaborator on the app.
+`npm start`
+Then go to http://localhost:1337/ and code your JellyRobot!
 
-Afterwards,
-  - *To deploy:* `npm run deploy-heroku`
-  - *To re-seed:* `heroku run npm run seed`
+## Special Thanks and Credits
+
+Thanks to [@FullstackAcademy](https://github.com/FullstackAcademy/) for enabling us to create this project and supporting us throughout!
