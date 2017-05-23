@@ -1,8 +1,8 @@
-
 import {Line} from 'rc-progress';
 import React from "react"
 import store from "../../store"
-export default class Healthbar extends React.Component{
+
+export default class Healthbar extends React.Component {
   constructor(props){
     super(props)
     this.state = {
@@ -25,13 +25,12 @@ export default class Healthbar extends React.Component{
     return ((n % 2) === 0);
   }
 
-  render(){
-    // console.log('this is the store right now', store.getState().gameData)
+  render() {
     var robots = Object.keys(this.state.robots)
     const leftStyle = { position: 'absolute', marginTop: '55%', marginLeft: '10%' }
     const rightStyle = { position: 'absolute', marginTop: '55%', marginLeft: '70%' }
 
-    return(
+    return (
       <div className="score-board">
         <div id="scoreboard">
           {
@@ -51,5 +50,5 @@ export default class Healthbar extends React.Component{
         </div>
       </div>
     )
-}
+  }
 }
