@@ -25,12 +25,10 @@ const fireFunctions =
   //devastator - A powerful, accurate shot with a very long reload time
   devastator(roomName, playerId)
   //Strength: 3
-  //ReloadTime: 15 seconds
-`
+  //ReloadTime: 15 seconds`
 
 const walkingFunctions =
-  `
-  //addRotation- Sets the direction of your robot
+  `//addRotation- Sets the direction of your robot
   addRotation(roomName, playerId, degrees)
 
   //setRotation
@@ -47,36 +45,34 @@ const walkingFunctions =
 
   //walkAwayFromOpponent - This function will automatically run away from your opponent
   //though you may have to add your own logic if you want it to effectively navigate boxes/walls
-  walkAwayFromOpponent(roomName, playerId)
-`
+  walkAwayFromOpponent(roomName, playerId)`
 
 const helperFunctions =
   `
   /**** These functions can be used in your JavaScript
    to help build conditionals and other logic to get the edge!!
    ****/
-  
+
   //incrementCounter and getCounter- increments or gets a counter that is stored for your robot.
   //These can be used to implement modulo math and change the behaviour of your robot over time.
   incrementCounter(roomName,playerId); getCounter(roomName,playerId);
-  
+
   //findOpponent - returns the location of your opponent as an array
   findOpponent(roomName,playerId);
-  
+
   //getOwnLocation - returns the location of your robots as an array
   getOwnLocation(roomName,playerId);
-  
+
   //getOpponentsHealth - returns the health of your opponent
   getOpponentsHealth(roomName,playerId);
-  
+
   //distanceBetween - returns the distance between you and your opponent
   //takes two arrays as inputs
   distanceBetween(arrOne, arrTwo);
-  
-  
+
+
   //angleBetween - returns the angle of a line between the first array and the second array
-  angleBetween(arrOne, arrTwo);
-  `
+  angleBetween(arrOne, arrTwo);`
 
 const media_style = {
   width: '200px',
@@ -117,7 +113,8 @@ const Docs = (props) => (
             readOnly={true}
             fontSize={15}
             height="400px"
-            width="1000px"
+            width="900px"
+            wrapEnabled={true}
             value={walkingFunctions}
             minLines={5}
             editorProps={{$blockScrolling: false}}
@@ -144,7 +141,8 @@ const Docs = (props) => (
             readOnly={true}
             fontSize={15}
             height="400px"
-            width="1000px"
+            width="900px"
+            wrapEnabled={true}
             value={fireFunctions}
             minLines={5}
             editorProps={{$blockScrolling: false}}
@@ -169,7 +167,8 @@ const Docs = (props) => (
             readOnly={true}
             fontSize={15}
             height="400px"
-            width="1000px"
+            width="900px"
+            wrapEnabled={true}
             value={helperFunctions}
             minLines={5}
             editorProps={{$blockScrolling: false}}
