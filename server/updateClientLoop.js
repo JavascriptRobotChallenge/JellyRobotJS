@@ -26,6 +26,7 @@ const scripts = require('./sandcastle/scripts')
 const SERVER_UPDATE_RATE = 33;
 let io;
 let gameLoop;
+let playerId;
 
 const MoveForward = (roomName) => {
     var projectiles = store.getState().projectiles[roomName]
@@ -41,10 +42,11 @@ const leaveWall = function(roomName, playerId, theta) {
 
 // positions for walls and boxes
 function checkProjectilesToRemove(io) {
+
     var robotsObj = store.getState().robots
     var projectileObjRooms = store.getState().projectiles
 
-    for (var room in projectileObjRooms) {
+    for (let room in projectileObjRooms) {
         let projectileObj = projectileObjRooms[room]
         for (var projectileId in projectileObj) {
             var projectile = projectileObj[projectileId]
@@ -55,7 +57,6 @@ function checkProjectilesToRemove(io) {
             } else if (projectile.x > 148 && projectile.x < 332 && projectile.z < 92 && projectile.z > -92) {
                 store.dispatch(removeProjectile(room, projectileId))
             }
-
             for (var robotID in robotsObj[room]) {
                 var robot = robotsObj[room][robotID]
 
@@ -79,7 +80,6 @@ function broadcastGameState(io) {
     const gameLoop = setInterval(() => {
         userTime++;
         let state = store.getState().robots
-
         for (var roomName in state) {
             var playerArr = Object.keys(state[roomName])
             if (playerArr.length) {
@@ -123,6 +123,7 @@ function broadcastGameState(io) {
                         } else {
                             let currState = store.getState()
                             let currRobots = currState.robots[roomName]
+                            let playerId = playerArr[i]
                             let currProjectiles = currState.projectiles[roomName]
                             let roomState = Object.assign({}, {
                                 robots: currRobots
@@ -135,7 +136,7 @@ function broadcastGameState(io) {
                                 code: code,
                                 initialState: roomState,
                                 roomName: roomName,
-                                playerId: playerArr[i]
+                                playerId: playerId
                             })
                         }
                         MoveForward(roomName)

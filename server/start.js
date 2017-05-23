@@ -157,87 +157,84 @@ if (module === require.main) {
             }
         })
 
-        socket.on('setTestRobot', (testRobots) => {
-            for (var room in singlePlayerRooms) {
-                singlePlayerRooms[room][testRobots.id] = true;
-                store.dispatch(addOrUpdatePlayer(room, testRobots.id, null))
-                store.dispatch(setUserName(room, socket.id, 'Test Robot'))
-            }
-        })
-
-        socket.on('sendTrainingCode', (room, code, testRobots) => {
-            scripts[socket.id] = sandcastle.createScript(`exports = {
-          start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
-      }`);
-            store.dispatch(addOrUpdatePlayer(room, socket.id, code))
-            store.dispatch(setUserName(room, socket.id, 'User'))
-            // unsubscribe
-            scripts[socket.id].on('exit', function(err, output, methodName) {
-                // console.log('output ', output, typeof output, 'esrr', err); // Hello World!
-                if (err) {
-                    console.log("badcode")
-                    socket.emit('badCode')
-                    store.dispatch(walkForward(room, socket.id))
-                } else {
-                    // console.log(Date.now() - scripts.time[socket.id])
-                    output && output.forEach(action => {
-                        store.dispatch(action)
-                    })
+        socket.on('sendTrainingCode', (room, code, testRobots)=> {
+          scripts[socket.id] = sandcastle.createScript(`exports = {
+              start: function(){ setup(initialState,roomName,playerId); ${code}; exit(getActionQueue()) }
+          }`);
+          store.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+          store.dispatch(SetUserName(room, socket.id, 'User'))
+          // unsubscribe
+          scripts[socket.id].on('exit', function(err, output, methodName) {
+              // console.log('output ', output, typeof output, 'esrr', err); // Hello World!
+              if(err){
+                console.log("badcodeone",err)
+                socket.emit('badCode')
+                store.dispatch(WalkForward(room, socket.id))
+              } else {
+                console.log("outputoneis",output)
+                // console.log(Date.now() - scripts.time[socket.id])
+                if (typeof output==="object"){
+                output && output.forEach(action => {
+                  store.dispatch(action)
+                })
                 }
-            });
-            scripts[socket.id].on('timeout', function(methodName) {
-                console.log('everyone is timing out')
-                store.dispatch(walkForward(room, socket.id))
-            })
+              }
+          });
+          scripts[socket.id].on('timeout', function(methodName) {
+            console.log('everyone is timing out')
+            store.dispatch(WalkForward(room, socket.id))
+          })
 
-            scripts[testRobots.id] = sandcastle.createScript(`exports = {
-         start: function(){ setup(initialState); ${testRobots.code}; exit(getActionQueue()) }
-      }`);
-            store.dispatch(addOrUpdatePlayer(room, testRobots.id, testRobots.code))
-            store.dispatch(setUserName(room, testRobots.id, 'Test Robot'))
-            // unsubscribe
-            scripts[testRobots.id].on('exit', function(err, output, methodName) {
-                if (err) {
-                    socket.emit('badCode')
-                    store.dispatch(walkForward(room, testRobots.id))
-                } else {
-                    // console.log(Date.now() - scripts.time[testRobots.id])
-                    output && output.forEach(action => {
-                        store.dispatch(action)
-                    })
-                }
-            });
-            scripts[testRobots.id].on('timeout', function(methodName) {
-                console.log('test robot is timing out')
-                store.dispatch(walkForward(room, testRobots.id))
-            });
+          scripts[testRobots.id] = sandcastle.createScript(`exports = {
+             start: function(){ setup(initialState,roomName,playerId); ${testRobots.code}; exit(getActionQueue()) }
+          }`);
+          store.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRobots.code))
+          store.dispatch(SetUserName(room, testRobots.id, 'Test Robot'))
+          // unsubscribe
+          scripts[testRobots.id].on('exit', function(err, output, methodName) {
+              if (err) {
+                socket.emit('badCode',err)
+                store.dispatch(WalkForward(room, testRobots.id))
+              } else {
+                // console.log(Date.now() - scripts.time[testRobots.id])
+                if (typeof output==="object"){
+                output && output.forEach(action => {
+                  store.dispatch(action)
+                })
+              }
+              }
+          });
+          scripts[testRobots.id].on('timeout', function(methodName) {
+            console.log('test robot is timing out')
+            store.dispatch(WalkForward(room, testRobots.id))
+          });
         })
 
         socket.on('sendCode', (room, code, user) => {
             scripts[socket.id] = sandcastle.createScript(`exports = {
-          start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
-      }`);
-            store.dispatch(addOrUpdatePlayer(room, socket.id, code))
-            store.dispatch(setUserName(room, socket.id, user))
+              start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
+            }`);
+
+            store.dispatch(AddOrUpdatePlayer(room, socket.id, code))
+            store.dispatch(SetUserName(room, socket.id, user))
             // unsubscribe
             scripts[socket.id].on('exit', function(err, output, methodName) {
                 // console.log('output ', output, typeof output, 'err', err); // Hello World!
-                if (err) {
-                    socket.emit('badCode')
-                    store.dispatch(walkForward(room, socket.id))
+                if(err){
+                  socket.emit('badCode',err)
+                  store.dispatch(WalkForward(room, socket.id))
                 } else {
-                    console.log(Date.now() - scripts.time[socket.id])
-                    output && output.forEach(action => {
-                        store.dispatch(action)
-                    })
+                  console.log(Date.now() - scripts.time[socket.id])
+                  output && output.forEach(action => {
+                    store.dispatch(action)
+                  })
                 }
             });
             scripts[socket.id].on('timeout', function(methodName) {
-                console.log('everyone is timing out')
-                store.dispatch(walkForward(room, socket.id))
+              console.log('everyone is timing out')
+              store.dispatch(WalkForward(room, socket.id))
             });
         })
-
 
         socket.on('leaveRoom', function() {
             //this removes players from singlePlayer/multiPlayer rooms which is equivalent to using socket.leave
