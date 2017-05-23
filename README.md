@@ -4,8 +4,6 @@
 
 JellyRobots is a 3D-multiplayer browser-based game where players can code robots in Javascript with the help of an API that we've written and provided.
 Battle your robots in either multiplayer mode or training mode against one of our default robots.
-![]
-(https://media.giphy.com/media/o9WlcuZkLDw4g/giphy.gif)
 
 ## Watch an overview of our game here.
 
@@ -13,6 +11,7 @@ Battle your robots in either multiplayer mode or training mode against one of ou
 
 After players spend some time coding their robot using their knowledge of Javascript and our docs, it's time to battle.
 Our robot API provides a handful of walking, firing, and other helper functions to aid players in creating their ultimate Javascript robot.
+![](https://media.giphy.com/media/o9WlcuZkLDw4g/giphy.gif)
 
 ## Architecture
 
@@ -55,7 +54,7 @@ To start the server
 
 `npm start`
 
-Then go to http://localhost:1337/ and code your JellyRobot!
+Then go to http://localhost:1337/game and code your JellyRobot!
 
 ## Special Thanks and Credits
 
