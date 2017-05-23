@@ -11,7 +11,7 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Homepage from './components/Homepage'
-import RobotGame from './components/game/RobotGame'
+import Multiplayer from './components/game/Multiplayer'
 import Training from './components/game/Training'
 import Loss from './components/game/Loss'
 import Win from './components/game/Win'
@@ -55,17 +55,17 @@ const onTrainingEnter = () => {
 render(
     <Provider store={store}>
     <Router history={browserHistory}>
-        <Route path="/" component={App} onEnter={onMainEnter}>
-            <IndexRedirect to="/home"/>
-            <Route path="/home" component={Homepage}/>
-            <Route path="/docs" component={Docs}/>
-            <Route path="/game" component={RobotGame} onEnter={onGameEnter}/>
-            <Route path="/training" component={Training} onEnter={onTrainingEnter}/>
-            <Route path="/login" component={Login}/>
-        </Route>
-        <Route path="/loss" component={Loss} onEnter={CanvasDelete}/>
-        <Route path="/win" component={Win} onEnter={CanvasDelete}/>
-        <Route path="/tie" component={Tie} onEnter={CanvasDelete}/>
-        <Route path='*' component={NotFound}/>
+      <Route path="/home" component={Homepage} />
+      <Route path="/" component={App} onEnter={onMainEnter} >
+        <Route path="/docs" component={Docs} />
+        <Route path="/game" component={Multiplayer} onEnter={onGameEnter} />
+        <Route path="/training" component={Training} onEnter={onTrainingEnter} />
+        <Route path="/login" component={Login} />
+        <IndexRedirect to="/home" />
+      </Route>
+      <Route path="/loss" component={Loss} onEnter={CanvasDelete}/>
+      <Route path="/win" component={Win} onEnter={CanvasDelete}/>
+      <Route path="/tie" component={Tie} onEnter={CanvasDelete}/>
+      <Route path='*' component={NotFound} />
     </Router>
 </Provider>, document.getElementById('main'))

@@ -3,8 +3,6 @@ import React, {Component} from 'react'
 const Homepage = ({children, user}) => {
 
   return (
-    <div>
-      <a name="about"></a>
       <div className="intro-header">
         <div className="container">
           <div className="row">
@@ -14,14 +12,19 @@ const Homepage = ({children, user}) => {
                 <h3>Code your robot in Javascript to fight against other robots now.</h3>
                 <hr className="intro-divider" />
                 <a href={ user ?"/game" : "/login" } className="btn btn-default btn-lg" className="ghost-button">
-                  PLAY NOW
+                  MULTIPLAYER
+                </a>
+                <a href="/training" className="btn btn-default btn-lg" className="middle-ghost-button">
+                  TRAINING
+                </a>
+                <a href="/docs" className="btn btn-default btn-lg" className="bottom-ghost-button">
+                  DOCS
                 </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-    </div>
   )
 }
 

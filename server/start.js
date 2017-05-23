@@ -217,7 +217,6 @@ if (module === require.main) {
                   socket.emit('badCode',err)
                   store.dispatch(walkForward(room, socket.id))
                 } else {
-                    console.log('hitting else good')
                     output && output.forEach(action => { store.dispatch(action) })
                 }
             });

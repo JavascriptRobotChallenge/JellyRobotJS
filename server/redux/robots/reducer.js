@@ -14,7 +14,6 @@ const {
     SET_USERNAME
 } = require('./constants')
 
-console.log(ADD_OR_UPDATE_PLAYER)
 
 const initialState = require('./initialState')
 

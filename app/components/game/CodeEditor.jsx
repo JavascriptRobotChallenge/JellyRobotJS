@@ -26,6 +26,7 @@ class CodeEditor extends React.Component {
   }
 
   onSubmit = () => {
+    $('.glyphicon-chevron-down').trigger('click');
     this.setState({isButtonDisabled: true})
 
     const code = this.state.previousInput
@@ -42,54 +43,54 @@ class CodeEditor extends React.Component {
   }
 
   render () {
-    return(
-          <div className="row">
-              <div className="panel panel-primary">
-                <div className="panel-heading" id="accordion">
-                    <span className="glyphicon glyphicon-pencil"></span> Code Editor
-                    <div className="btn-group pull-right">
-                        <a type="button" className="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#code">
-                            <span className="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                    </div>
-                </div>
-                <div className="panel-collapse collapse" id="code">
-                    <div className="panel-body">
-                        <AceEditor
-                          mode="javascript"
-                          theme="monokai"
-                          onChange={this.onChange}
-                          fontSize={15}
-                          height="400px"
-                          width="800px"
-                          name="ace-form"
-                          value={this.state.previousInput}
-                          wrapEnabled={true}
-                          defaultValue={startingCode}
-                          editorProps={{$blockScrolling: true}}
-                          maxLines = {15}
-                          minLines = {15}
-                          />
-                    </div>
-                    <div className="panel-footer">
-                        <div className="input-group">
-                            <span className="input-group-btn">
-                                <button
-                                  className="btn btn-warning btn-sm"
-                                  onClick={this.onSubmit} id="btn-chat"
-                                  disabled={this.state.isButtonDisabled}
-                                  >Submit</button>
-                            </span>
-                            <span className="input-group-btn">
-                                <button className="btn btn-warning btn-sm" onClick={this.onSaveRobot} id="btn-chat">
-                                    Save Your Robot</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+    return (
+        <div className="row">
+            <div className="panel panel-primary">
+              <div className="panel-heading" id="accordion">
+                  <span className="glyphicon glyphicon-pencil"></span> Code Editor
+                  <div className="btn-group pull-right">
+                      <a type="button" className="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#code">
+                          <span className="glyphicon glyphicon-chevron-down"></span>
+                      </a>
+                  </div>
               </div>
-              {this.state.codeSubmitted ? <Healthbar/> : false}
-          </div>
+              <div className="panel-collapse collapse" id="code">
+                  <div className="panel-body">
+                      <AceEditor
+                        mode="javascript"
+                        theme="monokai"
+                        onChange={this.onChange}
+                        fontSize={15}
+                        height="400px"
+                        width="800px"
+                        name="ace-form"
+                        value={this.state.previousInput}
+                        wrapEnabled={true}
+                        defaultValue={startingCode}
+                        editorProps={{$blockScrolling: true}}
+                        maxLines = {15}
+                        minLines = {15}
+                        />
+                  </div>
+                  <div className="panel-footer">
+                      <div className="input-group">
+                          <span className="input-group-btn">
+                              <button
+                                className="btn btn-warning btn-sm"
+                                onClick={this.onSubmit} id="btn-chat"
+                                disabled={this.state.isButtonDisabled}
+                                >Submit</button>
+                          </span>
+                          <span className="input-group-btn">
+                              <button className="btn btn-warning btn-sm" onClick={this.onSaveRobot} id="btn-chat">
+                                  Save Your Robot</button>
+                          </span>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            {this.state.codeSubmitted ? <Healthbar/> : false}
+        </div>
     );
   }
 }
