@@ -15,10 +15,10 @@ function fire(roomName, playerId, theta, strength, reloadTime){
 }
 
 exports.api = {
-  getCounter:function(roomName,playerId){
+  getCounter:function(){
     return sandboxStore.robots[playerId].counter
   },
-  incrementCounter: function(roomName,playerId){
+  incrementCounter: function(){
     actionQueue.push({type:"IncrementCounter", roomName: roomName, socketId: playerId })
   },
   getActionQueue: function(){
@@ -27,16 +27,16 @@ exports.api = {
   test: function(){
     return [sandboxStore.robots[playerId],playerId,sandboxStore];
   },
-  setup: function(initialState, roomName, inplayerId){
+  setup: function(initialState, inroomName, inplayerId){
     sandboxStore = initialState
     playerId = inplayerId
-    roomName = roomName
+    roomName = inroomName
   },
   distanceBetween: function(arrOne, arrTwo){
     return Math.sqrt(Math.pow(arrTwo[0] - arrOne[0],2)+(Math.pow(arrTwo[1] - arrOne[1]),2))
   },
-  setRotation: function(roomName, playerId, theta) {
-    actionQueue.push( SetRotation(roomName, playerId, theta) )
+  setRotation: function(theta) {
+    actionQueue.push( SetRotation(roomName,playerId,theta) )
   },
   angleBetween: function(arrOne,arrTwo){
     var xDiff = arrTwo[0] - arrOne[0]
@@ -56,9 +56,9 @@ exports.api = {
       }
       return radAngle
   },
-  accurateFire: function(roomName, playerId){
-    var ownPosition = exports.api.getOwnPosition(roomName, playerId)
-    var otherPlayersPosition = exports.api.findOpponent(roomName, playerId)
+  accurateFire: function(){
+    var ownPosition = exports.api.getOwnPosition()
+    var otherPlayersPosition = exports.api.findOpponent()
     var radAngle
 
     if (!otherPlayersPosition){radAngle = 0}
@@ -80,18 +80,18 @@ exports.api = {
     }
     fire(roomName, playerId, radAngle, 1, 5 )
   },
-  rapidFire: function(roomName, playerId){
+  rapidFire: function(){
     fire(roomName, playerId, Math.random() * 2 * Math.PI, 1, 0.2)
   },
-  devastator: function(roomName,playerId){
+  devastator: function(){
     // console.log("devestatorunloaded")
-    var ownPosition = exports.api.getOwnPosition(roomName, playerId)
-    var otherPlayersPosition = exports.api.findOpponent(roomName, playerId)
+    var ownPosition = exports.api.getOwnPosition()
+    var otherPlayersPosition = exports.api.findOpponent()
     if (otherPlayersPosition){
       fire(roomName,playerId,exports.api.angleBetween(ownPosition,otherPlayersPosition),3,15)
     }
   },
-  findOpponent: function(roomName, playerId){
+  findOpponent: function(){
     const robots = sandboxStore.robots
     for (var robotID in robots){
       if (robotID!==playerId && robots[robotID].code){
@@ -100,11 +100,11 @@ exports.api = {
     }
     return false
   },
-  getOwnPosition: function(roomName, playerId){
+  getOwnPosition: function(){
     const ownRobot = sandboxStore.robots[playerId]
     return [ownRobot.x,ownRobot.z]
   },
-  getOpponentsHealth: function(roomName,playerId){
+  getOpponentsHealth: function(){
     const robots = sandboxStore.robots
     for (var robotID in robots){
       if (robotID!==playerId){
@@ -113,7 +113,7 @@ exports.api = {
     }
     return false
   },
-  addRotation: function(roomName, playerId, degrees) {
+  addRotation: function(degrees) {
     var theta = degrees *.0174533
     actionQueue.push( AddRotation(roomName, playerId, theta) )
     actionQueue.push( WalkForward(roomName, playerId) )
@@ -124,36 +124,36 @@ exports.api = {
       actionQueue.push( UpdateWalkTime(roomName, playerId) )
     }
   },
-  slowWalkForward:function(roomName, playerId) {
+  slowWalkForward:function() {
     if ( Date.now() > sandboxStore.robots[playerId].walkTime ) {
       actionQueue.push( WalkFollowSpeed(roomName, playerId) )
       actionQueue.push( UpdateWalkTime(roomName, playerId) )
     }
   },
-  onBoxCollision:function(roomName, id){
+  onBoxCollision:function(){
     exports.api.addRotation(roomName, id, 45)
     exports.api.walkForward(roomName, id)
   },
-  walkTowardOpponent:function(roomName,playerId){
-    if (exports.api.findOpponent(roomName, playerId)){
+  walkTowardOpponent:function(){
+    if (exports.api.findOpponent()){
       if ( Date.now() > sandboxStore.robots[playerId].walkTime ) {
-        var theta = exports.api.angleBetween(exports.api.getOwnPosition(roomName, playerId), exports.api.findOpponent(roomName, playerId))
-        exports.api.setRotation(roomName,playerId,theta)
-        exports.api.slowWalkForward(roomName,playerId)
+        var theta = exports.api.angleBetween(exports.api.getOwnPosition(), exports.api.findOpponent())
+        exports.api.setRotation(theta)
+        exports.api.slowWalkForward()
       }
       else {
-        exports.api.walkForward(roomName,playerId)
+        exports.api.walkForward()
       }
     }
   },
-  walkAwayFromOpponent: function(roomName,playerId){
+  walkAwayFromOpponent: function(){
     if (exports.api.findOpponent(roomName, playerId)){
-      var theta = exports.api.angleBetween(exports.api.getOwnPosition(roomName, playerId),exports.api.findOpponent(roomName, playerId)) + 0.666 * Math.PI
-      exports.api.setRotation(roomName,playerId,theta)
-      exports.api.walkForward(roomName,playerId)
+      var theta = exports.api.angleBetween(exports.api.getOwnPosition(),exports.api.findOpponent())+ Math.PI
+      exports.api.setRotation(theta)
+      exports.api.walkForward()
     }
     else {
-      walkForward(roomName,playerId)
+      walkForward()
     }
   }
 }

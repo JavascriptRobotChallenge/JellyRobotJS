@@ -115,11 +115,12 @@ function broadcastGameState(io){
               let currState = backendStore.getState()
               let currRobots = currState.robots[roomName]
               let playerId = playerArr[i]
-              let roomName = roomName
+              // let roomName = roomName
               let currProjectiles = currState.projectiles[roomName]
               let roomState = Object.assign({}, {robots: currRobots}, {projectiles: currProjectiles})
               var code = backendStore.getState().robots[roomName][playerArr[i]].code;
               scripts.time[playerArr[i]] = Date.now()
+              console.log("hcaim",roomName)
                 scripts[playerArr[i]].run("start", {
                   code: code,
                   initialState: roomState,
@@ -127,7 +128,7 @@ function broadcastGameState(io){
                   playerId: playerId
                 })
             }
-            MoveForward(roomName)
+            MoveForward(roomName) 
             checkProjectilesToRemove(io)
           }
         }

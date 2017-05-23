@@ -154,7 +154,7 @@ if (module === require.main) {
       })
 
       scripts[testRobots.id] = sandcastle.createScript(`exports = {
-         start: function(){ setup(initialState,roomName,playerId); ${testRobots.code}; exit(test()) }
+         start: function(){ setup(initialState,roomName,playerId); ${testRobots.code}; exit(getActionQueue()) }
       }`);
       backendStore.dispatch(AddOrUpdatePlayer(room, testRobots.id, testRobots.code))
       backendStore.dispatch(SetUserName(room, testRobots.id, 'Test Robot'))
