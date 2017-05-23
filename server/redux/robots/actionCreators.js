@@ -19,6 +19,11 @@ const walkFollowSpeed = (roomName, socketId) => ({
     socketId,
     roomName
 })
+const incrementCounter = (roomName, socketId) => ({
+    type: INCREMENT_COUNTER,
+    socketId,
+    roomName
+})
 const addOrUpdatePlayer = (roomName, socketId, code) => ({
     type: ADD_OR_UPDATE_PLAYER,
     socketId,
@@ -83,6 +88,7 @@ const setRotation = (roomName, socketId, theta) => ({
 module.exports = {
     walkFollowSpeed,
     addOrUpdatePlayer,
+    incrementCounter,
     setUserName,
     removePlayer,
     updateFireTime,

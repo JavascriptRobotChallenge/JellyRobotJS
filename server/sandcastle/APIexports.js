@@ -10,6 +10,7 @@ var {
     walkFollowSpeed,
     addOrUpdatePlayer,
     removePlayer,
+    incrementCounter,
     updateFireTime,
     updateWalkTime,
     walkAwayFromWall,
@@ -20,7 +21,7 @@ var {
     setRotation
 } = require("../../../server/redux/robots/actionCreators.js")
 
-let sandboxStore ={}
+let sandboxStore = {}
 let actionQueue = []
 var counter = 0;
 var roomName = ""
@@ -34,23 +35,19 @@ function fire(roomName, playerId, theta, strength, reloadTime) {
 }
 
 exports.api = {
+    setup: function(initialState, inroomName, inplayerId) {
+      sandboxStore = initialState
+      playerId = inplayerId
+      roomName = inroomName
+    },
     getCounter: function() {
         return sandboxStore.robots[playerId].counter
     },
     incrementCounter: function() {
-        actionQueue.push({
-            type: "IncrementCounter",
-            roomName: roomName,
-            socketId: playerId
-        })
+        actionQueue.push(incrementCounter(roomName, playerId))
     },
     getActionQueue: function() {
         return actionQueue
-    },
-    setup: function(initialState, inroomName, inplayerId) {
-        sandboxStore = initialState
-        playerId = inplayerId
-        roomName = inroomName
     },
     distanceBetween: function(arrOne, arrTwo) {
         return Math.sqrt(Math.pow(arrTwo[0] - arrOne[0], 2) + (Math.pow(arrTwo[1] - arrOne[1]), 2))

@@ -158,15 +158,15 @@ if (module === require.main) {
 
         socket.on('sendTrainingCode', (room, code, testRobots)=> {
           scripts[socket.id] = sandcastle.createScript(`exports = {
-              start: function(){ setup(initialState,roomName,playerId); ${code}; exit(getActionQueue()) }
+              start: function(){ setup(initialState, roomName, playerId); ${code}; exit(getActionQueue()) }
           }`);
 
           store.dispatch(addOrUpdatePlayer(room, socket.id, code))
           store.dispatch(setUserName(room, socket.id, 'User'))
+
           scripts[socket.id].on('exit', function(err, output, methodName) {
               // console.log('output ', output, typeof output, 'esrr', err); // Hello World!
               if (err) {
-                console.log("error", err)
                 socket.emit('badCode')
                 store.dispatch(walkForward(room, socket.id))
               } else {
@@ -181,8 +181,9 @@ if (module === require.main) {
           })
 
           scripts[testRobots.id] = sandcastle.createScript(`exports = {
-             start: function(){ setup(initialState,roomName,playerId); ${testRobots.code}; exit(getActionQueue()) }
+             start: function(){ setup(initialState, roomName, playerId); ${testRobots.code}; exit(getActionQueue()) }
           }`);
+
           store.dispatch(addOrUpdatePlayer(room, testRobots.id, testRobots.code))
           store.dispatch(setUserName(room, testRobots.id, 'Test Robot'))
 
@@ -204,17 +205,19 @@ if (module === require.main) {
 
         socket.on('sendCode', (room, code, user) => {
             scripts[socket.id] = sandcastle.createScript(`exports = {
-              start: function(){ setup(initialState); ${code}; exit(getActionQueue()) }
+              start: function(){ setup(initialState, roomName, playerId); ${code}; exit(getActionQueue()) }
             }`);
 
             store.dispatch(addOrUpdatePlayer(room, socket.id, code))
             store.dispatch(setUserName(room, socket.id, user))
 
             scripts[socket.id].on('exit', function(err, output, methodName) {
+              //  console.log('output ', output, typeof output, 'err', err); // Hello World!
                 if (err) {
                   socket.emit('badCode',err)
                   store.dispatch(walkForward(room, socket.id))
                 } else {
+                    console.log('hitting else good')
                     output && output.forEach(action => { store.dispatch(action) })
                 }
             });
