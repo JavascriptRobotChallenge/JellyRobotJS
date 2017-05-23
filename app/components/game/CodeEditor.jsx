@@ -26,6 +26,7 @@ class CodeEditor extends React.Component {
   }
 
   onSubmit = () => {
+    $('.glyphicon-chevron-down').trigger('click');
     this.setState({isButtonDisabled: true})
 
     const code = this.state.previousInput

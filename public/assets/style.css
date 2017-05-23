@@ -141,25 +141,26 @@ li {
 }
 
 .chat li .chat-body p {
-    margin: 0;
-    color: #777777;
+  margin: 0;
+  color: #777777;
 }
 
 .panel-primary .panel-heading {
   background-color: white;
   border-color: #163d18;
   color: black;
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
 }
 
 .panel .slidedown .glyphicon, .chat .glyphicon {
-    margin-right: 5px;
-    color: #253663
+  margin-right: 5px;
+  color: #253663
 }
 
 .panel-body {
-    overflow-y: hidden;
-    overflow-x: hidden;
-    height: 400px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 400px;
 }
 
 .vertical-space {
@@ -168,172 +169,196 @@ li {
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background-color: #F5F5F5;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
 }
 
 ::-webkit-scrollbar {
-    width: 13px;
-    background-color: #F5F5F5;
+  width: 13px;
+  background-color: #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #555;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #555;
 }
 
 .percentage {
-    width: 99%;
-    margin: 0 auto;
-    background: olive;
+  width: 99%;
+  margin: 0 auto;
+  background: olive;
 
-    color: #333;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 15px;
+  color: #333;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 15px;
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .color {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    transition: color .25s ease-in-out;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  transition: color .25s ease-in-out;
 }
 
 /*----ACTUAL DOCS PAGE----*/
 .docs-container {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.media-heading {
+  font: 400 40px Helvetica, Verdana, sans-serif;
+}
+
+.media-body > h3 {
+  font: 200 20px Helvetica, Verdana, sans-serif;
 }
 
 .docs-container .header-title {
-    text-align: center
+  text-align: center
 }
 
 /*----HEADER-PIC WIN/LOSE/TIE----*/
 #headerpicloss{
-    background-image: url("./sadWallee.jpg");
-    height:1000px;
-    width:100%;
-    background-size:cover;
+  background-image: url("./sadWallee.jpg");
+  height:1000px;
+  width:100%;
+  background-size:cover;
 }
 
 #headerpicwin{
-    background-image: url("./happywallee.jpg");
-    height:1000px;
-    width:100%;
-    background-size:cover;
+  background-image: url("./happywallee.jpg");
+  height:1000px;
+  width:100%;
+  background-size:cover;
 }
 #headerpictie{
-    background-image: url("./tiedWallee.jpg");
-    height:1000px;
-    width:100%;
-    background-size:cover;
+  background-image: url("./tiedWallee.jpg");
+  height:1000px;
+  width:100%;
+  background-size:cover;
 }
 
 .headertext button {
-    margin-left: 280px;
-    text-align: center;
+  margin-left: 280px;
+  text-align: center;
 }
 
 .resulttext{
-    font-weight:800;
-    font-size:50pt;
-    text-align:center;
-    margin-top: 380px;
-    margin-left: 40px;
-    color:#fff;
+  font-weight:800;
+  font-size:50pt;
+  text-align:center;
+  margin-top: 380px;
+  margin-left: 40px;
+  color:#fff;
 }
 
 /*----WIN/LOSE/TIE PLAY AGAIN BUTTON----*/
 .homebutton{
-    margin-top:-130px;
-    text-align: center;
-    font-size: 20px;
-    background-color: rgba(0,0,0,0);
-    width: 200px;
-    padding: 8px;
-    color: black;
-    border: 3px solid #fff;
-    text-align: center;
-    outline: none;
-    text-decoration: none;
-    border-radius: 5px;
-    position: absolute;
-      top: 35%;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 45px;
-      margin: auto;
+  margin-top:-130px;
+  text-align: center;
+  font-size: 20px;
+  background-color: rgba(0,0,0,0);
+  width: 200px;
+  padding: 8px;
+  color: black;
+  border: 3px solid #fff;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  border-radius: 5px;
+  position: absolute;
+    top: 35%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    margin: auto;
 }
 
 /*----TIMER----*/
 #timer{
-    margin-top:90px
+  margin-top:90px
 }
 
 /*----TRAINING MODE----*/
 .training-header{
-    color: black;
-    text-align: center;
+  color: black;
+  text-align: center;
+}
+
+.training-header > h3 {
+  font: 300 25px Helvetica, Verdana, sans-serif;
+}
+
+.training-header > h2 {
+  font: 400 40px Helvetica, Verdana, sans-serif;
 }
 
 /*----MULTI PLAYER MODE----*/
 .multiplayer-header{
-    color: black;
-    text-align: center;
+  color: black;
+  text-align: center;
+}
+
+.multiplayer-header > h3 {
+  font: 300 25px Helvetica, Verdana, sans-serif;
+}
+
+.multiplayer-header > h2 {
+  font: 400 40px Helvetica, Verdana, sans-serif;
 }
 
 /*----SCORE BOARD----*/
 .score-board {
-    text-align: center;
-    font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 #scoreboard {
-    max-width: 640px;
-    /*margin: auto;*/
-    padding: 1em 2em;
-    background: transparent;
-    text-transform: uppercase;
-    color: black;
-    border-radius: 0 0 10px 10px;
+  max-width: 640px;
+  /*margin: auto;*/
+  padding: 1em 2em;
+  background: transparent;
+  text-transform: uppercase;
+  color: black;
+  border-radius: 0 0 10px 10px;
 }
 #scoreboard h4 {
-    display: inline-block;
-    color: orange;
+  display: inline-block;
+  color: orange;
 }
 #scoreboard .score {
-    float: left;
-    margin-top: 1em;
-    border: 2px solid #000000;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
+  float: left;
+  margin-top: 1em;
+  border: 2px solid #000000;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
 }
 #scoreboard .score:last-of-type {
-    float: right;
+  float: right;
 }
 #scoreboard .score div {
-    padding: 0;
-    font-size: 3em;
-    margin-bottom: 10px;
-    overflow: hidden;
-    background: transparent;
-    border: solid thick #fff;
-    font-family: 'Share Tech Mono', monospace;
-    color: orange;
+  padding: 0;
+  font-size: 3em;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background: transparent;
+  border: solid thick #fff;
+  font-family: 'Share Tech Mono', monospace;
+  color: orange;
 }
 #scoreboard .score div span {
-    display: inline-block;
-    padding: .25em .5em;
+  display: inline-block;
+  padding: .25em .5em;
 }
 #scoreboard::after {
-    content: '';
-    display: block;
-    clear: both;
+  content: '';
+  display: block;
+  clear: both;
 }
