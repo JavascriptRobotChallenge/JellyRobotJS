@@ -5,7 +5,8 @@
 JellyRobots is a 3D-multiplayer browser-based game where players can code robots in Javascript with the help of an API that we've written and provided.
 Battle your robots in either multiplayer mode or training mode against one of our default robots.
 
-## Watch an overview of our game here.
+## Watch an overview of our game explained.
+![JellyRobots](https://youtu.be/EI-_1RDtNo0)
 
 ## Gameplay
 
