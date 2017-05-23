@@ -27,7 +27,7 @@ When the game state is broadcasted down to all clients using socket IO, their lo
 
 This is then used to re-render the appearance of the Three.JS scene which we used as our 3D graphics library.
 Now we have a robot who can move and fire projectiles, and who will be continually updated as the server’s game loop sends down updated data.
-![](public/assets/architecture.png)
+![](public/assets/smallArchitecture.png)
 
 ## Tips & Tricks
 * THE DOCS WILL BE YOUR BEST FRIEND!
@@ -46,12 +46,15 @@ Fork and clone this repository.
 Then install the dependencies
 
 `npm install`
+
 Start webpack
 
 `npm run build-watch`
+
 To start the server
 
 `npm start`
+
 Then go to http://localhost:1337/ and code your JellyRobot!
 
 ## Special Thanks and Credits
