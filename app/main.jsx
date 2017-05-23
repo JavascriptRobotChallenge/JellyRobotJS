@@ -18,11 +18,11 @@ import Win from './components/game/Win'
 import Docs from './components/game/Docs'
 import Tie from './components/game/Tie'
 
-import {whoami} from './reducers/auth'
-import {GetTestRobots} from './reducers/frontendStore'
+import { whoami } from './redux/auth/actionCreators'
+import { getTestRobots } from './redux/game/actionCreators'
 
 const onMainEnter = () => {
-    store.dispatch(GetTestRobots())
+    store.dispatch(getTestRobots())
     store.dispatch(whoami())
 }
 

@@ -5,10 +5,10 @@ import {
 
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-import rootReducer from './reducers'
+import rootReducer from './redux/rootReducer.js'
 import thunkMiddleware from 'redux-thunk'
 
-import { whoami } from './reducers/auth'
+import { whoami } from './redux/auth/actionCreators'
 
 const store = createStore(
     rootReducer,
@@ -19,5 +19,4 @@ const store = createStore(
     )
 )
 
-window.store = store
 export default store

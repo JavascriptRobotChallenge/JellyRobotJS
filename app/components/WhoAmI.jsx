@@ -7,7 +7,7 @@ export const WhoAmI = ({ user, logout }) => (
   </div>
 )
 
-import {logout} from 'APP/app/reducers/auth'
+import {logout} from 'APP/app/redux/auth/actionCreators'
 import {connect} from 'react-redux'
 
 export default connect(

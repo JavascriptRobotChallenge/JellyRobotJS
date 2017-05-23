@@ -1,0 +1,5 @@
+export const ASSIGN_ROOM = "ASSIGN_ROOM"
+export const SERVER_UPDATE = "SERVER_UPDATE"
+export const GOT_TEST_ROBOTS = "GOT_TEST_ROBOTS"
+export const SAVE_ROBOT = "SAVE_ROBOT"
+export const GET_TEST_ROBOTS = "GET_TEST_ROBOTS"

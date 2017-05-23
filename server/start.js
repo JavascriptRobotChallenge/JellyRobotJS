@@ -226,6 +226,7 @@ if (module === require.main) {
                     socket.emit('badCode')
                     store.dispatch(walkForward(room, socket.id))
                 } else {
+                  console.log(output,"outpus")
                     console.log(Date.now() - scripts.time[socket.id])
                     output && output.forEach(action => {
                         store.dispatch(action)

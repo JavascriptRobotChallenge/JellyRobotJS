@@ -77,6 +77,7 @@ function broadcastGameState(io) {
     var userTime = 0;
     // change when we add Rooms
     const gameLoop = setInterval(() => {
+      console.log("suppp")
         userTime++;
         let state = store.getState().robots
 

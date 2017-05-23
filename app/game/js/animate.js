@@ -39,8 +39,8 @@ export const animate = () => {
     delta = now - then;
 
     if (delta > interval) {
-      var storeState = store.getState().gameData
-      const roomName = store.getState().gameData.room
+      var storeState = store.getState().game
+      const roomName = store.getState().game.room
       then = now - (delta % interval);
         //ROBOTS
         if(roomName.length){

@@ -1,4 +1,4 @@
-var initialState = {
+module.exports = {
     'Blueberry': {},
     'Cherry': {},
     'Strawberry': {},
@@ -6,5 +6,3 @@ var initialState = {
     'Banana': {},
     'Mango': {}
 }
-
-module.exports = initialState

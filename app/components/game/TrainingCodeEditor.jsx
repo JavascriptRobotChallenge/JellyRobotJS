@@ -97,12 +97,12 @@ class CodeEditor extends React.Component {
 /* ------ CONTAINER ------ */
 
 import { connect } from 'react-redux'
-import { SaveRobot } from "../../reducers/frontendStore"
+import { saveRobot } from "../../redux/game/actionCreators"
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
-  room: state.gameData.room,
-  testRobots: state.gameData.testRobots
+  room: state.game.room,
+  testRobots: state.game.testRobots
 })
 
 const mapDispatchToProps = (dispatch) => ({

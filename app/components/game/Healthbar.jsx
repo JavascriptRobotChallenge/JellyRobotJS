@@ -6,14 +6,14 @@ export default class Healthbar extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      robots: store.getState().gameData.server.robots
+      robots: store.getState().game.server.robots
     }
   }
 
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => {
-      // console.log("thestorestate is ",store.getState().gameData.server.robots)
-      this.setState({robots:store.getState().gameData.server.robots})
+      // console.log("thestorestate is ",store.getState().game.server.robots)
+      this.setState({robots:store.getState().game.server.robots})
     });
   }
 
@@ -26,7 +26,7 @@ export default class Healthbar extends React.Component{
   }
 
   render(){
-    // console.log('this is the store right now', store.getState().gameData)
+    // console.log('this is the store right now', store.getState().game)
     var robots = Object.keys(this.state.robots)
     const leftStyle = { position: 'absolute', marginTop: '15%', marginLeft: '10%' }
     const rightStyle = { position: 'absolute', marginTop: '15%', marginLeft: '70%' }

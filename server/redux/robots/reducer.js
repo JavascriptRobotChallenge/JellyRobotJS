@@ -14,9 +14,7 @@ const {
     SET_USERNAME
 } = require('./constants')
 
-console.log(ADD_OR_UPDATE_PLAYER)
-
-const initialState = require('./initialState')
+// const { initialState } = require('./initialState')
 
 function getRandomPosition(min, max) {
     var min = Math.ceil(min);
@@ -28,8 +26,16 @@ function getRandomPosition(min, max) {
     return rand;
 }
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = {
+    'Blueberry': {},
+    'Cherry': {},
+    'Strawberry': {},
+    'Watermelon': {},
+    'Banana': {},
+    'Mango': {}
+}, action) => {
     const newState = state
+    console.log("actionis",action)
     switch (action.type) {
         case ADD_OR_UPDATE_PLAYER:
             if (!action.roomName) {
@@ -92,9 +98,11 @@ const reducer = (state = initialState, action) => {
             newState[action.roomName][action.socketId] && (newState[action.roomName][action.socketId].z = newState[action.roomName][action.socketId].z + 3 * Math.cos(newState[action.roomName][action.socketId].theta))
             return newState
         case SET_USERNAME:
+          if(action.roomName && action.socketId){
             newState[action.roomName][action.socketId] &&
                 (newState[action.roomName][action.socketId].userName = action.userName)
-            return newState
+          }
+
         default:
             return newState
     }

@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 
 function Countdown(props){
   function onComplete(){
-    if (Object.keys(store.getState().gameData.server.robots) === 2){
+    if (Object.keys(store.getState().game.server.robots) === 2){
         browserHistory.push("/loss")
     }
   }
@@ -38,7 +38,7 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = (state) => {
     return {
-      robots : state.gameData.server.robots
+      robots : state.game.server.robots
     }
 }
 
