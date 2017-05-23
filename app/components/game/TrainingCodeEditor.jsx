@@ -66,8 +66,7 @@ class CodeEditor extends React.Component {
                           wrapEnabled={true}
                           defaultValue={startingCode}
                           editorProps={{$blockScrolling: true}}
-                          maxLines = {50}
-                          minLines = {23}
+                          maxLines = {10}
                           />
                     </div>
                     <div className="panel-footer">
