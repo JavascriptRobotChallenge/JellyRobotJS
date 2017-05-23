@@ -1,7 +1,16 @@
 /*----HOMEPAGE----*/
 .intro-header {
-  background-image: url("../Homepage.png");
+  background-image: url("../greenGradient.jpg");
+  height: 100%;
+  padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
 }
+/*
+#main {
+  height: 100%;
+}*/
 
 /*----GHOST BUTTON ON HOMEPAGE----*/
 .ghost-button {
@@ -29,6 +38,70 @@
 
 .ghost-button:hover,
 .ghost-button:active {
+  background-color: #fff;
+  color: #000;
+  transition: background-color 0.3s ease-in,
+              color 0.3s ease-in;
+}
+
+/*----MIDDLE GHOST BUTTON ON HOMEPAGE----*/
+.middle-ghost-button {
+  margin-left: 133%;
+  margin-top:130px;
+  text-align: center;
+  font-size: 20px;
+  background-color: rgba(0,0,0,0);
+  width: 200px;
+  padding: 8px;
+  color: white;
+  border: 3px solid #fff;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  border-radius: 5px;
+  position: absolute;
+    top: 55%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    margin: auto;
+}
+
+.middle-ghost-button:hover,
+.middle-ghost-button:active {
+  background-color: #fff;
+  color: #000;
+  transition: background-color 0.3s ease-in,
+              color 0.3s ease-in;
+}
+
+/*----BOTTOM GHOST BUTTON ON HOMEPAGE----*/
+.bottom-ghost-button {
+  margin-left: 133%;
+  margin-top:130px;
+  text-align: center;
+  font-size: 20px;
+  background-color: rgba(0,0,0,0);
+  width: 200px;
+  padding: 8px;
+  color: white;
+  border: 3px solid #fff;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  border-radius: 5px;
+  position: absolute;
+    top: 75%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    margin: auto;
+}
+
+.bottom-ghost-button:hover,
+.bottom-ghost-button:active {
   background-color: #fff;
   color: #000;
   transition: background-color 0.3s ease-in,

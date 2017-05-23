@@ -55,13 +55,13 @@ const onTrainingEnter = () => {
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
+      <Route path="/home" component={Homepage} />
       <Route path="/" component={App} onEnter={onMainEnter} >
-        <IndexRedirect to="/home" />
-        <Route path="/home" component={Homepage} />
         <Route path="/docs" component={Docs} />
         <Route path="/game" component={RobotGame} onEnter={onGameEnter} />
         <Route path="/training" component={Training} onEnter={onTrainingEnter} />
         <Route path="/login" component={Login} />
+        <IndexRedirect to="/home" />
       </Route>
       <Route path="/loss" component={Loss} onEnter={CanvasDelete}/>
       <Route path="/win" component={Win} onEnter={CanvasDelete}/>

@@ -68,7 +68,6 @@ function broadcastGameState(io){
       var playerArr = Object.keys(state[roomName])
       if (playerArr.length) {
         for (var i = 0; i < playerArr.length; i++) {
-          console.log(roomName, 'here is the roomname')
           let robot = state[roomName][playerArr[i]];
           if(robot.code) {
             ///if the robot hits the wall
@@ -127,7 +126,7 @@ function broadcastGameState(io){
                   playerId: playerId
                 })
             }
-            MoveForward(roomName) 
+            MoveForward(roomName)
             checkProjectilesToRemove(io)
           }
         }
