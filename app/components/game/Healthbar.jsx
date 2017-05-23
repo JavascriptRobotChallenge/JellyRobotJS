@@ -28,8 +28,8 @@ export default class Healthbar extends React.Component{
   render(){
     // console.log('this is the store right now', store.getState().gameData)
     var robots = Object.keys(this.state.robots)
-    const leftStyle = { position: 'absolute', marginTop: '65%', marginLeft: '10%' }
-    const rightStyle = { position: 'absolute', marginTop: '65%', marginLeft: '70%' }
+    const leftStyle = { position: 'absolute', marginTop: '35%', marginLeft: '10%' }
+    const rightStyle = { position: 'absolute', marginTop: '35%', marginLeft: '70%' }
 
     return(
       <div className="score-board">
