@@ -84,7 +84,6 @@ class CodeEditor extends React.Component {
                           </span>
                       </div>
                   </div>
-                }
               </div>
             </div>
           {this.state.codeSubmitted ? <Healthbar/> : false}

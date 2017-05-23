@@ -7,10 +7,6 @@
   text-align: center;
   color: #f8f8f8;
 }
-/*
-#main {
-  height: 100%;
-}*/
 
 /*----GHOST BUTTON ON HOMEPAGE----*/
 .ghost-button {
@@ -149,6 +145,12 @@ li {
     color: #777777;
 }
 
+.panel-primary .panel-heading {
+  background-color: white;
+  border-color: #163d18;
+  color: black;
+}
+
 .panel .slidedown .glyphicon, .chat .glyphicon {
     margin-right: 5px;
     color: #253663
@@ -277,11 +279,13 @@ li {
 
 /*----TRAINING MODE----*/
 .training-header{
+    color: black;
     text-align: center;
 }
 
 /*----MULTI PLAYER MODE----*/
 .multiplayer-header{
+    color: black;
     text-align: center;
 }
 
