@@ -8,7 +8,7 @@ import 'brace/mode/javascript';
 /* ------ COMPONENT ------ */
 const fireFunctions =
   `
-  /**** Functions to invoke for firing ******/
+  /**** Functions to invoke for firing projectiles ******/
   //Default wall and box behaviour
   //your robot will automatically turn around when he/she hits boxes or walls
 
@@ -28,10 +28,12 @@ const fireFunctions =
   //ReloadTime: 15 seconds`
 
 const walkingFunctions =
-  `//addRotation - Sets the direction of your robot
+  `
+  /**** Walking functions for your robot ******/
+  //addRotation - Sets the direction of your robot
   addRotation(degrees)
 
-  //orward - Moves your robot in the direction he is facing
+  //walkForward - Moves your robot in the direction he is facing
   walkForward()
 
   //walkTowardOpponent - This function will automatically follow your opponent
@@ -45,11 +47,9 @@ const walkingFunctions =
 
 const helperFunctions =
   `
-  /**** These functions can be used in your JavaScript
-   to help build conditionals and other logic to gain an edge!
-   ****/
+  /**** These functions can be used in your JavaScript to help build conditionals and other logic to gain an edge! ****/
 
-  //incrementCounter - increments a counter by 1 every 1/30 of a second for 30 times per second
+  //incrementCounter - increments a counter by 1 for 30 times total per second
   //getCounter - gets the counter that is stored for your robot
   //Can be used to implement modulo math and change the behaviour of your robot over time
   incrementCounter(); getCounter();
@@ -67,7 +67,6 @@ const helperFunctions =
   //distanceBetween - returns the distance between you and your opponent
   //takes two arrays as inputs
   distanceBetween(arrOne, arrTwo);
-
 
   //angleBetween - returns the angle of a line between the first array and the second array
   angleBetween(arrOne, arrTwo);`
@@ -110,7 +109,7 @@ const Docs = (props) => (
             theme="xcode"
             readOnly={true}
             fontSize={15}
-            height="400px"
+            height="330px"
             width="900px"
             wrapEnabled={true}
             value={walkingFunctions}
@@ -164,7 +163,7 @@ const Docs = (props) => (
             theme="xcode"
             readOnly={true}
             fontSize={15}
-            height="400px"
+            height="530px"
             width="900px"
             wrapEnabled={true}
             value={helperFunctions}
