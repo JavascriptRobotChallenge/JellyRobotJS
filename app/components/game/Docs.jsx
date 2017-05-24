@@ -9,62 +9,60 @@ import 'brace/mode/javascript';
 const fireFunctions =
   `
   /**** Functions to invoke for firing ******/
-  //default wall/box behaviour
-  //your robot will automatically turn around when it hits boxes or walls
+  //Default wall and box behaviour
+  //your robot will automatically turn around when he/she hits boxes or walls
 
-  // Accurate Fire- An more accurate shot
-  accurateFire(roomName, playerId)
+  //accurateFire - A more accurate shot that fires at your opponent's location
+  accurateFire()
   //Strength: 1
   //Reload Time: 5 seconds
 
-  //Rapid Fire - A quick, weak shot that fires in a random direction
-  rapidFire(roomName, playerId)
+  //rapidFire - A quick, weak shot that fires in a random direction
+  rapidFire()
   //Strength: 1
   //ReloadTime: 0.2 seconds
 
   //devastator - A powerful, accurate shot with a very long reload time
-  devastator(roomName, playerId)
+  devastator()
   //Strength: 3
   //ReloadTime: 15 seconds`
 
 const walkingFunctions =
-  `//addRotation- Sets the direction of your robot
-  addRotation(roomName, playerId, degrees)
+  `//addRotation - Sets the direction of your robot
+  addRotation(degrees)
 
-  //setRotation
-  setRotation(roomName, playerId, theta)
-
-  //walkForward - Moves in whatever direction the current angle of your robot is set to
-  walkForward(roomName, playerId)
-
+  //orward - Moves your robot in the direction he is facing
+  walkForward()
 
   //walkTowardOpponent - This function will automatically follow your opponent
-  //though you may have to add your own logic if you want it to effectively navigate boxes/walls
+  //You may have to add your own logic if you want to effectively navigate boxes and walls
   //This function is also 40% slower than other walking functions
-  walkTowardOpponent(roomName, playerId)
+  walkTowardOpponent()
 
   //walkAwayFromOpponent - This function will automatically run away from your opponent
-  //though you may have to add your own logic if you want it to effectively navigate boxes/walls
-  walkAwayFromOpponent(roomName, playerId)`
+  //You may have to add your own logic if you want to effectively navigate boxes and walls
+  walkAwayFromOpponent()`
 
 const helperFunctions =
   `
   /**** These functions can be used in your JavaScript
-   to help build conditionals and other logic to get the edge!!
+   to help build conditionals and other logic to gain an edge!
    ****/
 
-  //incrementCounter and getCounter- increments or gets a counter that is stored for your robot.
-  //These can be used to implement modulo math and change the behaviour of your robot over time.
-  incrementCounter(roomName,playerId); getCounter(roomName,playerId);
+  //incrementCounter - increments a counter by 1 every 1/30 of a second for 30 times per second
+  //getCounter - gets the counter that is stored for your robot
+  //Can be used to implement modulo math and change the behaviour of your robot over time
+  incrementCounter(); getCounter();
 
   //findOpponent - returns the location of your opponent as an array
-  findOpponent(roomName,playerId);
+  //i.e. [opponent.x, opponent.y]
+  findOpponent();
 
-  //getOwnLocation - returns the location of your robots as an array
-  getOwnLocation(roomName,playerId);
+  //getOwnLocation - returns the location of your robot as an array
+  getOwnLocation();
 
   //getOpponentsHealth - returns the health of your opponent
-  getOpponentsHealth(roomName,playerId);
+  getOpponentsHealth();
 
   //distanceBetween - returns the distance between you and your opponent
   //takes two arrays as inputs
