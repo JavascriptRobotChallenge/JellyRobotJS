@@ -13,39 +13,39 @@ const fireFunctions =
   //your robot will automatically turn around when it hits boxes or walls
 
   // Accurate Fire- An more accurate shot
-  accurateFire(roomName, playerId)
+  accurateFire()
   //Strength: 1
   //Reload Time: 5 seconds
 
   //Rapid Fire - A quick, weak shot that fires in a random direction
-  rapidFire(roomName, playerId)
+  rapidFire()
   //Strength: 1
   //ReloadTime: 0.2 seconds
 
   //devastator - A powerful, accurate shot with a very long reload time
-  devastator(roomName, playerId)
+  devastator()
   //Strength: 3
   //ReloadTime: 15 seconds`
 
 const walkingFunctions =
   `//addRotation- Sets the direction of your robot
-  addRotation(roomName, playerId, degrees)
+  addRotation(degrees)
 
   //setRotation
-  setRotation(roomName, playerId, theta)
+  setRotation(theta)
 
   //walkForward - Moves in whatever direction the current angle of your robot is set to
-  walkForward(roomName, playerId)
+  walkForward()
 
 
   //walkTowardOpponent - This function will automatically follow your opponent
   //though you may have to add your own logic if you want it to effectively navigate boxes/walls
   //This function is also 40% slower than other walking functions
-  walkTowardOpponent(roomName, playerId)
+  walkTowardOpponent()
 
   //walkAwayFromOpponent - This function will automatically run away from your opponent
   //though you may have to add your own logic if you want it to effectively navigate boxes/walls
-  walkAwayFromOpponent(roomName, playerId)`
+  walkAwayFromOpponent()`
 
 const helperFunctions =
   `
@@ -55,16 +55,16 @@ const helperFunctions =
 
   //incrementCounter and getCounter- increments or gets a counter that is stored for your robot.
   //These can be used to implement modulo math and change the behaviour of your robot over time.
-  incrementCounter(roomName,playerId); getCounter(roomName,playerId);
+  incrementCounter(); getCounter();
 
   //findOpponent - returns the location of your opponent as an array
-  findOpponent(roomName,playerId);
+  findOpponent();
 
   //getOwnLocation - returns the location of your robots as an array
-  getOwnLocation(roomName,playerId);
+  getOwnLocation();
 
   //getOpponentsHealth - returns the health of your opponent
-  getOpponentsHealth(roomName,playerId);
+  getOpponentsHealth();
 
   //distanceBetween - returns the distance between you and your opponent
   //takes two arrays as inputs
