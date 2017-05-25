@@ -22,6 +22,7 @@ const {
     addOrUpdatePlayer,
     removePlayer,
     setUserName,
+    setColorUser,
     updateWalkTime,
     walkAwayFromWall,
     walkForward,
@@ -138,6 +139,10 @@ if (module === require.main) {
             }
         })
 
+        socket.on('setColor', (room, color) => {
+          store.dispatch(setColorUser(room, socket.id, color))
+        })
+
         socket.on('singleTrainingRoom', () => {
             var robotJoined = false
             for (var room in singlePlayerRooms) {
@@ -203,13 +208,14 @@ if (module === require.main) {
           });
         })
 
-        socket.on('sendCode', (room, code, user) => {
+        socket.on('sendCode', (room, code, user, color) => {
             scripts[socket.id] = sandcastle.createScript(`exports = {
               start: function(){ setup(initialState, roomName, playerId); ${code}; exit(getActionQueue()) }
             }`);
 
             store.dispatch(addOrUpdatePlayer(room, socket.id, code))
             store.dispatch(setUserName(room, socket.id, user))
+            store.dispatch(setColorUser(room, socket.id, color))
 
             scripts[socket.id].on('exit', function(err, output, methodName) {
               //  console.log('output ', output, typeof output, 'err', err); // Hello World!

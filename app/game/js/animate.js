@@ -3,8 +3,10 @@ import * as THREE from 'three';
 import { init, robotModel, camera, renderer, scene, COLORING } from './initThree.js'
 
 function buildRobot(robot){
-  var color = COLORING[robot.color]
-  if(!COLORING[robot.color]) color = 'rgb(6, 0, 81)'
+  var color = `rgb(${robot.color.r}, ${robot.color.g}, ${robot.color.b})`
+
+  if(!color) color = 'rgb(6, 0, 81)'
+
   var materials = new THREE.MeshPhongMaterial({ color: color})
 
   var ThreeRobot = new THREE.Mesh(robotModel.geometry, materials)

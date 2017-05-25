@@ -11,7 +11,8 @@ const {
     DECREASE_HEALTH,
     SET_ROTATION,
     WALK_FOLLOW_SPEED,
-    SET_USERNAME
+    SET_USERNAME,
+    SET_COLOR
 } = require('./constants')
 
 
@@ -93,6 +94,10 @@ const reducer = (state = initialState, action) => {
         case SET_USERNAME:
             newState[action.roomName][action.socketId] &&
                 (newState[action.roomName][action.socketId].userName = action.userName)
+            return newState
+        case SET_COLOR:
+            newState[action.roomName][action.socketId] &&
+                (newState[action.roomName][action.socketId].color = action.color)
             return newState
         default:
             return newState
