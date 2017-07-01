@@ -32,7 +32,8 @@ class CodeEditor extends React.Component {
     const code = this.state.previousInput
     const room = this.props.room
     const user = this.props.user
-    socket.emit('sendCode', room, code, user)
+    const color = this.props.color
+    socket.emit('sendCode', room, code, user, color)
 
     this.state.codeSubmitted = true
   }
@@ -102,7 +103,8 @@ import { SaveRobot } from "../../reducers/frontendStore"
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
-  room: state.gameData.room
+  room: state.gameData.room,
+  color: state.gameData.color
 })
 
 const mapDispatchToProps = (dispatch) => ({

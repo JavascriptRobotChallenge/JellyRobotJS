@@ -1,8 +1,9 @@
 import React from 'react'
 import { RobotWorld } from './RobotWorld'
-// import CountdownReduxContainer from "./Countdown"
 import CodeEditor from './CodeEditor'
 import TipsTricks from './TipsTricks'
+import ColorPicker from './ColorPicker'
+
 
 export default class RobotGame extends React.Component {
   render () {
@@ -23,8 +24,10 @@ export default class RobotGame extends React.Component {
             <TipsTricks />
           </div>
           <RobotWorld />
+          <ColorPicker />
         </div>
       </div>
     );
   }
+
 }

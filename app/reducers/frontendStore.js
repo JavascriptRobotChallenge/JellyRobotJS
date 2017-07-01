@@ -8,7 +8,8 @@ var initialState = {
         robots: {},
         projectiles: {}
     },
-    testRobots: {}
+    testRobots: {},
+    color: {r: '241', g: '112', b: '19'}
 }
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +23,9 @@ const reducer = (state = initialState, action) => {
             return newState
         case "GotTestRobots":
             newState.testRobots = action.testRobots
+            return newState
+        case 'setColor':
+            newState.color = action.color
             return newState
         default:
             return newState
@@ -39,6 +43,10 @@ export const ServerUpdate = (payload) => ({
 export const GotTestRobots = (testRobots) => ({
     type: "GotTestRobots",
     testRobots
+})
+export const setColor = (color) => ({
+  type: "setColor",
+  color
 })
 
 export const SaveRobot = (robotName, code, userId) => dispatch => {

@@ -11,7 +11,8 @@ const {
     DECREASE_HEALTH,
     SET_ROTATION,
     WALK_FOLLOW_SPEED,
-    SET_USERNAME
+    SET_USERNAME,
+    SET_COLOR
 } = require('./constants')
 
 const walkFollowSpeed = (roomName, socketId) => ({
@@ -35,6 +36,12 @@ const setUserName = (roomName, socketId, userName) => ({
     socketId,
     roomName,
     userName
+})
+const setColorUser = (roomName, socketId, color) => ({
+    type: SET_COLOR,
+    socketId,
+    roomName,
+    color
 })
 const removePlayer = (socketId) => ({
     type: REMOVE_PLAYER,
@@ -98,5 +105,6 @@ module.exports = {
     walkBackward,
     addRotation,
     decreaseHealth,
-    setRotation
+    setRotation,
+    setColorUser
 }
