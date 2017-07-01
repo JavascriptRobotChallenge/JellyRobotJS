@@ -27,7 +27,7 @@ const NavBarMain = ({ user }) => {
                       <a href="/training">Training Mode</a>
                   </li>
                   <li>
-                      <a href="/docs">Docs</a>
+                      <a href="/docs" target="_blank">Docs</a>
                   </li>
                 </ul>
             </div>
