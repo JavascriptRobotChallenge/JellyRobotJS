@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from '../../../public/three.min.js';
 export const OrbitControls = require('three-orbit-controls')(THREE)
 var SCREEN_WIDTH = window.innerWidth;
 var SCREEN_HEIGHT = window.innerHeight;

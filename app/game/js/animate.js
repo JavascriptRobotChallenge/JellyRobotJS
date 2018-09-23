@@ -1,5 +1,5 @@
 import store from "../../store"
-import * as THREE from 'three';
+import * as THREE from '../../../public/three.min.js';
 import { init, robotModel, camera, renderer, scene, COLORING } from './initThree.js'
 
 function buildRobot(robot){

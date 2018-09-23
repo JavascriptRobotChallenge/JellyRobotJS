@@ -12,7 +12,7 @@
     "setup": "./bin/setup",
     "prep": "npm run validate && npm run setup",
     "postinstall": "npm run prep",
-    "build": "webpack",
+    "build": "node node_modules/webpack/bin/webpack.js",
     "build-watch": "npm run build -- -w",
     "build-dev": "cross-env NODE_ENV=development npm run build-watch",
     "build-branch": "bin/build-branch.sh",
@@ -83,8 +83,8 @@
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "socket.io": "^1.7.3",
-    "three": "^0.85.2",
-    "three-orbit-controls": "^82.1.0"
+    "three-orbit-controls": "^82.1.0",
+    "webpack-bundle-analyzer": "^3.0.2"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -108,8 +108,9 @@
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
     "supertest": "^3.0.0",
+    "three": "^0.85.2",
     "volleyball": "^1.4.1",
-    "webpack": "^2.2.1",
+    "webpack": "^2.7.0",
     "webpack-livereload-plugin": "^0.10.0"
   }
 }

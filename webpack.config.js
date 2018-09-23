@@ -2,7 +2,8 @@
 
 const LiveReloadPlugin = require('webpack-livereload-plugin')
     , devMode = require('.').isDevelopment
-
+    , webpack = require('webpack')
+    , BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 /**
  * Fast source maps rebuild quickly during development, but only give a link
  * to the line where the error occurred. The stack trace will show the bundled
@@ -37,7 +38,30 @@ module.exports = {
       }]
     }]
   },
-  plugins: devMode
-    ? [new LiveReloadPlugin({appendScriptTag: true})]
-    : []
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compressor: {
+        warnings: false, // Suppress uglification warnings
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+      },
+      exclude: [/\.min\.js$/gi] // skip pre-minified libs
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new BundleAnalyzerPlugin()
+    
+  ]
 }
