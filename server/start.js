@@ -1,5 +1,5 @@
 'use strict'
-
+require('module-alias/register')
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -52,6 +52,13 @@ prettyError.skipNodeFiles()
 prettyError.skipPackage('express')
 
 module.exports = app
+    .get('*.js', (req, res, next) => {
+        if (req.url.indexOf('bundle.js') > -1 ) {
+            req.url = req.url + '.gz';
+            res.set('Content-Encoding', 'gzip');
+        }
+        next();
+    })
     .use(require('cookie-session')({
         name: 'session',
         keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
@@ -62,6 +69,7 @@ module.exports = app
     .use(bodyParser.json())
     .use(passport.initialize())
     .use(passport.session())
+
     .use(express.static(resolve(__dirname, '..', 'node_modules')))
     .use(express.static(resolve(__dirname, '..', 'public')))
     .use('/api', require('./api/api'))

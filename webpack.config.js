@@ -3,7 +3,7 @@
 const LiveReloadPlugin = require('webpack-livereload-plugin')
     , devMode = require('.').isDevelopment
     , webpack = require('webpack')
-    , BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    , CompressionPlugin = require('compression-webpack-plugin')
 /**
  * Fast source maps rebuild quickly during development, but only give a link
  * to the line where the error occurred. The stack trace will show the bundled
@@ -15,6 +15,7 @@ const LiveReloadPlugin = require('webpack-livereload-plugin')
 
 module.exports = {
   entry: './app/main.jsx',
+  mode: 'production',
   output: {
     path: __dirname,
     filename: './public/bundle.js'
@@ -33,7 +34,18 @@ module.exports = {
       use: [{
         loader: 'babel-loader',
         options: {
-          presets: ['react', 'es2015', 'stage-2']
+          presets: [
+            '@babel/preset-react', 
+            '@babel/preset-env'
+          ],
+          plugins: [
+            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+            "@babel/plugin-proposal-function-sent",
+            "@babel/plugin-proposal-export-namespace-from",
+            "@babel/plugin-proposal-numeric-separator",
+            "@babel/plugin-proposal-throw-expressions",
+            "@babel/plugin-proposal-class-properties"
+          ]
         }
       }]
     }]
@@ -44,24 +56,8 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: true,
-      compressor: {
-        warnings: false, // Suppress uglification warnings
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-      },
-      exclude: [/\.min\.js$/gi] // skip pre-minified libs
-    }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+    new CompressionPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new BundleAnalyzerPlugin()
-    
+    new webpack.optimize.OccurrenceOrderPlugin(),   
   ]
 }
